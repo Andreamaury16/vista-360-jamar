@@ -1,0 +1,3071 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vista 360 · Jamar Colombia · Junio 2026</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #fdf5ee; color: #1a3a4a; padding: 12px; min-height: 100vh;
+    font-size: 12px;
+  }
+
+  /* ===== HEADER ===== */
+  .top-header {
+    background: linear-gradient(135deg, #1F3864 0%, #2C5298 100%);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .top-header h1 {
+    font-size: 20px; font-weight: 700; letter-spacing: -0.3px;
+  }
+  .top-header .subtitle { font-size: 11px; color: #C9D5E8; margin-top: 2px; }
+  .top-header-right { display: flex; gap: 8px; align-items: center; }
+  /* Selector de mes en header */
+  .mes-selector { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .mes-selector .mes-lbl { font-size: 10px; color: #1F3864; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-right: 8px; }
+  .mes-chip {
+    padding: 4px 9px; border-radius: 100px;
+    font-size: 10px; font-weight: 700;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #C9D5E8; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .mes-chip:hover:not(.disabled):not(.active) { background: rgba(255,255,255,0.25); }
+  .mes-chip.active {
+    background: white; color: #1F3864;
+    border-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+  .mes-chip.disabled {
+    opacity: 0.3; cursor: not-allowed;
+  }
+  .mes-chip.disabled:hover::after {
+    content: ' (pendiente histórico TI)';
+    font-size: 9px;
+  }
+  .header-chip {
+    background: rgba(255,255,255,0.15);
+    padding: 6px 12px; border-radius: 100px;
+    font-size: 11px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* ===== FILTROS ===== */
+  .filter-row {
+    display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .filter-block {
+    background: white; border: 1px solid #e8d8cc;
+    border-radius: 8px; padding: 8px 12px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .filter-label {
+    font-size: 9px; color: #6a7c87; letter-spacing: 1px;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .tipo-pills { display: flex; gap: 4px; }
+  .tipo-pill {
+    background: #f8f1ea; border: 1.5px solid #e8d8cc;
+    border-radius: 14px; padding: 4px 11px;
+    font-size: 10px; font-weight: 700; color: #6a7c87;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.4px;
+  }
+  .tipo-pill:hover { border-color: #1F3864; color: #1F3864; }
+  .tipo-pill.active {
+    background: #1F3864; color: white; border-color: #1F3864;
+    box-shadow: 0 2px 4px rgba(31,56,100,0.3);
+  }
+
+  /* ===== MAIN GRID ===== */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 14px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  .col-medios, .col-conv { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header {
+    background: #1F3864; color: white; text-align: center;
+    padding: 7px 14px; border-radius: 6px; font-weight: 700;
+    letter-spacing: 1.5px; font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  /* ===== UPDATE INFO BOX ===== */
+  .update-box {
+    background: #fff8e8; border-left: 3px solid #f0a050;
+    padding: 6px 10px; border-radius: 4px;
+    font-size: 9px; color: #6a5020; line-height: 1.4;
+  }
+  .update-box b { color: #8a5020; }
+  .update-box code {
+    background: #fef0d8; padding: 1px 3px; border-radius: 2px;
+    font-family: 'Consolas', monospace; font-size: 9px;
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: white; border: 1px solid #e8d8cc;
+    border-radius: 8px; overflow: hidden;
+  }
+  .card-header {
+    background: #1F3864; color: white; text-align: center;
+    padding: 6px; font-weight: 700; font-size: 11px; letter-spacing: 1px;
+  }
+  .card-body { padding: 10px; }
+
+  /* MEDIOS card layout (compact) — ENVIOS grande a la izquierda, comportamiento pequeño a la derecha */
+  .medios-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; padding-bottom: 7px;
+    border-bottom: 1px dashed #e8d8cc;
+    gap: 8px;
+  }
+  .envios-block {
+    text-align: left;
+    flex: 1;
+  }
+  .envios-label {
+    font-size: 9px; color: #6a7c87; letter-spacing: 0.8px;
+    text-transform: uppercase; font-weight: 700;
+  }
+  .envios-value {
+    font-size: 26px; font-weight: 800; color: #1F3864; line-height: 1; margin-top: 3px;
+  }
+  .envios-sub { font-size: 9px; color: #6a7c87; margin-top: 3px; }
+
+  .behavior-block {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .behavior-label {
+    font-size: 8px; color: #6a7c87; letter-spacing: 0.5px;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .behavior-value {
+    display: flex; align-items: baseline; gap: 3px; margin-top: 2px;
+    justify-content: flex-end;
+  }
+  .arrow { font-size: 13px; line-height: 1; }
+  .arrow.good { color: #2dc44a; }
+  .arrow.bad  { color: #d94545; }
+  .big-number {
+    font-size: 17px; font-weight: 700; color: #1a3a4a; line-height: 1;
+  }
+  .big-number.bad { color: #d94545; }
+  .behavior-suffix { font-size: 10px; color: #6a7c87; }
+  .behavior-sub { font-size: 8px; color: #6a7c87; margin-top: 2px; }
+
+  /* Gauges row compactos */
+  .gauges-row {
+    display: flex; gap: 4px; justify-content: space-around; flex-wrap: wrap;
+  }
+  .gauge-cell {
+    flex: 1 1 90px; min-width: 90px; text-align: center; padding: 2px;
+  }
+  .gauge-title {
+    font-size: 8px; font-weight: 700; color: #1a3a4a;
+    letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 2px;
+  }
+  .gauge-svg-wrap {
+    position: relative; width: 100%; max-width: 110px; margin: 0 auto;
+  }
+  .gauge-svg { width: 100%; height: auto; display: block; }
+  .gauge-needle {
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: 80px 80px;
+    transform-box: view-box;
+  }
+  .gauge-value-text {
+    font-size: 13px; font-weight: 800; color: #1a3a4a; margin-top: -2px;
+  }
+  .gauge-bench { font-size: 7px; color: #6a7c87; margin-top: 2px; }
+  .gauge-trend { font-size: 8px; margin-top: 1px; font-weight: 700; }
+  .gauge-trend.good { color: #2dc44a; }
+  .gauge-trend.bad  { color: #d94545; }
+  .gauge-status {
+    display: inline-block; font-size: 7px; font-weight: 800;
+    padding: 1px 5px; border-radius: 7px; margin-top: 2px;
+    letter-spacing: 0.3px;
+  }
+  .status-red { background: #fad4d4; color: #9c2424; }
+  .status-yellow { background: #fdf0c8; color: #8a6020; }
+  .status-green { background: #d4f0e0; color: #1e7a3f; }
+
+  /* ===== CONVERSIÓN ===== */
+  .conv-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 700px) {
+    .conv-subgrid { grid-template-columns: 1fr; }
+  }
+
+  .tipo-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  .tipo-mini {
+    background: #f8f5f0; border: 1.5px solid #e8d8cc;
+    border-radius: 6px; padding: 6px 4px; text-align: center;
+    transition: all 0.3s;
+  }
+  .tipo-mini.highlight {
+    background: linear-gradient(135deg, #1F3864 0%, #3B5BAA 100%);
+    border-color: #1F3864;
+    color: white;
+    box-shadow: 0 2px 6px rgba(31,56,100,0.3);
+  }
+  .tipo-mini-label {
+    font-size: 8px; font-weight: 700; letter-spacing: 0.3px;
+    color: #6a7c87; margin-bottom: 2px; text-transform: uppercase;
+  }
+  .tipo-mini.highlight .tipo-mini-label { color: rgba(255,255,255,0.9); }
+  .tipo-mini-value {
+    font-size: 16px; font-weight: 800; color: #1a3a4a; line-height: 1;
+  }
+  .tipo-mini.highlight .tipo-mini-value { color: white; }
+  .tipo-mini-sub {
+    font-size: 8px; color: #6a7c87; margin-top: 2px;
+  }
+  .tipo-mini.highlight .tipo-mini-sub { color: rgba(255,255,255,0.85); }
+  .tipo-mini-delta {
+    font-size: 8px; font-weight: 700; margin-top: 1px;
+  }
+  .delta-up   { color: #2dc44a; }
+  .delta-down { color: #d94545; }
+  .tipo-mini.highlight .delta-up,
+  .tipo-mini.highlight .delta-down { color: white; }
+
+  .total-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    background: #1F3864; color: white;
+    padding: 6px 10px; border-radius: 6px;
+    font-weight: 700;
+  }
+  .total-row-label { font-size: 9px; letter-spacing: 0.8px; }
+  .total-row-value { font-size: 14px; }
+  .total-row-delta { font-size: 9px; opacity: 0.9; }
+
+  /* Grid de tablas · 2 cols (Estrato/Edad) + Agencias y Líneas full-width */
+  .tables-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .tables-grid .full-w { grid-column: 1 / -1; }
+  @media (max-width: 700px) { .tables-grid { grid-template-columns: 1fr; } }
+
+  /* Tabla más amplia (Agencias y Líneas) */
+  .table-big .agencia-table-wrap { max-height: 420px; }
+  .table-big .agencia-table { font-size: 11px; }
+  .table-big .agencia-table thead th {
+    padding: 6px 6px; font-size: 9px;
+  }
+  .table-big .agencia-table tbody td { padding: 5px 6px; }
+
+  /* Tabla Agencias compacta */
+  .agencia-table-wrap {
+    max-height: 220px; overflow-y: auto;
+    border: 1px solid #e8d8cc; border-radius: 6px;
+  }
+  .agencia-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .agencia-table thead th {
+    background: #1F3864; color: white;
+    padding: 4px 3px; font-size: 8px; font-weight: 700;
+    letter-spacing: 0.3px; text-align: right;
+    position: sticky; top: 0; z-index: 1;
+  }
+  .agencia-table thead th:first-child { text-align: left; }
+  .agencia-table tbody td {
+    padding: 3px; text-align: right; border-bottom: 1px solid #f0e8df;
+  }
+  .agencia-table tbody td:first-child {
+    text-align: left; font-weight: 600; color: #1a3a4a;
+  }
+  .agencia-table tbody tr:hover { background: #fdf5ee; }
+  .col-active { background: rgba(31, 56, 100, 0.08); font-weight: 700; }
+  .agencia-rank {
+    display: inline-block; width: 14px; text-align: center;
+    background: #1F3864; color: white; font-size: 7px;
+    font-weight: 700; border-radius: 3px; margin-right: 4px;
+    padding: 1px 0;
+  }
+
+  /* Sub-filtro tipo venta */
+  .venta-filter {
+    background: white; border: 1px solid #e8d8cc;
+    border-radius: 6px; padding: 6px 10px;
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .venta-note {
+    font-size: 8px; color: #8a6020; margin-top: 4px; width: 100%;
+  }
+
+  /* Cards de VENTAS Y CUMPLIMIENTO */
+  .ventas-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 800px) { .ventas-grid { grid-template-columns: 1fr; } }
+  .ventas-card {
+    background: white; border: 1px solid #e8d8cc; border-radius: 8px;
+    overflow: hidden;
+  }
+  .ventas-card .vc-header {
+    background: linear-gradient(135deg, #1F3864 0%, #2C5298 100%);
+    color: white; text-align: center; padding: 7px;
+    font-weight: 700; font-size: 12px; letter-spacing: 1px;
+  }
+  .ventas-card.contado .vc-header { background: linear-gradient(135deg, #1e7a3f 0%, #2dc44a 100%); }
+  .ventas-card.credito .vc-header { background: linear-gradient(135deg, #6a3a8a 0%, #8e5cae 100%); }
+  .ventas-card .vc-body { padding: 10px; }
+  .vc-kpi {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px solid #f0e8df;
+  }
+  .vc-kpi:last-child { border-bottom: none; }
+  .vc-kpi-label {
+    font-size: 9px; color: #6a7c87; font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .vc-kpi-value {
+    font-size: 14px; font-weight: 800; color: #1F3864;
+    line-height: 1; display: flex; align-items: baseline; gap: 6px;
+  }
+  .vc-kpi-value.big { font-size: 18px; }
+  .vc-kpi-delta {
+    font-size: 10px; font-weight: 700;
+  }
+  .vc-kpi-sub {
+    font-size: 9px; color: #6a7c87; margin-left: 6px; font-weight: 600;
+  }
+  .vc-cumpl-bar {
+    margin-top: 4px; height: 6px; background: #eef2f5;
+    border-radius: 3px; overflow: hidden; position: relative;
+  }
+  .vc-cumpl-bar-fill {
+    height: 100%; background: linear-gradient(90deg, #15a3b8 0%, #2dc4d8 100%);
+    transition: width 0.6s ease;
+  }
+  .vc-cumpl-bar-fill.low { background: linear-gradient(90deg, #d94545 0%, #f08585 100%); }
+  .vc-cumpl-bar-fill.ok  { background: linear-gradient(90deg, #f39c12 0%, #f4b94f 100%); }
+  .vc-cumpl-bar-fill.high{ background: linear-gradient(90deg, #2dc44a 0%, #4ee878 100%); }
+
+  /* INSIGHTS panel */
+  .insights-panel {
+    background: white; border: 1px solid #e8d8cc;
+    border-radius: 10px; margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .insights-panel > summary {
+    list-style: none; cursor: pointer;
+    background: linear-gradient(135deg, #1F3864 0%, #2C5298 100%);
+    color: white; padding: 10px 16px;
+    font-weight: 700; font-size: 13px; letter-spacing: 1px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .insights-panel > summary::-webkit-details-marker { display: none; }
+  .insights-panel > summary::after { content: '▼'; font-size: 10px; transition: transform 0.2s; }
+  .insights-panel[open] > summary::after { transform: rotate(180deg); }
+  .insights-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+    padding: 14px;
+  }
+  @media (max-width: 900px) { .insights-grid { grid-template-columns: 1fr; } }
+  .insights-col h4 {
+    font-size: 11px; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 8px;
+    padding-bottom: 5px; border-bottom: 2px solid;
+  }
+  .insights-col.wins h4   { color: #1e7a3f; border-color: #2dc44a; }
+  .insights-col.alerts h4 { color: #9c2424; border-color: #d94545; }
+  .insights-col.actions h4{ color: #1F3864; border-color: #1F3864; }
+  .insights-col ul, .insights-col ol {
+    margin: 0; padding-left: 16px; font-size: 11px; line-height: 1.5;
+    color: #1a3a4a;
+  }
+  .insights-col li { margin-bottom: 5px; }
+  .insights-col b { color: #1F3864; }
+  .insights-conclusion {
+    background: #fff8e8; border-top: 1px solid #f4d4c2;
+    padding: 12px 16px; font-size: 11px; color: #6a5020;
+    line-height: 1.5;
+  }
+  .insights-conclusion h4 {
+    font-size: 11px; color: #8a5020;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .insights-conclusion ol { margin-left: 18px; }
+  .insights-conclusion li { margin-bottom: 4px; }
+
+  /* Funnel horizontal grid */
+  .funnel-h-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 56px 1fr 56px 1.2fr;
+    gap: 4px; align-items: stretch; margin-bottom: 12px;
+  }
+  @media (max-width: 900px) {
+    .funnel-h-grid {
+      grid-template-columns: 1fr; gap: 8px;
+    }
+    .funnel-h-grid .arrow-h { display: none; }
+  }
+  .arrow-h {
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 2px;
+  }
+  .arrow-h .arrow-icon {
+    font-size: 18px; color: #15a3b8; line-height: 1;
+  }
+  .arrow-h .conv-pct {
+    background: #15a3b8; color: white;
+    padding: 2px 7px; border-radius: 100px;
+    font-size: 10px; font-weight: 700;
+    margin-top: 2px;
+  }
+  .arrow-h .conv-label {
+    font-size: 7px; color: #6a7c87; font-weight: 600;
+    margin-top: 2px; text-align: center; line-height: 1.2;
+  }
+  /* Compact card body for funnel */
+  .vc-total {
+    text-align: center; padding: 6px 0;
+    border-bottom: 2px solid #1F3864;
+    margin-bottom: 6px;
+  }
+  .vc-total .lbl { font-size: 8px; color: #6a7c87; text-transform: uppercase; font-weight: 700; }
+  .vc-total .val { font-size: 20px; font-weight: 800; color: #1F3864; line-height: 1; margin: 2px 0; }
+  .vc-total .dlt { font-size: 9px; }
+  .tipo-line {
+    display: flex; justify-content: space-between;
+    padding: 3px 4px; border-radius: 3px;
+    font-size: 10px;
+    transition: all 0.3s;
+  }
+  .tipo-line.highlight {
+    background: linear-gradient(90deg, #1F3864 0%, #3B5BAA 100%);
+    color: white;
+  }
+  .tipo-line .tl-name { font-weight: 600; color: #6a7c87; }
+  .tipo-line.highlight .tl-name { color: rgba(255,255,255,0.9); }
+  .tipo-line .tl-val { font-weight: 700; color: #1a3a4a; }
+  .tipo-line.highlight .tl-val { color: white; }
+
+  /* Funnel arrow entre cards */
+  .funnel-arrow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 6px 12px;
+    background: linear-gradient(180deg, #f8f5f0 0%, transparent 100%);
+    border-left: 3px solid #15a3b8; border-right: 3px solid #15a3b8;
+    margin: -4px 18px;
+    font-size: 11px; color: #1F3864; font-weight: 700;
+    border-radius: 3px;
+  }
+  .funnel-arrow .arrow-icon {
+    font-size: 16px; color: #15a3b8;
+  }
+  .funnel-arrow .conv-pct {
+    background: #15a3b8; color: white;
+    padding: 2px 8px; border-radius: 100px;
+    font-size: 11px;
+  }
+  .funnel-arrow .conv-label {
+    font-size: 9px; color: #6a7c87; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="top-header">
+  <div>
+    <h1>📊 Vista 360 · Jamar</h1>
+    <div class="subtitle">Tablero unificado · Visibilidad Relacional + Funnel</div>
+  </div>
+  <div class="top-header-right" style="flex-direction:column; align-items:flex-end; gap:8px;">
+    <div style="display:flex; gap:8px;">
+      <div class="header-chip">🇨🇴 COLOMBIA</div>
+      <div class="header-chip">📅 JULIO 2026 · al 23 jul</div>
+    </div>
+  </div>
+</div>
+
+<!-- SELECTOR DE MES (centrado) -->
+<div style="display:flex; justify-content:center; padding:10px 0 6px; background:#f7f2eb; border-bottom:1px solid #e5dcc9;">
+  <div class="mes-selector" id="mes-selector" style="justify-content:center;">
+    <span class="mes-lbl" style="color:#1F3864;">📆 Mes:</span>
+    <div class="mes-chip" data-mes="1">Ene</div>
+    <div class="mes-chip" data-mes="2">Feb</div>
+    <div class="mes-chip" data-mes="3">Mar</div>
+    <div class="mes-chip" data-mes="4">Abr</div>
+    <div class="mes-chip" data-mes="5">May</div>
+    <div class="mes-chip" data-mes="6">Jun</div>
+    <div class="mes-chip" data-mes="7">Jul</div>
+    <div class="mes-chip" data-mes="8">Ago</div>
+    <div class="mes-chip active" data-mes="9">Sep</div>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main-grid">
+
+  <!-- ===== COLUMNA MEDIOS ===== -->
+  <div class="col-medios">
+    <div class="section-header">MEDIOS</div>
+    <div class="update-box" id="medios-update-box">
+      <b>🔄 Fuente:</b> Dashboard Visibilidad Relacional · <b>Frecuencia:</b> Diaria<br>
+      <b>Última actualización:</b> <span id="medios-ultima-fecha" style="color:#1F3864; font-weight:700;">—</span> · <b>Mes mostrado:</b> <span id="medios-mes-mostrado" style="color:#1F3864; font-weight:700;">—</span>
+      <div id="medios-warning" style="display:none; margin-top:4px; padding:4px 8px; background:#fff4d6; border-left:3px solid #f0a050; border-radius:3px; color:#7a4a00; font-size:10px; font-weight:600;"></div>
+    </div>
+
+    <!-- FILTRO Tipo Cliente — solo MEDIOS -->
+    <div class="filter-block" style="flex-wrap:wrap;">
+      <div class="filter-label">Tipo Cliente</div>
+      <div class="tipo-pills" id="tipo-pills-medios">
+        <div class="tipo-pill active" data-tipo="GLOBAL">GLOBAL</div>
+        <div class="tipo-pill" data-tipo="CONOCIDO">CONOCIDO</div>
+        <div class="tipo-pill" data-tipo="CONTACTABLE">CONTACTABLE</div>
+        <div class="tipo-pill" data-tipo="NUEVO">NUEVO</div>
+      </div>
+      <div id="medios-tipo-note" style="font-size:8px; color:#8a6020; width:100%; margin-top:4px;"></div>
+    </div>
+
+    <!-- SMS -->
+    <div class="card">
+      <div class="card-header">SMS</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="sms-envios-label">Envíos Junio</div>
+            <div class="envios-value" id="sms-envios"></div>
+            <div class="envios-sub" id="sms-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">CTR vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="sms-arrow">▲</span>
+              <span class="big-number" id="sms-delta">+118</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="sms-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-sms"></div>
+      </div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="card">
+      <div class="card-header">EMAIL</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="email-envios-label">Envíos Junio</div>
+            <div class="envios-value" id="email-envios"></div>
+            <div class="envios-sub" id="email-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">CTOR vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="email-arrow">▲</span>
+              <span class="big-number" id="email-delta">+45</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="email-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-email"></div>
+      </div>
+    </div>
+
+    <!-- WHATSAPP -->
+    <div class="card">
+      <div class="card-header">WHATSAPP</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="wa-envios-label">Envíos Junio</div>
+            <div class="envios-value" id="wa-envios"></div>
+            <div class="envios-sub" id="wa-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">RTR vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="wa-arrow">▲</span>
+              <span class="big-number" id="wa-delta">+27</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="wa-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-whatsapp"></div>
+      </div>
+    </div>
+
+    <!-- ROBOCALL -->
+    <div class="card">
+      <div class="card-header">ROBOCALL</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="robo-envios-label">Cargadas Junio</div>
+            <div class="envios-value" id="robo-envios"></div>
+            <div class="envios-sub" id="robo-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">Contact. vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="robo-arrow">▲</span>
+              <span class="big-number" id="robo-delta">+5.8</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="robo-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-robocall"></div>
+      </div>
+    </div>
+
+    <!-- PAUTA -->
+    <div class="card">
+      <div class="card-header">PAUTA</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="pauta-envios-label">Alcance Junio</div>
+            <div class="envios-value" id="pauta-envios"></div>
+            <div class="envios-sub" id="pauta-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">CPA vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="pauta-arrow">▼</span>
+              <span class="big-number" id="pauta-delta">-27</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="pauta-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-pauta"></div>
+      </div>
+    </div>
+
+    <!-- ============ MEDIOS CARTERA ============ -->
+    <div style="margin-top:14px; padding:10px; background:#F0F4F8; border-radius:6px; border-left:4px solid #C8102E;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <div style="font-size:13px; font-weight:800; color:#1F3864; letter-spacing:1px;">💳 MEDIOS CARTERA</div>
+        <div style="display:flex; gap:4px;">
+          <div class="tipo-pill active" data-carttipo="TODOS" style="font-size:10px; padding:3px 8px;">TODOS</div>
+          <div class="tipo-pill" data-carttipo="CARTERA" style="font-size:10px; padding:3px 8px;">ALWAYS ZONE</div>
+          <div class="tipo-pill" data-carttipo="PYG" style="font-size:10px; padding:3px 8px;">PAGA Y GANA</div>
+        </div>
+      </div>
+      <div id="cartera-tipo-note" style="font-size:8px; color:#8a6020;"></div>
+    </div>
+
+    <!-- EMAIL CARTERA -->
+    <div class="card">
+      <div class="card-header">📧 EMAIL · CARTERA</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="cart-email-label">Envíos Ago</div>
+            <div class="envios-value" id="cart-email-envios">—</div>
+            <div class="envios-sub" id="cart-email-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">OR vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="cart-email-arrow">▲</span>
+              <span class="big-number" id="cart-email-delta">—</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="cart-email-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-cart-email"></div>
+        <div id="cart-email-empty" style="display:none; text-align:center; padding:16px; color:#999; font-style:italic; font-size:12px;">Sin actividad este mes</div>
+      </div>
+    </div>
+
+    <!-- SMS CARTERA -->
+    <div class="card">
+      <div class="card-header">📱 SMS · CARTERA</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="cart-sms-label">Envíos Ago</div>
+            <div class="envios-value" id="cart-sms-envios">—</div>
+            <div class="envios-sub" id="cart-sms-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">CTR vs Mes Ant.</div>
+            <div class="behavior-value">
+              <span class="arrow" id="cart-sms-arrow">▲</span>
+              <span class="big-number" id="cart-sms-delta">—</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="cart-sms-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-cart-sms"></div>
+        <div id="cart-sms-empty" style="display:none; text-align:center; padding:16px; color:#999; font-style:italic; font-size:12px;">Sin actividad este mes</div>
+      </div>
+    </div>
+
+    <!-- WHATSAPP CARTERA -->
+    <div class="card">
+      <div class="card-header">💬 WHATSAPP · CARTERA</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="cart-wa-label">Envíos Ago</div>
+            <div class="envios-value" id="cart-wa-envios">—</div>
+            <div class="envios-sub" id="cart-wa-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">Lectura</div>
+            <div class="behavior-value">
+              <span class="big-number" id="cart-wa-lectura">—</span>
+              <span class="behavior-suffix">%</span>
+            </div>
+            <div class="behavior-sub" id="cart-wa-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-cart-wa"></div>
+        <div id="cart-wa-empty" style="display:none; text-align:center; padding:16px; color:#999; font-style:italic; font-size:12px;">Sin actividad este mes</div>
+      </div>
+    </div>
+
+    <!-- PAUTA CARTERA -->
+    <div class="card">
+      <div class="card-header">🎯 PAUTA · CARTERA</div>
+      <div class="card-body">
+        <div class="medios-top">
+          <div class="envios-block">
+            <div class="envios-label" id="cart-pauta-label">Alcance Ago</div>
+            <div class="envios-value" id="cart-pauta-envios">—</div>
+            <div class="envios-sub" id="cart-pauta-envios-full"></div>
+          </div>
+          <div class="behavior-block">
+            <div class="behavior-label">CPA</div>
+            <div class="behavior-value">
+              <span style="font-size:9px; color:#666;">$</span>
+              <span class="big-number" id="cart-pauta-cpa">—</span>
+            </div>
+            <div class="behavior-sub" id="cart-pauta-sub"></div>
+          </div>
+        </div>
+        <div class="gauges-row" id="gauges-cart-pauta"></div>
+        <div id="cart-pauta-empty" style="display:none; text-align:center; padding:16px; color:#999; font-style:italic; font-size:12px;">Sin actividad este mes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COLUMNA CONVERSIÓN ===== -->
+  <div class="col-conv">
+
+    <!-- ============ TRÁFICO (movido arriba) ============ -->
+    <div class="section-header">TRÁFICO</div>
+    <div class="update-box">
+      <b>🔄 Fuente:</b> Tableau <code>Tráfico Ecommerce v2</code><br>
+      <b>Período:</b> Junio 1-10 (mismos días transcurridos · peras con peras)<br>
+      <b>Variables JS:</b> <code>TRAFICO.EMAIL</code>, <code>TRAFICO.SMS</code>, <code>TRAFICO_PRESENCIAL.hist</code>
+    </div>
+
+    <!-- TRÁFICO · 4 cards compactas en fila (Email · SMS · Presencial · CNP) -->
+    <div class="ventas-grid" style="grid-template-columns: 1fr 1fr 1fr 1.2fr;">
+      <!-- EMAIL DIGITAL -->
+      <div class="ventas-card">
+        <div class="vc-header">📧 EMAIL · Digital</div>
+        <div class="vc-body" id="vc-email-body">—</div>
+      </div>
+      <!-- SMS DIGITAL -->
+      <div class="ventas-card contado">
+        <div class="vc-header" style="background: linear-gradient(135deg, #c46a30 0%, #f0a050 100%);">📱 SMS · Digital</div>
+        <div class="vc-body" id="vc-sms-body">—</div>
+      </div>
+      <!-- PRESENCIAL -->
+      <div class="ventas-card credito">
+        <div class="vc-header" style="background: linear-gradient(135deg, #15a3b8 0%, #2dc4d8 100%);">🏬 PRESENCIAL</div>
+        <div class="vc-body" id="vc-pres-body">—</div>
+      </div>
+      <!-- CNP -->
+      <div class="ventas-card">
+        <div class="vc-header" style="background: linear-gradient(135deg, #6a3a8a 0%, #8e5cae 100%);">🎯 CNP · Canal No Presencial</div>
+        <div class="vc-body" id="vc-cnp-body">—</div>
+      </div>
+    </div>
+
+    <!-- ============ VENTAS Y CUMPLIMIENTO ============ -->
+    <div class="section-header" style="margin-top:14px;">VENTAS Y CUMPLIMIENTO</div>
+    <div class="update-box" id="ventas-update-box">
+      <b>🔴 LIVE · Tableau MCP</b> · Tablero de Ventas NonBank · <span id="ventas-periodo-label">datos del mes seleccionado</span><br>
+      <b>Última sync:</b> ahora · <b>$ acumulado mes</b>
+    </div>
+    <div class="ventas-grid">
+      <!-- COLOMBIA -->
+      <div class="ventas-card" id="vc-colombia">
+        <div class="vc-header">🇨🇴 COLOMBIA · GLOBAL</div>
+        <div class="vc-body" id="vc-col-body">—</div>
+      </div>
+      <!-- CONTADO -->
+      <div class="ventas-card contado">
+        <div class="vc-header">💵 CONTADO</div>
+        <div class="vc-body" id="vc-cont-body">—</div>
+      </div>
+      <!-- CRÉDITO -->
+      <div class="ventas-card credito">
+        <div class="vc-header">💳 CRÉDITO · NonBank</div>
+        <div class="vc-body" id="vc-cred-body">—</div>
+      </div>
+    </div>
+
+    <!-- ============ CONVERSIÓN ============ -->
+    <div class="section-header" style="margin-top:14px;">CONVERSIÓN</div>
+    <div class="update-box" id="conv-update-box">
+      <b>🔴 LIVE · Tableau MCP</b> · Funnel_Nuevo_Conocido · <span id="conv-periodo-label">datos del mes seleccionado</span><br>
+      <b>Última sync:</b> ahora · <b>Conector:</b> Tableau Server vía MCP
+    </div>
+
+    <!-- FILTROS de CONVERSIÓN (independientes de MEDIOS) -->
+    <div class="filter-block">
+      <div class="filter-label">Tipo Cliente</div>
+      <div class="tipo-pills" id="tipo-pills-conv">
+        <div class="tipo-pill active" data-tipo="GLOBAL">GLOBAL</div>
+        <div class="tipo-pill" data-tipo="CONOCIDO">CONOCIDO</div>
+        <div class="tipo-pill" data-tipo="CONTACTABLE">CONTACTABLE</div>
+        <div class="tipo-pill" data-tipo="NUEVO">NUEVO</div>
+      </div>
+    </div>
+    <div class="filter-block">
+      <div class="filter-label">Tipo Venta</div>
+      <div class="tipo-pills" id="venta-pills">
+        <div class="tipo-pill active" data-venta="TODO">TODO</div>
+        <div class="tipo-pill" data-venta="CONTADO">CONTADO</div>
+        <div class="tipo-pill" data-venta="CREDITO">CRÉDITO</div>
+      </div>
+      <span style="font-size:9px; color:#6a7c87; margin-left:auto;">activo: <b id="venta-current" style="color:#1F3864;">TODO</b></span>
+      <div class="venta-note" id="venta-note" style="width:100%;"></div>
+    </div>
+
+    <!-- FUNNEL HORIZONTAL COMPACTO (Visor·Cotiz·Orden·Facturación) -->
+    <div class="funnel-h-grid">
+      <div class="ventas-card">
+        <div class="vc-header">1️⃣ VISOR</div>
+        <div class="vc-body" id="vc-visor-body">—</div>
+      </div>
+      <div class="ventas-card">
+        <div class="vc-header" style="background: linear-gradient(135deg, #2C5298 0%, #3B5BAA 100%);">2️⃣ COTIZACIÓN</div>
+        <div class="vc-body" id="vc-cotiz-body">—</div>
+      </div>
+      <div class="arrow-h">
+        <span class="arrow-icon">▶</span>
+        <span class="conv-pct" id="conv-c2o">—%</span>
+        <span class="conv-label">Cotiz. → Orden</span>
+      </div>
+      <div class="ventas-card">
+        <div class="vc-header" style="background: linear-gradient(135deg, #3B5BAA 0%, #5074c4 100%);">3️⃣ ORDEN</div>
+        <div class="vc-body" id="vc-orden-body">—</div>
+      </div>
+      <div class="arrow-h">
+        <span class="arrow-icon">▶</span>
+        <span class="conv-pct" id="conv-o2f">—%</span>
+        <span class="conv-label">Orden → Fact.</span>
+      </div>
+      <div class="ventas-card">
+        <div class="vc-header" style="background: linear-gradient(135deg, #1e7a3f 0%, #2dc44a 100%);">4️⃣ FACTURACIÓN</div>
+        <div class="vc-body" id="vc-fact-body">—</div>
+      </div>
+    </div>
+
+    <!-- TABLAS DETALLADAS DEBAJO DEL FUNNEL · 2x2 grid -->
+    <div class="tables-grid">
+    <div class="card full-w table-big">
+      <div class="card-header">📍 VISOR POR AGENCIA · <span id="lbl-agencia-mes">Top + scroll</span></div>
+      <div class="card-body">
+        <div class="agencia-table-wrap">
+          <table class="agencia-table">
+            <thead>
+              <tr>
+                <th>Agencia</th>
+                <th id="th-conocido">Conocido</th>
+                <th id="th-contactable">Contactable</th>
+                <th id="th-nuevo">Nuevo</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="agencia-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🏘️ POR ESTRATO · <span id="lbl-estrato-mes">datos Cliente 360</span></div>
+      <div class="card-body">
+        <div class="agencia-table-wrap" style="max-height:240px;">
+          <table class="agencia-table">
+            <thead>
+              <tr>
+                <th>Estrato</th><th># Clientes</th>
+                <th id="th-est-con">Crec Conocido</th>
+                <th id="th-est-nv">Crec Nuevo</th>
+                <th>Crec Vta Total</th><th>$ Facturado</th>
+              </tr>
+            </thead>
+            <tbody id="estrato-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">👥 POR RANGO DE EDAD · <span id="lbl-edad-mes">datos Cliente 360</span></div>
+      <div class="card-body">
+        <div class="agencia-table-wrap" style="max-height:240px;">
+          <table class="agencia-table">
+            <thead>
+              <tr>
+                <th>Edad</th><th># Clientes</th>
+                <th id="th-edad-con">Crec Conocido</th>
+                <th id="th-edad-nv">Crec Nuevo</th>
+                <th>Crec Vta Total</th><th>$ Facturado</th>
+              </tr>
+            </thead>
+            <tbody id="edad-tbody"></tbody>
+          </table>
+        </div>
+      <div class="card full-w table-big">
+      <div class="card-header">📦 POR LÍNEA DE PRODUCTO · <span id="lbl-linea-mes">Crecimiento por tipo de cliente</span></div>
+      <div class="card-body">
+        <div class="agencia-table-wrap" style="max-height:520px;">
+          <table class="agencia-table">
+            <thead>
+              <tr>
+                <th>Línea</th>
+                <th># Clientes</th>
+                <th>Crec Conocido</th>
+                <th>Crec Nuevo</th>
+                <th>Crec Vta Total</th>
+                <th>$ Facturado</th>
+              </tr>
+            </thead>
+            <tbody id="lineas-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    
+    </div>
+    </div>
+
+    </div><!-- /.tables-grid -->
+
+    <!-- ============ INSIGHTS · al final ============ -->
+    <div class="section-header" style="margin-top:14px;">💡 INSIGHTS · ANÁLISIS ESTRATÉGICO</div>
+    <details class="insights-panel" open>
+      <summary id="insights-summary">📊 Resumen ejecutivo · <span id="insights-mes-label">Julio 2026 al 23</span> · Colombia</summary>
+      <div class="insights-grid" id="insights-grid">
+        <!-- Contenido inyectado por buildInsights() -->
+      </div>
+      <div class="insights-conclusion" id="insights-conclusion">
+        <!-- Conclusiones inyectadas por buildInsights() -->
+      </div>
+    </details>
+
+  </div>
+
+</div>
+
+<script>
+// ===== DATA Colombia 2026, junio vs mayo =====
+// ===== ALL MONTHS DATA - extraído del Dashboard Visibilidad Relacional =====
+const DATA_ALL_MONTHS = {
+  // FUENTE: index.html Dashboard Visibilidad Relacional · Meses ene-jun cierre · Jul actualizado 21 jul 2026
+  // Datos REALES por mes/canal/tipo cliente. GLOBAL suma CONOCIDO+CONTACTABLE+EVENTOS/OTROS.
+  1: {"sms": {"CONOCIDO": {"envios": 16620249, "clic": 41536, "ctr": 0.25}, "CONTACTABLE/NUEVO": {"envios": 5784381, "clic": 13545, "ctr": 0.234}, "GLOBAL": {"envios": 24272492, "clic": 55081, "ctr": 0.227}}, "email": {"GLOBAL": {"envios": 12396819, "opens": 1386892, "clicks": 39669, "or": 11.187, "ctr": 0.32, "ctor": 2.86}, "CONOCIDO": {"envios": 7721053, "opens": 991378, "clicks": 30359, "or": 12.84, "ctr": 0.393, "ctor": 3.062}, "CONTACTABLE/NUEVO": {"envios": 4675766, "opens": 395514, "clicks": 9310, "or": 8.459, "ctr": 0.199, "ctor": 2.354}}, "whatsapp": {"CONOCIDO": {"envios": 43702, "leidas": 21752, "respondidas": 1959, "lectura": 49.77, "rtr": 9.01}, "CONTACTABLE/NUEVO": {"envios": 21508, "leidas": 9843, "respondidas": 1064, "lectura": 45.76, "rtr": 10.81}, "GLOBAL": {"envios": 65210, "leidas": 31595, "respondidas": 3023, "lectura": 48.45, "rtr": 9.57}}, "robocall": {"CONOCIDO": {"cargadas": 140550, "procesadas": 140550, "contestadas": 122823, "completas": 82814, "cont": 87.39, "comp": 67.43}, "CONTACTABLE/NUEVO": {"cargadas": 39596, "procesadas": 39596, "contestadas": 34757, "completas": 22611, "cont": 87.78, "comp": 65.05}, "GLOBAL": {"cargadas": 196798, "procesadas": 196798, "contestadas": 169893, "completas": 113258, "cont": 86.33, "comp": 66.66}}, "pauta": {"CONOCIDO": {"resultados": 2580, "alcance": 194480, "cpa": 1867, "frec": 2.97}, "CONTACTABLE/NUEVO": {"resultados": 1227, "alcance": 86648, "cpa": 2492, "frec": 2.69}, "GLOBAL": {"resultados": 3807, "alcance": 281128, "cpa": 4359, "frec": 5.66}}},
+  2: {"sms": {"CONOCIDO": {"envios": 18987888, "clic": 37050, "ctr": 0.195}, "CONTACTABLE/NUEVO": {"envios": 7903544, "clic": 14967, "ctr": 0.189}, "GLOBAL": {"envios": 26895280, "clic": 52017, "ctr": 0.193}}, "email": {"GLOBAL": {"envios": 24919202, "opens": 2872896, "clicks": 60175, "or": 11.529, "ctr": 0.241, "ctor": 2.095}, "CONOCIDO": {"envios": 13579581, "opens": 1876786, "clicks": 43899, "or": 13.821, "ctr": 0.323, "ctor": 2.339}, "CONTACTABLE/NUEVO": {"envios": 11339621, "opens": 996110, "clicks": 16276, "or": 8.784, "ctr": 0.144, "ctor": 1.634}}, "whatsapp": {"CONOCIDO": {"envios": 50571, "leidas": 24821, "respondidas": 1794, "lectura": 49.08, "rtr": 7.23}, "CONTACTABLE/NUEVO": {"envios": 29309, "leidas": 13795, "respondidas": 1270, "lectura": 47.07, "rtr": 9.21}, "GLOBAL": {"envios": 79880, "leidas": 38616, "respondidas": 3064, "lectura": 48.34, "rtr": 7.93}}, "robocall": {"CONOCIDO": {"cargadas": 98116, "procesadas": 98116, "contestadas": 84530, "completas": 54345, "cont": 86.15, "comp": 64.29}, "CONTACTABLE/NUEVO": {"cargadas": 19798, "procesadas": 19798, "contestadas": 17244, "completas": 11723, "cont": 87.1, "comp": 67.98}, "GLOBAL": {"cargadas": 119537, "procesadas": 119537, "contestadas": 103122, "completas": 66929, "cont": 86.27, "comp": 64.9}}, "pauta": {"CONOCIDO": {"resultados": 2037, "alcance": 163068, "cpa": 2360, "frec": 3.05}, "CONTACTABLE/NUEVO": {"resultados": 925, "alcance": 70119, "cpa": 2326, "frec": 3.03}, "GLOBAL": {"resultados": 2962, "alcance": 233187, "cpa": 4686, "frec": 6.08}}},
+  3: {"sms": {"CONOCIDO": {"envios": 35889251, "clic": 38954, "ctr": 0.109}, "CONTACTABLE/NUEVO": {"envios": 15863021, "clic": 17697, "ctr": 0.112}, "GLOBAL": {"envios": 51778243, "clic": 56651, "ctr": 0.109}}, "email": {"GLOBAL": {"envios": 14095699, "opens": 1404564, "clicks": 25827, "or": 9.964, "ctr": 0.183, "ctor": 1.839}, "CONOCIDO": {"envios": 7987281, "opens": 947618, "clicks": 19041, "or": 11.864, "ctr": 0.238, "ctor": 2.009}, "CONTACTABLE/NUEVO": {"envios": 6108418, "opens": 456946, "clicks": 6786, "or": 7.481, "ctr": 0.111, "ctor": 1.485}}, "whatsapp": {"CONOCIDO": {"envios": 48403, "leidas": 23271, "respondidas": 1562, "lectura": 48.08, "rtr": 6.71}, "CONTACTABLE/NUEVO": {"envios": 21130, "leidas": 9359, "respondidas": 842, "lectura": 44.29, "rtr": 9.0}, "GLOBAL": {"envios": 69533, "leidas": 32630, "respondidas": 2404, "lectura": 46.93, "rtr": 7.37}}, "robocall": {"CONOCIDO": {"cargadas": 106539, "procesadas": 106539, "contestadas": 89841, "completas": 53051, "cont": 84.33, "comp": 59.05}, "CONTACTABLE/NUEVO": {"cargadas": 39854, "procesadas": 39854, "contestadas": 31740, "completas": 19251, "cont": 79.64, "comp": 60.65}, "GLOBAL": {"cargadas": 169799, "procesadas": 169799, "contestadas": 140756, "completas": 84952, "cont": 82.9, "comp": 60.35}}, "pauta": {"CONOCIDO": {"resultados": 2099, "alcance": 196755, "cpa": 2295, "frec": 2.65}, "CONTACTABLE/NUEVO": {"resultados": 903, "alcance": 77814, "cpa": 2391, "frec": 2.74}, "GLOBAL": {"resultados": 3002, "alcance": 274569, "cpa": 4686, "frec": 5.390000000000001}}},
+  4: {"sms": {"CONOCIDO": {"envios": 36078018, "clic": 43296, "ctr": 0.12}, "CONTACTABLE/NUEVO": {"envios": 18341930, "clic": 22509, "ctr": 0.123}, "GLOBAL": {"envios": 55650624, "clic": 65805, "ctr": 0.118}}, "email": {"GLOBAL": {"envios": 11900985, "opens": 1246795, "clicks": 26032, "or": 10.476, "ctr": 0.219, "ctor": 2.088}, "CONOCIDO": {"envios": 6793171, "opens": 832150, "clicks": 18968, "or": 12.25, "ctr": 0.279, "ctor": 2.279}, "CONTACTABLE/NUEVO": {"envios": 5107814, "opens": 414645, "clicks": 7064, "or": 8.118, "ctr": 0.138, "ctor": 1.704}}, "whatsapp": {"CONOCIDO": {"envios": 59573, "leidas": 26841, "respondidas": 1431, "lectura": 45.06, "rtr": 5.33}, "CONTACTABLE/NUEVO": {"envios": 22337, "leidas": 9363, "respondidas": 685, "lectura": 41.92, "rtr": 7.32}, "GLOBAL": {"envios": 81910, "leidas": 36204, "respondidas": 2116, "lectura": 44.2, "rtr": 5.84}}, "robocall": {"CONOCIDO": {"cargadas": 147736, "procesadas": 147736, "contestadas": 133256, "completas": 87506, "cont": 90.2, "comp": 65.67}, "CONTACTABLE/NUEVO": {"cargadas": 55369, "procesadas": 55369, "contestadas": 49210, "completas": 29370, "cont": 88.88, "comp": 59.68}, "GLOBAL": {"cargadas": 210454, "procesadas": 210454, "contestadas": 188365, "completas": 119963, "cont": 89.5, "comp": 63.69}}, "pauta": {"CONOCIDO": {"resultados": 1691, "alcance": 224776, "cpa": 2294, "frec": 2.06}, "CONTACTABLE/NUEVO": {"resultados": 836, "alcance": 98192, "cpa": 2412, "frec": 2.7}, "GLOBAL": {"resultados": 2527, "alcance": 322968, "cpa": 4706, "frec": 4.76}}},
+  5: {"sms": {"CONOCIDO": {"envios": 37533901, "clic": 61085, "ctr": 0.163}, "CONTACTABLE/NUEVO": {"envios": 19476991, "clic": 27180, "ctr": 0.14}, "GLOBAL": {"envios": 58442766, "clic": 88265, "ctr": 0.151}}, "email": {"GLOBAL": {"envios": 15304981, "opens": 1440941, "clicks": 26519, "or": 9.415, "ctr": 0.173, "ctor": 1.84}, "CONOCIDO": {"envios": 8347790, "opens": 932649, "clicks": 18747, "or": 11.172, "ctr": 0.225, "ctor": 2.01}, "CONTACTABLE/NUEVO": {"envios": 6957191, "opens": 508292, "clicks": 7772, "or": 7.306, "ctr": 0.112, "ctor": 1.529}}, "whatsapp": {"CONOCIDO": {"envios": 58003, "leidas": 25744, "respondidas": 1438, "lectura": 44.38, "rtr": 5.59}, "CONTACTABLE/NUEVO": {"envios": 33610, "leidas": 13035, "respondidas": 942, "lectura": 38.78, "rtr": 7.23}, "GLOBAL": {"envios": 91613, "leidas": 38779, "respondidas": 2380, "lectura": 42.33, "rtr": 6.14}}, "robocall": {"CONOCIDO": {"cargadas": 155154, "procesadas": 155154, "contestadas": 135018, "completas": 96291, "cont": 87.02, "comp": 71.32}, "CONTACTABLE/NUEVO": {"cargadas": 31975, "procesadas": 31975, "contestadas": 28088, "completas": 19697, "cont": 87.84, "comp": 70.13}, "GLOBAL": {"cargadas": 196603, "procesadas": 196603, "contestadas": 171505, "completas": 122113, "cont": 87.23, "comp": 71.2}}, "pauta": {"CONOCIDO": {"resultados": 1798, "alcance": 251516, "cpa": 3113, "frec": 1.95}, "CONTACTABLE/NUEVO": {"resultados": 664, "alcance": 79629, "cpa": 3255, "frec": 2.55}, "GLOBAL": {"resultados": 2462, "alcance": 331145, "cpa": 6368, "frec": 4.5}}},
+  6: {"sms": {"CONOCIDO": {"envios": 12694074, "clic": 38679, "ctr": 0.305}, "CONTACTABLE/NUEVO": {"envios": 9354035, "clic": 27817, "ctr": 0.297}, "GLOBAL": {"envios": 22087474, "clic": 66496, "ctr": 0.301}}, "email": {"GLOBAL": {"envios": 12602148, "opens": 961655, "clicks": 22129, "or": 7.631, "ctr": 0.176, "ctor": 2.301}, "CONOCIDO": {"envios": 7016057, "opens": 638336, "clicks": 15516, "or": 9.098, "ctr": 0.221, "ctor": 2.431}, "CONTACTABLE/NUEVO": {"envios": 5586091, "opens": 323319, "clicks": 6613, "or": 5.788, "ctr": 0.118, "ctor": 2.045}}, "whatsapp": {"CONOCIDO": {"envios": 48175, "leidas": 21315, "respondidas": 1250, "lectura": 44.24, "rtr": 5.86}, "CONTACTABLE/NUEVO": {"envios": 28227, "leidas": 11974, "respondidas": 1186, "lectura": 42.42, "rtr": 9.9}, "GLOBAL": {"envios": 76402, "leidas": 33289, "respondidas": 2436, "lectura": 43.57, "rtr": 7.32}}, "robocall": {"CONOCIDO": {"cargadas": 95461, "procesadas": 95461, "contestadas": 82016, "completas": 55909, "cont": 85.92, "comp": 68.17}, "CONTACTABLE/NUEVO": {"cargadas": 29289, "procesadas": 29289, "contestadas": 25165, "completas": 16493, "cont": 85.92, "comp": 65.54}, "GLOBAL": {"cargadas": 125617, "procesadas": 125617, "contestadas": 107514, "completas": 72631, "cont": 85.59, "comp": 67.55}}, "pauta": {"CONOCIDO": {"resultados": 2293, "alcance": 298127, "cpa": 2526, "frec": 2.03}, "CONTACTABLE/NUEVO": {"resultados": 670, "alcance": 109360, "cpa": 4656, "frec": 2.86}, "GLOBAL": {"resultados": 2963, "alcance": 407487, "cpa": 7182, "frec": 4.89}}},
+  7: {"sms": {"CONOCIDO": {"envios": 6075987, "clic": 13089, "ctr": 0.215}, "CONTACTABLE/NUEVO": {"envios": 1461638, "clic": 6825, "ctr": 0.467}, "GLOBAL": {"envios": 7537625, "clic": 19914, "ctr": 0.264}}, "email": {"GLOBAL": {"envios": 3825497, "opens": 199618, "clicks": 3475, "or": 5.218, "ctr": 0.091, "ctor": 1.741}, "CONOCIDO": {"envios": 2330525, "opens": 156824, "clicks": 2704, "or": 6.729, "ctr": 0.116, "ctor": 1.724}, "CONTACTABLE/NUEVO": {"envios": 1494972, "opens": 42794, "clicks": 771, "or": 2.863, "ctr": 0.052, "ctor": 1.802}}, "whatsapp": {"CONOCIDO": {"envios": 22340, "leidas": 10858, "respondidas": 570, "lectura": 48.60, "rtr": 5.25}, "CONTACTABLE/NUEVO": {"envios": 8944, "leidas": 4083, "respondidas": 312, "lectura": 45.65, "rtr": 7.64}, "GLOBAL": {"envios": 31284, "leidas": 14941, "respondidas": 882, "lectura": 47.76, "rtr": 5.90}}, "robocall": {"CONOCIDO": {"cargadas": 4942, "procesadas": 4942, "contestadas": 3883, "completas": 2766, "cont": 78.57, "comp": 55.97}, "CONTACTABLE/NUEVO": {"cargadas": 19526, "procesadas": 19526, "contestadas": 16978, "completas": 11404, "cont": 86.95, "comp": 58.40}, "GLOBAL": {"cargadas": 24468, "procesadas": 24468, "contestadas": 20861, "completas": 14170, "cont": 85.26, "comp": 57.91}}, "pauta": {"CONOCIDO": {"resultados": 1063, "alcance": 176779, "cpa": 1782, "frec": 1.64}, "CONTACTABLE/NUEVO": {"resultados": 175, "alcance": 24946, "cpa": 3158, "frec": 1.70}, "GLOBAL": {"resultados": 1238, "alcance": 201725, "cpa": 1977, "frec": 3.34}}},
+  8: {"sms": {"CONOCIDO": {"envios": 12863415, "clic": 46855, "ctr": 0.364}, "CONTACTABLE/NUEVO": {"envios": 6675547, "clic": 28345, "ctr": 0.425}, "GLOBAL": {"envios": 22693382, "clic": 76839, "ctr": 0.339}}, "email": {"GLOBAL": {"envios": 12405270, "opens": 1166851, "clicks": 25995, "or": 9.406, "ctr": 0.21, "ctor": 2.228}, "CONOCIDO": {"envios": 7038351, "opens": 791581, "clicks": 19023, "or": 11.247, "ctr": 0.27, "ctor": 2.403}, "CONTACTABLE/NUEVO": {"envios": 5366919, "opens": 375270, "clicks": 6972, "or": 6.992, "ctr": 0.13, "ctor": 1.858}}, "whatsapp": {"CONOCIDO": {"envios": 58608, "leidas": 29243, "respondidas": 1595, "lectura": 49.9, "rtr": 5.45}, "CONTACTABLE/NUEVO": {"envios": 38248, "leidas": 18328, "respondidas": 2629, "lectura": 47.92, "rtr": 14.34}, "GLOBAL": {"envios": 96856, "leidas": 47571, "respondidas": 4224, "lectura": 49.12, "rtr": 8.88}}, "robocall": {"CONOCIDO": {"cargadas": 144926, "procesadas": 144926, "contestadas": 98112, "completas": 69303, "cont": 67.7, "comp": 70.64}, "CONTACTABLE/NUEVO": {"cargadas": 50987, "procesadas": 50987, "contestadas": 40490, "completas": 21810, "cont": 79.41, "comp": 53.87}, "GLOBAL": {"cargadas": 199209, "procesadas": 199209, "contestadas": 138962, "completas": 91410, "cont": 69.76, "comp": 65.78}}, "pauta": {"CONOCIDO": {"resultados": 2474, "alcance": 263922, "cpa": 1655, "frec": 2.0}, "CONTACTABLE/NUEVO": {"resultados": 298, "alcance": 25025, "cpa": 3997, "frec": 4.91}, "GLOBAL": {"resultados": 2772, "alcance": 288947, "cpa": 1907, "frec": 2.25}}},
+  9: {"sms": {"CONOCIDO": {"envios": 6664422, "clic": 24303, "ctr": 0.365}, "CONTACTABLE/NUEVO": {"envios": 2493850, "clic": 10717, "ctr": 0.43}, "GLOBAL": {"envios": 9696729, "clic": 35993, "ctr": 0.371}}, "email": {"GLOBAL": {"envios": 5062007, "opens": 472240, "clicks": 9122, "or": 9.329, "ctr": 0.18, "ctor": 1.932}, "CONOCIDO": {"envios": 3296206, "opens": 348334, "clicks": 7098, "or": 10.568, "ctr": 0.215, "ctor": 2.038}, "CONTACTABLE/NUEVO": {"envios": 1765801, "opens": 123906, "clicks": 2024, "or": 7.017, "ctr": 0.115, "ctor": 1.633}}, "whatsapp": {"CONOCIDO": {"envios": 13526, "leidas": 7673, "respondidas": 184, "lectura": 56.73, "rtr": 2.4}, "CONTACTABLE/NUEVO": {"envios": 7948, "leidas": 4444, "respondidas": 153, "lectura": 55.91, "rtr": 3.44}, "GLOBAL": {"envios": 21474, "leidas": 12117, "respondidas": 337, "lectura": 56.43, "rtr": 2.78}}, "robocall": {"CONOCIDO": {"cargadas": 56378, "procesadas": 56378, "contestadas": 45082, "completas": 33254, "cont": 79.96, "comp": 73.76}, "CONTACTABLE/NUEVO": {"cargadas": 20550, "procesadas": 20550, "contestadas": 15597, "completas": 11064, "cont": 75.9, "comp": 70.94}, "GLOBAL": {"cargadas": 77927, "procesadas": 77927, "contestadas": 61170, "completas": 44714, "cont": 78.5, "comp": 73.1}}, "pauta": {"CONOCIDO": {"resultados": 606, "alcance": 113781, "cpa": 0, "frec": 1.74}, "CONTACTABLE/NUEVO": {"resultados": 163, "alcance": 27217, "cpa": 0, "frec": 4.04}, "GLOBAL": {"resultados": 769, "alcance": 140998, "cpa": 0, "frec": 2.19}}}
+};
+
+// CURRENT_MONTH es la variable global que controla qué mes se muestra
+// Default: junio (6) porque MEDIOS solo tiene ene-jun. Julio se puede seleccionar pero MEDIOS mostrará junio + aviso.
+let CURRENT_MONTH = 9;
+let CURRENT_PREV_MONTH = 8;
+
+// Fecha "de hoy" para saber cuándo el mes seleccionado es el mes en curso (parcial)
+// REGLA: DIA_HOY = último día del CSV manual que Andrea sube (para Tráfico Email/SMS)
+// Se actualiza cada vez que Andrea sube un nuevo CSV
+const MES_HOY_NUM = 9;   // septiembre
+const DIA_HOY = 14;      // último día con datos (Tableau + CSV manual)
+const DIAS_MES_ACTUAL = 30;  // septiembre tiene 30 días
+// Última fecha en que se actualizó la data de MEDIOS (dashboard Visibilidad Relacional)
+const MEDIOS_ULTIMA_ACTUALIZACION = '15 sep 2026 · MEDIOS al 14 sep';
+const MEDIOS_ULTIMO_MES = 9;  // último mes con datos de MEDIOS (sep parcial)
+
+// ============ DATA MEDIOS CARTERA ============
+// FUENTE: index.html Dashboard Visibilidad Relacional · cartera · Colombia
+// Sub-audiencias: CARTERA (gestión regular) · PYG (Paga y Gana - fidelización) · TODOS (suma)
+// EMAIL/SMS: se tienen datos mensuales globales; el split CART/PYG se distribuye proporcional al acumulado anual
+// WhatsApp/Pauta: solo actividad puntual — meses sin actividad quedan vacíos
+const CARTERA_DATA = {
+  EMAIL: {
+    // Distribución acumulada: CART 71.3% · PYG 28.7% del email cartera anual (nuevo split del index sep)
+    TODOS:   { 1:{env:230050,or:20.97}, 2:{env:190766,or:22.54}, 3:{env:224585,or:20.64}, 4:{env:159404,or:23.80}, 5:{env:217954,or:20.01}, 6:{env:221343,or:18.47}, 7:{env:212531,or:10.61}, 8:{env:437567,or:17.19}, 9:{env:128263,or:16.59} },
+    CARTERA: { 1:{env:164026,or:21.85}, 2:{env:136016,or:23.42}, 3:{env:160130,or:21.53}, 4:{env:113655,or:24.71}, 5:{env:155401,or:20.85}, 6:{env:157817,or:19.30}, 7:{env:151534,or:12.20}, 8:{env:311945,or:18.95}, 9:{env:91411,or:17.85} },
+    PYG:     { 1:{env:66024, or:18.83}, 2:{env:54750, or:20.31}, 3:{env:64455, or:18.42}, 4:{env:45749, or:21.63}, 5:{env:62553, or:17.75}, 6:{env:63526, or:16.44}, 7:{env:60997, or:6.71},  8:{env:125622,or:12.90}, 9:{env:36852,or:13.45} }
+  },
+  SMS: {
+    // ALWAYS ZONE CARTERA: SMS cartera regular (fuente: cartera.sms del index)
+    // PAGA Y GANA: segmento SMS "PAGA Y GANA" · JOURNEY AUTOMATIZADOS
+    // TODOS: suma de ambos
+    TODOS:   { 1:{env:479855,clic:0,ctr:0}, 2:{env:572581,clic:0,ctr:0}, 3:{env:523859,clic:0,ctr:0}, 4:{env:533502,clic:19310,ctr:3.62}, 5:{env:441408,clic:19848,ctr:4.50}, 6:{env:546328,clic:21882,ctr:4.00}, 7:{env:725660,clic:22389,ctr:3.09}, 8:{env:3409674,clic:23769,ctr:0.70}, 9:{env:305270,clic:11710,ctr:3.84} },
+    CARTERA: { 1:{env:479855,clic:0,ctr:0}, 2:{env:572581,clic:0,ctr:0}, 3:{env:523859,clic:0,ctr:0}, 4:{env:533502,clic:19310,ctr:3.62}, 5:{env:441408,clic:19848,ctr:4.50}, 6:{env:546328,clic:21882,ctr:4.00}, 7:{env:725660,clic:22389,ctr:3.09}, 8:{env:3307984,clic:23769,ctr:0.72}, 9:{env:305270,clic:11710,ctr:3.84} },
+    PYG:     { 8:{env:101690,clic:0,ctr:0} }  // sep sin actividad PYG SMS
+  },
+  WHATSAPP: {
+    // Actividad puntual: may + jun (Se Juega en Casa) · sep sin actividad
+    TODOS:   { 5:{env:210,lec:67.62,rtr:12.68,camp:2}, 6:{env:20086,lec:51.30,rtr:9.75,camp:10} },
+    CARTERA: {},
+    PYG:     { 5:{env:210,lec:67.62,rtr:12.68,camp:2}, 6:{env:20086,lec:51.30,rtr:9.75,camp:10} }
+  },
+  PAUTA: {
+    // Solo actividad puntual: "Se Juega en Casa" en junio · sep sin actividad
+    TODOS:   { 6:{res:4780,alc:165778,cpa:324,imp:384179} },
+    CARTERA: {},
+    PYG:     { 6:{res:4780,alc:165778,cpa:324,imp:384179} }
+  }
+};
+
+let CURRENT_TIPO_CART = 'TODOS';
+
+// DATA siempre apunta al mes actual seleccionado (puente compatibilidad)
+let DATA = (function() {
+  // Si el mes seleccionado no tiene datos MEDIOS, uso el último disponible
+  let sourceMonth = DATA_ALL_MONTHS[CURRENT_MONTH] ? CURRENT_MONTH : MEDIOS_ULTIMO_MES;
+  let prevMonth = sourceMonth > 1 ? sourceMonth - 1 : 1;
+  if (!DATA_ALL_MONTHS[prevMonth]) prevMonth = sourceMonth;
+  const cur = DATA_ALL_MONTHS[sourceMonth];
+  const prev = DATA_ALL_MONTHS[prevMonth] || cur;
+  return {
+    sms: Object.fromEntries(Object.entries(cur.sms).map(([k,v]) => [k, {jun:v, may:prev.sms[k] || v}])),
+    email: Object.fromEntries(Object.entries(cur.email).map(([k,v]) => [k, {jun:v, may:prev.email[k] || v}])),
+    whatsapp: Object.fromEntries(Object.entries(cur.whatsapp).map(([k,v]) => [k, {jun:v, may:prev.whatsapp[k] || v}])),
+    robocall: Object.fromEntries(Object.entries(cur.robocall).map(([k,v]) => [k, {jun:v, may:prev.robocall[k] || v}])),
+    pauta: Object.fromEntries(Object.entries(cur.pauta).map(([k,v]) => [k, {jun:v, may:prev.pauta[k] || v}]))
+  };
+})();
+
+function rebuildDataFromMonth() {
+  // Si el mes seleccionado no tiene datos MEDIOS, uso el último mes disponible (MEDIOS_ULTIMO_MES)
+  let sourceMonth = CURRENT_MONTH;
+  if (!DATA_ALL_MONTHS[CURRENT_MONTH]) sourceMonth = MEDIOS_ULTIMO_MES;
+  let prevMonth = sourceMonth > 1 ? sourceMonth - 1 : 1;
+  if (!DATA_ALL_MONTHS[prevMonth]) prevMonth = sourceMonth;
+  const cur = DATA_ALL_MONTHS[sourceMonth];
+  const prev = DATA_ALL_MONTHS[prevMonth] || cur;
+  DATA.sms = Object.fromEntries(Object.entries(cur.sms).map(([k,v]) => [k, {jun:v, may:prev.sms[k] || v}]));
+  DATA.email = Object.fromEntries(Object.entries(cur.email).map(([k,v]) => [k, {jun:v, may:prev.email[k] || v}]));
+  DATA.whatsapp = Object.fromEntries(Object.entries(cur.whatsapp).map(([k,v]) => [k, {jun:v, may:prev.whatsapp[k] || v}]));
+  DATA.robocall = Object.fromEntries(Object.entries(cur.robocall).map(([k,v]) => [k, {jun:v, may:prev.robocall[k] || v}]));
+  DATA.pauta = Object.fromEntries(Object.entries(cur.pauta).map(([k,v]) => [k, {jun:v, may:prev.pauta[k] || v}]));
+}
+
+const BENCH = {
+  sms_ctr:     { min:0, max:1,    low:0.1, high:0.5, unit:'%', inverted:false },
+  email_or:    { min:0, max:30,   low:15,  high:22,  unit:'%', inverted:false },
+  email_ctr:   { min:0, max:4,    low:1,   high:2.5, unit:'%', inverted:false },
+  email_ctor:  { min:0, max:20,   low:8,   high:15,  unit:'%', inverted:false },
+  wa_lectura:  { min:0, max:80,   low:40,  high:55,  unit:'%', inverted:false },
+  wa_rtr:      { min:0, max:20,   low:5,   high:15,  unit:'%', inverted:false },
+  robo_cont:   { min:0, max:100,  low:60,  high:80,  unit:'%', inverted:false },
+  robo_comp:   { min:0, max:100,  low:50,  high:65,  unit:'%', inverted:false },
+  pauta_cpa:   { min:0, max:8000, low:2000,high:4000,unit:'', inverted:true },
+  pauta_frec:  { min:0, max:8,    low:1.5, high:5,   unit:'x', inverted:false }
+};
+
+let CURRENT_TIPO_MEDIOS = 'GLOBAL';
+let CURRENT_TIPO_CONV   = 'GLOBAL';
+let CURRENT_VENTA = 'TODO';
+
+// ===== Mes actual / mes anterior (dinámico) =====
+const MES_NUM = MEDIOS_ULTIMO_MES;  // auto-sincroniza con el último mes cargado de MEDIOS
+const MES_NOMBRES = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const MES_FULL    = ['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MES_ACTUAL_LBL = MES_NOMBRES[MES_NUM];
+const MES_PREV_LBL   = MES_NOMBRES[MES_NUM - 1];
+const MES_ACTUAL_FULL = MES_FULL[MES_NUM];
+const MES_PREV_FULL   = MES_FULL[MES_NUM - 1];
+
+// ===== Helpers =====
+function fmtNumber(n, decimals=0) { return n.toLocaleString('es-CO', { maximumFractionDigits: decimals }); }
+function fmtShort(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(2) + ' M';
+  if (n >= 1e3) return (n/1e3).toFixed(1) + ' K';
+  return fmtNumber(n);
+}
+function fmtMoney(n) {
+  // Devuelve en millones de COP: "$4,453 M"
+  return '$' + Math.round(n/1e6).toLocaleString('es-CO') + ' M';
+}
+function pctChange(jun, may) { if (!may) return 0; return ((jun - may) / may) * 100; }
+
+// ===== Gauge =====
+function polarToCartesian(cx, cy, r, angleDeg) {
+  const a = angleDeg * Math.PI / 180.0;
+  return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+}
+function arcPath(cx, cy, r, startAngle, endAngle) {
+  const start = polarToCartesian(cx, cy, r, startAngle);
+  const end = polarToCartesian(cx, cy, r, endAngle);
+  const largeArc = endAngle - startAngle <= 180 ? 0 : 1;
+  return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 1 ${end.x} ${end.y}`;
+}
+
+function makeGauge(id, opts) {
+  const W = 160, H = 100, cx = 80, cy = 80, r = 60, sw = 16;
+  function valToAngle(v) {
+    const c = Math.max(opts.min, Math.min(opts.max, v));
+    return 180 + ((c - opts.min) / (opts.max - opts.min)) * 180;
+  }
+  const lowAng = valToAngle(opts.low);
+  const highAng = valToAngle(opts.high);
+  const valAng = valToAngle(opts.value);
+  const colLeft  = opts.inverted ? '#27ae60' : '#e74c3c';
+  const colRight = opts.inverted ? '#e74c3c' : '#27ae60';
+  let segsHtml = '';
+  if (lowAng > 180.1) segsHtml += `<path d="${arcPath(cx, cy, r, 180, lowAng)}" stroke="${colLeft}" stroke-width="${sw}" fill="none"/>`;
+  if (highAng > lowAng + 0.1) segsHtml += `<path d="${arcPath(cx, cy, r, lowAng, highAng)}" stroke="#f39c12" stroke-width="${sw}" fill="none"/>`;
+  if (highAng < 359.9) segsHtml += `<path d="${arcPath(cx, cy, r, highAng, 360)}" stroke="${colRight}" stroke-width="${sw}" fill="none"/>`;
+
+  let status, statusClass;
+  const belowLow = opts.value < opts.low;
+  const inRange  = opts.value >= opts.low && opts.value <= opts.high;
+  if (belowLow) {
+    status = opts.inverted ? 'EXCELENTE' : 'DEBAJO';
+    statusClass = opts.inverted ? 'status-green' : 'status-red';
+  } else if (inRange) { status = 'EN RANGO'; statusClass = 'status-yellow'; }
+  else { status = opts.inverted ? 'ALTO' : 'SOBRE'; statusClass = opts.inverted ? 'status-red' : 'status-green'; }
+
+  const rotateAngle = valAng - 270;
+  const needleLen = r - sw/2 - 4;
+  const needleTipY = cy - needleLen;
+
+  let valFormatted;
+  if (opts.unit === '') valFormatted = '$' + fmtNumber(Math.round(opts.value));
+  else if (opts.unit === 'x') valFormatted = opts.value.toFixed(2) + 'x';
+  else valFormatted = opts.value.toFixed(opts.value < 1 ? 2 : (opts.value < 10 ? 2 : 1)) + opts.unit;
+
+  let benchStr;
+  if (opts.unit === '') benchStr = `Bench: $${fmtNumber(opts.low)}-$${fmtNumber(opts.high)}`;
+  else benchStr = `Bench: ${opts.low}-${opts.high}${opts.unit}`;
+
+  let minLbl, maxLbl;
+  if (opts.unit === '') { minLbl = '$' + fmtShort(opts.min); maxLbl = '$' + fmtShort(opts.max); }
+  else { minLbl = opts.min + opts.unit; maxLbl = opts.max + opts.unit; }
+
+  const trendHtml = opts.trend ? `<div class="gauge-trend ${opts.trendGood ? 'good' : 'bad'}">${opts.trendArrow} ${opts.trend}</div>` : '';
+
+  return `
+    <div class="gauge-cell">
+      <div class="gauge-title">${opts.name}</div>
+      <div class="gauge-svg-wrap">
+        <svg class="gauge-svg" viewBox="0 0 ${W} ${H}">
+          <path d="${arcPath(cx, cy, r, 180, 360)}" stroke="#eef2f5" stroke-width="${sw}" fill="none"/>
+          ${segsHtml}
+          <g class="gauge-needle" style="transform: rotate(${rotateAngle}deg);">
+            <polygon points="${cx-2.5},${cy} ${cx},${needleTipY} ${cx+2.5},${cy}" fill="#1a3a4a"/>
+          </g>
+          <circle cx="${cx}" cy="${cy}" r="5" fill="#1a3a4a"/>
+          <text x="${cx - r}" y="${cy + 14}" font-size="9" fill="#6a7c87" text-anchor="middle">${minLbl}</text>
+          <text x="${cx + r}" y="${cy + 14}" font-size="9" fill="#6a7c87" text-anchor="middle">${maxLbl}</text>
+        </svg>
+      </div>
+      <div class="gauge-value-text">${valFormatted}</div>
+      <div class="gauge-bench">${benchStr}</div>
+      <div class="gauge-status ${statusClass}">${status}</div>
+      ${trendHtml}
+    </div>`;
+}
+
+function setBehavior(arrowEl, deltaEl, chgPct, inverted=false, decimals=0) {
+  const isGood = inverted ? chgPct < 0 : chgPct >= 0;
+  arrowEl.textContent = chgPct >= 0 ? '▲' : '▼';
+  arrowEl.className = 'arrow ' + (isGood ? 'good' : 'bad');
+  deltaEl.textContent = (chgPct >= 0 ? '+' : '') + chgPct.toFixed(decimals);
+  deltaEl.className = 'big-number' + (isGood ? '' : ' bad');
+}
+function trendInfo(jun, may, inverted=false) {
+  const pp = jun - may;
+  const isGood = inverted ? pp < 0 : pp > 0;
+  return { trend: (pp >= 0 ? '+' : '') + pp.toFixed(2) + ' pp', trendGood: isGood, trendArrow: pp >= 0 ? '↑' : '↓' };
+}
+
+function renderMedios(tipo) {
+  // El Dashboard de Visibilidad agrupa CONTACTABLE + NUEVO en una sola categoría.
+  // Si se selecciona CONTACTABLE o NUEVO, mostramos el grupo + nota explicativa.
+  const noteEl = document.getElementById('medios-tipo-note');
+  let dataTipo = tipo;
+  if (tipo === 'CONTACTABLE' || tipo === 'NUEVO') {
+    dataTipo = 'CONTACTABLE/NUEVO';
+    noteEl.innerHTML = 'ℹ️ <b>' + tipo + '</b>: fuente Visibilidad agrupa CONTACTABLE+NUEVO · mostrando el grupo';
+  } else {
+    noteEl.innerHTML = '';
+  }
+
+  // Actualizar labels con el mes cargado (MES_NUM = MEDIOS_ULTIMO_MES)
+  const mesLabelActual = MES_NOMBRES[MES_NUM];
+  const setLbl = (id, prefix) => { const el = document.getElementById(id); if (el) el.textContent = prefix + ' ' + mesLabelActual; };
+  setLbl('sms-envios-label', 'Envíos');
+  setLbl('email-envios-label', 'Envíos');
+  setLbl('wa-envios-label', 'Envíos');
+  setLbl('robo-envios-label', 'Cargadas');
+  setLbl('pauta-envios-label', 'Alcance');
+
+  // Helper para calcular el gap GLOBAL vs Conocido+Contactable/Nuevo
+  // (journeys automatizados + eventos = mensajes informativos, no de conversión — inflan el volumen pero no el CTR)
+  const esGlobal = (dataTipo === 'GLOBAL');
+  function gapNote(canal, campo, formato) {
+    if (!esGlobal) return '';
+    const g = DATA[canal].GLOBAL.jun[campo] || 0;
+    const c = (DATA[canal].CONOCIDO && DATA[canal].CONOCIDO.jun[campo]) || 0;
+    const n = (DATA[canal]['CONTACTABLE/NUEVO'] && DATA[canal]['CONTACTABLE/NUEVO'].jun[campo]) || 0;
+    const gap = g - c - n;
+    if (Math.abs(gap) < g * 0.02) return '';  // gap < 2% no vale la pena mostrarlo
+    const gapStr = formato === '$' ? '$' + fmtNumber(gap) : fmtShort(gap);
+    const pctGap = Math.round(gap / g * 100);
+    return '<div style="font-size:9px; color:#8a6020; font-style:italic; margin-top:3px; line-height:1.2;">ⓘ incluye <b>' + gapStr + '</b> (' + pctGap + '%) de journeys automatizados + eventos · <b>solo informativos</b>, sin objetivo de conversión</div>';
+  }
+
+  // SMS
+  const sms = DATA.sms[dataTipo];
+  setBehavior(document.getElementById('sms-arrow'), document.getElementById('sms-delta'), pctChange(sms.jun.ctr, sms.may.ctr));
+  document.getElementById('sms-sub').textContent = `${sms.jun.ctr.toFixed(2)}% (vs ${sms.may.ctr.toFixed(2)}% ${MES_PREV_FULL})`;
+  document.getElementById('sms-envios').textContent = fmtShort(sms.jun.envios);
+  document.getElementById('sms-envios-full').innerHTML = '<b style="color:#1F3864;">' + fmtNumber(sms.jun.clic) + '</b> clics' + gapNote('sms', 'envios');
+  document.getElementById('gauges-sms').innerHTML = makeGauge('sms-ctr', { name:'CTR', value:sms.jun.ctr, ...BENCH.sms_ctr, ...trendInfo(sms.jun.ctr, sms.may.ctr) });
+
+  // EMAIL
+  const em = DATA.email[dataTipo];
+  setBehavior(document.getElementById('email-arrow'), document.getElementById('email-delta'), pctChange(em.jun.ctor, em.may.ctor));
+  document.getElementById('email-sub').textContent = `${em.jun.ctor.toFixed(2)}% (vs ${em.may.ctor.toFixed(2)}% ${MES_PREV_FULL})`;
+  document.getElementById('email-envios').textContent = fmtShort(em.jun.envios);
+  document.getElementById('email-envios-full').innerHTML = '<b style="color:#1F3864;">' + fmtNumber(em.jun.clicks) + '</b> clics' + gapNote('email', 'envios');
+  document.getElementById('gauges-email').innerHTML =
+    makeGauge('email-or', { name:'OR', value:em.jun.or, ...BENCH.email_or, ...trendInfo(em.jun.or, em.may.or) }) +
+    makeGauge('email-ctr', { name:'CTR', value:em.jun.ctr, ...BENCH.email_ctr, ...trendInfo(em.jun.ctr, em.may.ctr) }) +
+    makeGauge('email-ctor', { name:'CTOR', value:em.jun.ctor, ...BENCH.email_ctor, ...trendInfo(em.jun.ctor, em.may.ctor) });
+
+  // WHATSAPP
+  const wa = DATA.whatsapp[dataTipo];
+  setBehavior(document.getElementById('wa-arrow'), document.getElementById('wa-delta'), pctChange(wa.jun.rtr, wa.may.rtr));
+  document.getElementById('wa-sub').textContent = `${wa.jun.rtr.toFixed(2)}% (vs ${wa.may.rtr.toFixed(2)}% ${MES_PREV_FULL})`;
+  document.getElementById('wa-envios').textContent = fmtShort(wa.jun.envios);
+  document.getElementById('wa-envios-full').innerHTML = '<b style="color:#1F3864;">' + fmtNumber(wa.jun.respondidas) + '</b> respondieron' + gapNote('whatsapp', 'envios');
+  document.getElementById('gauges-whatsapp').innerHTML =
+    makeGauge('wa-lec', { name:'Lectura', value:wa.jun.lectura, ...BENCH.wa_lectura, ...trendInfo(wa.jun.lectura, wa.may.lectura) }) +
+    makeGauge('wa-rtr', { name:'RTR', value:wa.jun.rtr, ...BENCH.wa_rtr, ...trendInfo(wa.jun.rtr, wa.may.rtr) });
+
+  // ROBOCALL
+  const ro = DATA.robocall[dataTipo];
+  setBehavior(document.getElementById('robo-arrow'), document.getElementById('robo-delta'), pctChange(ro.jun.cont, ro.may.cont), false, 1);
+  document.getElementById('robo-sub').textContent = `${ro.jun.cont.toFixed(2)}% (vs ${ro.may.cont.toFixed(2)}% ${MES_PREV_FULL})`;
+  document.getElementById('robo-envios').textContent = fmtShort(ro.jun.cargadas);
+  document.getElementById('robo-envios-full').innerHTML = '<b style="color:#1F3864;">' + fmtNumber(ro.jun.contestadas) + '</b> contestaron' + gapNote('robocall', 'cargadas');
+  document.getElementById('gauges-robocall').innerHTML =
+    makeGauge('robo-cont', { name:'Contact.', value:ro.jun.cont, ...BENCH.robo_cont, ...trendInfo(ro.jun.cont, ro.may.cont) }) +
+    makeGauge('robo-comp', { name:'Completa', value:ro.jun.comp, ...BENCH.robo_comp, ...trendInfo(ro.jun.comp, ro.may.comp) });
+
+  // PAUTA
+  const pa = DATA.pauta[dataTipo];
+  setBehavior(document.getElementById('pauta-arrow'), document.getElementById('pauta-delta'), pctChange(pa.jun.cpa, pa.may.cpa), true, 0);
+  document.getElementById('pauta-sub').textContent = `$${fmtNumber(pa.jun.cpa)} (vs $${fmtNumber(pa.may.cpa)} ${MES_PREV_FULL})`;
+  document.getElementById('pauta-envios').textContent = fmtShort(pa.jun.alcance);
+  document.getElementById('pauta-envios-full').innerHTML = `${fmtNumber(pa.jun.resultados)} resultados` + gapNote('pauta', 'alcance');
+  document.getElementById('gauges-pauta').innerHTML =
+    makeGauge('pauta-cpa', { name:'CPA', value:pa.jun.cpa, ...BENCH.pauta_cpa, ...trendInfo(pa.jun.cpa, pa.may.cpa, true) }) +
+    makeGauge('pauta-frec', { name:'Frec', value:pa.jun.frec, ...BENCH.pauta_frec, ...trendInfo(pa.jun.frec, pa.may.frec) });
+}
+
+// ============ CONVERSIÓN DATA ============
+const FUNNEL = {
+  TODO: {
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · CIERRE OFICIAL junio 2026 (screenshot 7 jul 2026)
+    jun: {
+      visor:     { CONOCIDO:10473, CONTACTABLE:4951, NUEVO:7926, TOTAL:23350 },
+      cotiz:     { CONOCIDO:20001, CONTACTABLE:7895, NUEVO:13784, TOTAL:41680 },
+      conv:      { CONOCIDO:60.3, CONTACTABLE:50.1, NUEVO:49.7, TOTAL:54.8 },
+      orden:     { CONOCIDO:12057, CONTACTABLE:3954, NUEVO:6844, TOTAL:22855 },
+      conv_ord:  { CONOCIDO:72.1, CONTACTABLE:53.9, NUEVO:66.6, TOTAL:67.3 },
+      facturado: { CONOCIDO:7322,  CONTACTABLE:1743, NUEVO:3711, TOTAL:12776 }
+    },
+    may: {
+      // mayo se mantiene como referencia MoM hasta que TI active export histórico
+      visor:     { CONOCIDO:11250, CONTACTABLE:5210, NUEVO:8230, TOTAL:24690 },
+      cotiz:     { CONOCIDO:15800, CONTACTABLE:6850, NUEVO:9520, TOTAL:32170 },
+      orden:     { CONOCIDO:9100, CONTACTABLE:2230, NUEVO:4710, TOTAL:16040 },
+      facturado: { CONOCIDO:6890, CONTACTABLE:2360, NUEVO:3080, TOTAL:12330 }
+    },
+    yoy: {
+      // % crecimiento YoY · Tableau Funnel CIERRE junio 2026
+      visor:     { CONOCIDO:-14.3, CONTACTABLE:-4.1,  NUEVO:-21.4, TOTAL:-15.0 },
+      cotiz:     { CONOCIDO:3.0,   CONTACTABLE:13.0,  NUEVO:-10.6, TOTAL:-0.3  },
+      orden:     { CONOCIDO:-1.0,  CONTACTABLE:2.6,   NUEVO:-22.7, TOTAL:-8.1  },
+      facturado: { CONOCIDO:6.1,   CONTACTABLE:28.8,  NUEVO:-12.4, TOTAL:2.3   }
+    }
+  },
+  CONTADO: null,
+  CREDITO: null
+};
+
+// ============ TRÁFICO ECOMMERCE · Solo EMAIL y SMS (Marketing Owned) ============
+// Mismos días transcurridos (1-10) en cada mes
+const TRAFICO = {
+  // FUENTE: CSV manual subido por Andrea · trafico-email-sms-2026.csv (última carga: 8 sep · sep al día 5)
+  // EMAIL = tráfico a jamar.com · SMS = tráfico a micredijamar.com
+  // NOTA: Ya NO se consulta Tableau para estas métricas (fuente errada). Andrea sube CSV periódicamente.
+  EMAIL: [
+    { mes:'ene', ses:29087, usr:19291 },
+    { mes:'feb', ses:16110, usr:11015 },
+    { mes:'mar', ses:17065, usr:11519 },
+    { mes:'abr', ses:17229, usr:11855 },
+    { mes:'may', ses:16718, usr:11759 },
+    { mes:'jun', ses:6739,  usr:4703 },
+    { mes:'jul', ses:10077, usr:7041 },
+    { mes:'ago', ses:17711, usr:12660 },
+    { mes:'sep', ses:2956,  usr:2301 }
+  ],
+  SMS: [
+    { mes:'ene', ses:4835, usr:3434 },
+    { mes:'feb', ses:4208, usr:3076 },
+    { mes:'mar', ses:4617, usr:3357 },
+    { mes:'abr', ses:5974, usr:4274 },
+    { mes:'may', ses:5385, usr:3968 },
+    { mes:'jun', ses:4792, usr:3565 },
+    { mes:'jul', ses:3975, usr:2938 },
+    { mes:'ago', ses:10009,usr:6857 },
+    { mes:'sep', ses:960,  usr:803 }
+  ]
+};
+
+// ============ CNP (Visibilidad Relacional · hoja CNP Colombia) ============
+// Junio 2026 — todos los valores en $ COP
+const CNP_ALL_MONTHS = {
+  // FUENTE: Tableau "Seguimiento Mes Conversaciones" + "Seguimiento Mes Facturacion" · junio 2026
+  // Tipos por base de datos: cliente conocido, cliente contactable, otros medios
+  // Valores en M (millones COP) para facturación. Datos REALES — no estimados.
+  6: {
+    // FUENTE: Tableau · CIERRE OFICIAL junio 2026
+    // Screenshots "Seguimiento Mes Conversaciones" + "Seguimiento Mes Facturación" compartidos por Marketing
+    global: {
+      meta_leads: 10377,
+      leads_real: 9224,           // era 8756 · corte parcial reemplazado
+      pct_cump_leads: 88.9,
+      pct_cump_a_fecha: 88.9,
+      meta_corte_leads: 10377,
+      eficiencia: 4.5,
+      meta_fact: 1516,            // $1,516 M
+      fact_real: 1385,            // $1,385 M · era 1288 corte parcial
+      pct_cump_fact: 91.4,
+      pct_cump_fact_a_fecha: 91.4,
+      meta_corte_fact: 1516,
+      crec_fact: 39.0
+    },
+    CONOCIDO: {
+      meta_leads:6151, leads_real:2718, pct_cump_leads:44.2, meta_corte_leads:6151, eficiencia:5.8,
+      meta_fact:942,   fact_real:570,   pct_cump_fact:60.6, pct_cump_fact_a_fecha:60.6, crec_fact:9.2
+    },
+    CONTACTABLE: {
+      meta_leads:3912, leads_real:6128, pct_cump_leads:156.6, meta_corte_leads:3912, eficiencia:3.7,
+      meta_fact:493,   fact_real:739,   pct_cump_fact:149.7, pct_cump_fact_a_fecha:149.7, crec_fact:61.3
+    },
+    OTROS: {
+      meta_leads:314,  leads_real:378,  pct_cump_leads:120.4, meta_corte_leads:314, eficiencia:7.4,
+      meta_fact:81,    fact_real:76,    pct_cump_fact:94.5,   pct_cump_fact_a_fecha:94.5, crec_fact:287.5
+    }
+  },
+  9: {
+    // FUENTE: Tableau Puntos de Contacto NP · Tracking Leads · corte 14/09/2026 · Actualización 15 sep
+    // SEPTIEMBRE parcial al día 14 · Avance mes = 46.7%
+    global: {
+      meta_leads: 13782, leads_real: 2925, pct_cump_leads: 21.2, pct_cump_a_fecha: 66.2,
+      meta_corte_leads: 6432, eficiencia: 0.5,
+      meta_fact: 1741, fact_real: 501, pct_cump_fact: 28.8, pct_cump_fact_a_fecha: 61.6,
+      meta_corte_fact: 812, crec_fact: -6.7
+    },
+    CONOCIDO: {
+      meta_leads:8169, leads_real:568, pct_cump_leads:7.0, meta_corte_leads:3812, eficiencia:0.2,
+      meta_fact:1082, fact_real:130, pct_cump_fact:12.0, pct_cump_fact_a_fecha:25.7, crec_fact:-46.8
+    },
+    CONTACTABLE: {
+      meta_leads:5196, leads_real:1974, pct_cump_leads:38.0, meta_corte_leads:2425, eficiencia:0.8,
+      meta_fact:567, fact_real:264, pct_cump_fact:46.5, pct_cump_fact_a_fecha:81.4, crec_fact:-13.8
+    },
+    OTROS: {
+      meta_leads:417, leads_real:252, pct_cump_leads:60.4, meta_corte_leads:195, eficiencia:1.5,
+      meta_fact:93, fact_real:43, pct_cump_fact:46.2, pct_cump_fact_a_fecha:133.3, crec_fact:318.5
+    }
+  },
+  8: {
+    // FUENTE: Tableau Puntos de Contacto NP · Tracking Leads · corte 09/08/2026 · última foto pre-cierre
+    // AGOSTO parcial al día 14 · Avance mes = 29.0%
+    global: {
+      meta_leads: 13583, leads_real: 5064, pct_cump_leads: 37.3, pct_cump_a_fecha: 128.6,
+      meta_corte_leads: 3943, eficiencia: 0.7,
+      meta_fact: 1376, fact_real: 279, pct_cump_fact: 20.3, pct_cump_fact_a_fecha: 70.0,
+      meta_corte_fact: 400, crec_fact: -15.4
+    },
+    CONOCIDO: {
+      meta_leads:8051, leads_real:1913, pct_cump_leads:23.8, meta_corte_leads:2337, eficiencia:0.7,
+      meta_fact:1194, fact_real:74, pct_cump_fact:6.2, pct_cump_fact_a_fecha:21.4, crec_fact:-47.1
+    },
+    CONTACTABLE: {
+      meta_leads:5121, leads_real:1850, pct_cump_leads:36.1, meta_corte_leads:1487, eficiencia:1.2,
+      meta_fact:626, fact_real:172, pct_cump_fact:27.5, pct_cump_fact_a_fecha:94.8, crec_fact:8.6
+    },
+    OTROS: {
+      meta_leads:411, leads_real:119, pct_cump_leads:29.0, meta_corte_leads:119, eficiencia:0.8,
+      meta_fact:102, fact_real:24, pct_cump_fact:23.6, pct_cump_fact_a_fecha:81.4, crec_fact:732.6
+    }
+  },
+  7: {
+    // FUENTE: Tableau Puntos de Contacto No Presencial · Tracking Leads · corte Fecha 23/07/2026 · Actualización 24 jul
+    // Global = Total Bases de Datos (relacional cliente conocido + contactable + otros medios)
+    global: {
+      meta_leads: 7426, leads_real: 6109, pct_cump_leads: 82.3, pct_cump_a_fecha: 110.9,
+      meta_corte_leads: 5510, eficiencia: 3.4,
+      meta_fact: 1094, fact_real: 817, pct_cump_fact: 74.7, pct_cump_fact_a_fecha: 100.7,
+      meta_corte_fact: 812, crec_fact: 28.6
+    },
+    CONOCIDO: {
+      meta_leads:7065, leads_real:1880, pct_cump_leads:26.6, meta_corte_leads:5242, eficiencia:2.9,
+      meta_fact:1007, fact_real:124, pct_cump_fact:12.3, pct_cump_fact_a_fecha:19.0, crec_fact:49.3
+    },
+    CONTACTABLE: {
+      meta_leads:361, leads_real:3897, pct_cump_leads:1079.5, meta_corte_leads:268, eficiencia:3.7,
+      meta_fact:1007, fact_real:539, pct_cump_fact:53.5, pct_cump_fact_a_fecha:72.1, crec_fact:31.1
+    },
+    OTROS: {
+      meta_leads:361, leads_real:332, pct_cump_leads:92.0, meta_corte_leads:268, eficiencia:3.6,
+      meta_fact:86, fact_real:40, pct_cump_fact:46.5, pct_cump_fact_a_fecha:62.7, crec_fact:106.4
+    }
+  },
+  1: null, 2: null, 3: null, 4: null, 5: null
+};
+
+
+// ============ FUNNEL por Tipo Venta · CONTADO ============
+const FUNNEL_CONTADO_ALL_MONTHS = {
+  9: {
+    // FUENTE: Tableau · view Facturación · corte 14/09/2026 · Actualización 15 sep
+    // CONTADO/Total = 33.7% (5.062/15.014 venta oferta)
+    visor:     null,
+    cotiz:     { CONOCIDO:3427, CONTACTABLE:1493, NUEVO:1758, TOTAL:6678 },
+    orden:     { CONOCIDO:2000, CONTACTABLE:748,  NUEVO:883,  TOTAL:3631 },
+    facturado: { CONOCIDO:1891, CONTACTABLE:768,  NUEVO:706,  TOTAL:3365 },
+    conv:      { CONOCIDO:58.3, CONTACTABLE:50.1, NUEVO:50.2, TOTAL:54.4 },
+    conv_ord:  { CONOCIDO:94.6, CONTACTABLE:102.7,NUEVO:79.9, TOTAL:92.7 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:4.6,  CONTACTABLE:13.7, NUEVO:-20.7, TOTAL:-1.9 },
+    crec_orden:{ CONOCIDO:7.6,  CONTACTABLE:9.5,  NUEVO:-21.2, TOTAL:-0.9 },
+    crec_fact: { CONOCIDO:34.9, CONTACTABLE:62.4, NUEVO:10.9,  TOTAL:31.7 },
+    aprobacion:{ CONOCIDO:1489, CONTACTABLE:416, NUEVO:632, TOTAL:2537 },
+    venta_mismo_mes_m: { CONOCIDO:1706, CONTACTABLE:490, NUEVO:713, TOTAL:2909 },
+    devoluciones_m:    { CONOCIDO:-10,  CONTACTABLE:0,   NUEVO:-169,TOTAL:-179 },
+    venta_total_m:     { CONOCIDO:2509, CONTACTABLE:1513,NUEVO:1041,TOTAL:5063 },
+    ticket_m:  { CONOCIDO:1.33, CONTACTABLE:1.97, NUEVO:1.47, TOTAL:1.50 }
+  },
+  8: {
+    // FUENTE: Tableau · view Facturación · corte 09/08/2026 · última foto pre-cierre agosto
+    // AGOSTO congelado
+    visor:     null,
+    cotiz:     { CONOCIDO:2357, CONTACTABLE:1241, NUEVO:1671, TOTAL:5269 },
+    orden:     { CONOCIDO:1380, CONTACTABLE:518,  NUEVO:734,  TOTAL:2632 },
+    facturado: { CONOCIDO:1016, CONTACTABLE:521,  NUEVO:351,  TOTAL:1888 },
+    conv:      { CONOCIDO:58.5, CONTACTABLE:41.7, NUEVO:43.9, TOTAL:49.9 },
+    conv_ord:  { CONOCIDO:73.6, CONTACTABLE:100.6,NUEVO:47.8, TOTAL:71.7 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:8.1,  CONTACTABLE:41.0, NUEVO:6.7,   TOTAL:13.9 },
+    crec_orden:{ CONOCIDO:2.0,  CONTACTABLE:1.6,  NUEVO:-13.9, TOTAL:-3.1 },
+    crec_fact: { CONOCIDO:5.4,  CONTACTABLE:40.3, NUEVO:-18.8, TOTAL:2.4 },
+    aprobacion:{ CONOCIDO:998,  CONTACTABLE:275, NUEVO:458, TOTAL:1731 },
+    venta_mismo_mes_m: { CONOCIDO:881,  CONTACTABLE:210, NUEVO:294, TOTAL:1385 },
+    devoluciones_m:    { CONOCIDO:-14,  CONTACTABLE:0,   NUEVO:-88, TOTAL:-102 },
+    venta_total_m:     { CONOCIDO:1281, CONTACTABLE:997, NUEVO:432, TOTAL:2711 },
+    ticket_m:  { CONOCIDO:1.26, CONTACTABLE:1.91, NUEVO:1.23, TOTAL:1.44 }
+  },
+  7: {
+    // FUENTE: Tableau · view Facturación · corte 23/07/2026 · Actualización 24 jul (Nro Facturas + Venta Oferta REALES)
+    // Cotiz/Orden proporcionales al total funnel (proporción CONTADO=36.0% del total facturación)
+    visor:     null,
+    cotiz:     { CONOCIDO:6014, CONTACTABLE:2504, NUEVO:3995, TOTAL:12512 },
+    orden:     { CONOCIDO:3641, CONTACTABLE:1223, NUEVO:2114, TOTAL:6978 },
+    facturado: { CONOCIDO:3188, CONTACTABLE:1179, NUEVO:1661, TOTAL:6028 },
+    conv:      { CONOCIDO:60.5, CONTACTABLE:48.8, NUEVO:52.9, TOTAL:55.8 },
+    conv_ord:  { CONOCIDO:87.6, CONTACTABLE:96.4, NUEVO:78.6, TOTAL:86.4 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:6.6,  CONTACTABLE:6.2,  NUEVO:-9.0,  TOTAL:1.0 },
+    crec_orden:{ CONOCIDO:3.5,  CONTACTABLE:-6.6, NUEVO:-17.0, TOTAL:-5.4 },
+    crec_fact: { CONOCIDO:8.5,  CONTACTABLE:22.4, NUEVO:-5.2,  TOTAL:6.1 },
+    aprobacion:{ CONOCIDO:2603, CONTACTABLE:642,  NUEVO:1382, TOTAL:4627 },
+    venta_mismo_mes_m: { CONOCIDO:3499, CONTACTABLE:975,  NUEVO:2126, TOTAL:6600 },
+    devoluciones_m:    { CONOCIDO:0,    CONTACTABLE:-58,  NUEVO:-247, TOTAL:-305 },
+    venta_total_m:     { CONOCIDO:4331, CONTACTABLE:2264, NUEVO:3060, TOTAL:9655 },
+    ticket_m:  { CONOCIDO:1.36, CONTACTABLE:1.92, NUEVO:1.84, TOTAL:1.60 }
+  }
+};
+
+// ============ FUNNEL por Tipo Venta · CRÉDITO ============
+const FUNNEL_CREDITO_ALL_MONTHS = {
+  9: {
+    // FUENTE: Tableau · view Facturación · corte 14/09/2026 · Actualización 15 sep
+    // CRÉDITO/Total = 66.3% (9.969/15.014 venta oferta)
+    visor:     null,
+    cotiz:     { CONOCIDO:6741, CONTACTABLE:2936, NUEVO:3455, TOTAL:13132 },
+    orden:     { CONOCIDO:3932, CONTACTABLE:1472, NUEVO:1735, TOTAL:7139 },
+    facturado: { CONOCIDO:2117, CONTACTABLE:847,  NUEVO:423,  TOTAL:3387 },
+    conv:      { CONOCIDO:58.3, CONTACTABLE:50.1, NUEVO:50.2, TOTAL:54.4 },
+    conv_ord:  { CONOCIDO:53.8, CONTACTABLE:57.5, NUEVO:24.4, TOTAL:47.4 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:4.6,  CONTACTABLE:13.7, NUEVO:-20.7, TOTAL:-1.9 },
+    crec_orden:{ CONOCIDO:7.6,  CONTACTABLE:9.5,  NUEVO:-21.2, TOTAL:-0.9 },
+    crec_fact: { CONOCIDO:34.9, CONTACTABLE:62.4, NUEVO:10.9,  TOTAL:31.7 },
+    aprobacion:{ CONOCIDO:2929, CONTACTABLE:818, NUEVO:1243, TOTAL:4990 },
+    venta_mismo_mes_m: { CONOCIDO:3952, CONTACTABLE:1144,NUEVO:1658,TOTAL:6754 },
+    devoluciones_m:    { CONOCIDO:-23,  CONTACTABLE:0,   NUEVO:-392,TOTAL:-415 },
+    venta_total_m:     { CONOCIDO:5961, CONTACTABLE:2677,NUEVO:1332,TOTAL:9970 },
+    ticket_m:  { CONOCIDO:2.82, CONTACTABLE:3.16, NUEVO:3.15, TOTAL:2.94 }
+  },
+  8: {
+    // FUENTE: Tableau · view Facturación · corte 09/08/2026 · última foto pre-cierre agosto
+    // AGOSTO congelado
+    visor:     null,
+    cotiz:     { CONOCIDO:5474, CONTACTABLE:2881, NUEVO:3882, TOTAL:12237 },
+    orden:     { CONOCIDO:3204, CONTACTABLE:1202, NUEVO:1706, TOTAL:6112 },
+    facturado: { CONOCIDO:1340, CONTACTABLE:550,  NUEVO:190,  TOTAL:2080 },
+    conv:      { CONOCIDO:58.5, CONTACTABLE:41.7, NUEVO:43.9, TOTAL:49.9 },
+    conv_ord:  { CONOCIDO:41.8, CONTACTABLE:45.8, NUEVO:11.1, TOTAL:34.0 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:8.1,  CONTACTABLE:41.0, NUEVO:6.7,   TOTAL:13.9 },
+    crec_orden:{ CONOCIDO:2.0,  CONTACTABLE:1.6,  NUEVO:-13.9, TOTAL:-3.1 },
+    crec_fact: { CONOCIDO:5.4,  CONTACTABLE:40.3, NUEVO:-18.8, TOTAL:2.4 },
+    aprobacion:{ CONOCIDO:2316, CONTACTABLE:639, NUEVO:1064, TOTAL:4019 },
+    venta_mismo_mes_m: { CONOCIDO:2048, CONTACTABLE:487,  NUEVO:685,  TOTAL:3220 },
+    devoluciones_m:    { CONOCIDO:-32,  CONTACTABLE:0,    NUEVO:-205, TOTAL:-237 },
+    venta_total_m:     { CONOCIDO:4083, CONTACTABLE:1628, NUEVO:580,  TOTAL:6292 },
+    ticket_m:  { CONOCIDO:3.05, CONTACTABLE:2.96, NUEVO:3.05, TOTAL:3.02 }
+  },
+  7: {
+    // FUENTE: Tableau · view Facturación · corte 23/07/2026 · Actualización 24 jul
+    // Cotiz/Orden proporcionales al total funnel (proporción CRÉDITO=64.0% del total facturación)
+    visor:     null,
+    cotiz:     { CONOCIDO:10691, CONTACTABLE:4451, NUEVO:7101, TOTAL:22244 },
+    orden:     { CONOCIDO:6472,  CONTACTABLE:2174, NUEVO:3758, TOTAL:12404 },
+    facturado: { CONOCIDO:3561,  CONTACTABLE:1230, NUEVO:1132, TOTAL:5923 },
+    conv:      { CONOCIDO:60.5, CONTACTABLE:48.8, NUEVO:52.9, TOTAL:55.8 },
+    conv_ord:  { CONOCIDO:55.0, CONTACTABLE:56.6, NUEVO:30.1, TOTAL:47.8 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:6.6,  CONTACTABLE:6.2,  NUEVO:-9.0,  TOTAL:1.0 },
+    crec_orden:{ CONOCIDO:3.5,  CONTACTABLE:-6.6, NUEVO:-17.0, TOTAL:-5.4 },
+    crec_fact: { CONOCIDO:10.0, CONTACTABLE:21.1, NUEVO:-9.4,  TOTAL:5.0 },
+    aprobacion:{ CONOCIDO:4627, CONTACTABLE:1142, NUEVO:2456, TOTAL:8225 },
+    venta_mismo_mes_m: { CONOCIDO:7680, CONTACTABLE:1992, NUEVO:4371, TOTAL:14043 },
+    devoluciones_m:    { CONOCIDO:0,    CONTACTABLE:-106, NUEVO:-455, TOTAL:-561 },
+    venta_total_m:     { CONOCIDO:9920, CONTACTABLE:3785, NUEVO:3451, TOTAL:17156 },
+    ticket_m:  { CONOCIDO:2.79, CONTACTABLE:3.08, NUEVO:3.05, TOTAL:2.90 }
+  }
+};
+
+let CNP = { jun: { global: CNP_ALL_MONTHS[6].global, por_tipo: {
+  CONOCIDO: CNP_ALL_MONTHS[6].CONOCIDO,
+  NUEVO: CNP_ALL_MONTHS[6].CONTACTABLE,   // alias display: NUEVO->CONTACTABLE real
+  OTROS: CNP_ALL_MONTHS[6].OTROS
+} } };
+
+function rebuildCnpFromMonth() {
+  const m = CNP_ALL_MONTHS[CURRENT_MONTH];
+  if (m) {
+    CNP.jun.global = m.global;
+    CNP.jun.por_tipo.CONOCIDO = m.CONOCIDO;
+    CNP.jun.por_tipo.NUEVO = m.CONTACTABLE;
+    CNP.jun.por_tipo.OTROS = m.OTROS;
+  }
+}
+
+const FUNNEL_ALL_MONTHS = {
+  // Solo junio = datos REALES desde Tableau MCP
+  // Otros meses = pendientes hasta que TI active export histórico
+  1: null, 2: null, 3: null, 4: null, 5: null,
+  9: {
+    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte Fecha 14/09/2026 · API directa · Actualización 15 sep
+    // SEPTIEMBRE — mes en curso, datos parciales al día 14
+    visor:     { CONOCIDO:5110, CONTACTABLE:2679, NUEVO:2675, TOTAL:10464 },
+    cotiz:     { CONOCIDO:10168,CONTACTABLE:4429, NUEVO:5213, TOTAL:19810 },
+    orden:     { CONOCIDO:5932, CONTACTABLE:2220, NUEVO:2618, TOTAL:10770 },
+    facturado: { CONOCIDO:2996, CONTACTABLE:752,  NUEVO:1132, TOTAL:4880 },
+    conv:      { CONOCIDO:58.3, CONTACTABLE:50.1, NUEVO:50.2, TOTAL:54.4 },
+    conv_ord:  { CONOCIDO:74.5, CONTACTABLE:55.8, NUEVO:71.9, TOTAL:70.0 },
+    crec_visor:{ CONOCIDO:-10.4,CONTACTABLE:-8.3, NUEVO:-43.5, TOTAL:-21.7 },
+    crec_cotiz:{ CONOCIDO:4.6,  CONTACTABLE:13.7, NUEVO:-20.7, TOTAL:-1.9 },
+    crec_orden:{ CONOCIDO:7.6,  CONTACTABLE:9.5,  NUEVO:-21.2, TOTAL:-0.9 },
+    crec_fact: { CONOCIDO:34.9, CONTACTABLE:62.4, NUEVO:10.9,  TOTAL:31.7 },
+    crec_venta_total:{ CONOCIDO:14.5, CONTACTABLE:-1.6, NUEVO:15.2, TOTAL:9.6 },
+    aprobacion:{ CONOCIDO:4418, CONTACTABLE:1234, NUEVO:1875, TOTAL:7527 },
+    completacion:{ CONOCIDO:4419, CONTACTABLE:1238, NUEVO:1883, TOTAL:7540 },
+    confirmacion_citas:{ CONOCIDO:4279, CONTACTABLE:1170, NUEVO:1798, TOTAL:7247 },
+    venta_mismo_mes_m: { CONOCIDO:5658, CONTACTABLE:1634, NUEVO:2371, TOTAL:9663 },
+    devoluciones_m:    { CONOCIDO:-33,  CONTACTABLE:0,    NUEVO:-561, TOTAL:-593 },
+    venta_total_m:     { CONOCIDO:8460, CONTACTABLE:4183, NUEVO:2371, TOTAL:15014 },
+    ticket_m:  { CONOCIDO:1.89, CONTACTABLE:2.17, NUEVO:2.09, TOTAL:1.98 }
+  },
+  8: {
+    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte Fecha 09/08/2026 · última foto pre-cierre agosto
+    // AGOSTO congelado — actualizar cuando esté cierre oficial disponible
+    visor:     { CONOCIDO:4863, CONTACTABLE:3613, NUEVO:3960, TOTAL:12436 },
+    cotiz:     { CONOCIDO:7831, CONTACTABLE:4122, NUEVO:5553, TOTAL:17506 },
+    orden:     { CONOCIDO:4584, CONTACTABLE:1720, NUEVO:2440, TOTAL:8744 },
+    facturado: { CONOCIDO:1486, CONTACTABLE:355,  NUEVO:531,  TOTAL:2372 },
+    conv:      { CONOCIDO:58.5, CONTACTABLE:41.7, NUEVO:43.9, TOTAL:49.9 },
+    conv_ord:  { CONOCIDO:72.5, CONTACTABLE:53.1, NUEVO:62.5, TOTAL:65.9 },
+    crec_visor:{ CONOCIDO:5.4,  CONTACTABLE:59.8, NUEVO:6.5,   TOTAL:17.4 },
+    crec_cotiz:{ CONOCIDO:8.1,  CONTACTABLE:41.0, NUEVO:6.7,   TOTAL:13.9 },
+    crec_orden:{ CONOCIDO:2.0,  CONTACTABLE:1.6,  NUEVO:-13.9, TOTAL:-3.1 },
+    crec_fact: { CONOCIDO:5.4,  CONTACTABLE:40.3, NUEVO:-18.8, TOTAL:2.4 },
+    crec_venta_total:{ CONOCIDO:12.3, CONTACTABLE:-7.0, NUEVO:-19.7, TOTAL:1.6 },
+    aprobacion:{ CONOCIDO:3314, CONTACTABLE:914, NUEVO:1522, TOTAL:5750 },
+    completacion:{ CONOCIDO:3322, CONTACTABLE:914, NUEVO:1525, TOTAL:5761 },
+    confirmacion_citas:{ CONOCIDO:3049, CONTACTABLE:844, NUEVO:1400, TOTAL:5293 },
+    venta_mismo_mes_m: { CONOCIDO:2929, CONTACTABLE:697,  NUEVO:979,  TOTAL:4605 },
+    devoluciones_m:    { CONOCIDO:-46,  CONTACTABLE:0,    NUEVO:-293, TOTAL:-339 },
+    venta_total_m:     { CONOCIDO:5360, CONTACTABLE:2623, NUEVO:1012, TOTAL:8995 },
+    ticket_m:  { CONOCIDO:1.97, CONTACTABLE:1.96, NUEVO:1.84, TOTAL:1.94 }
+  },
+  7: {
+    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte 22/07/2026 (última foto conocida) · CIERRE JULIO
+    visor:     { CONOCIDO:9018, CONTACTABLE:4119, NUEVO:6123, TOTAL:19260 },
+    cotiz:     { CONOCIDO:16705, CONTACTABLE:6955, NUEVO:11096, TOTAL:34756 },
+    orden:     { CONOCIDO:10113, CONTACTABLE:3397, NUEVO:5872, TOTAL:19382 },
+    facturado: { CONOCIDO:5523, CONTACTABLE:1325, NUEVO:2780, TOTAL:9628 },
+    conv:      { CONOCIDO:60.5, CONTACTABLE:48.8, NUEVO:52.9, TOTAL:55.8 },
+    conv_ord:  { CONOCIDO:71.5, CONTACTABLE:52.7, NUEVO:65.5, TOTAL:66.4 },
+    crec_visor:{ CONOCIDO:-6.8, CONTACTABLE:-13.0, NUEVO:-27.6, TOTAL:-15.8 },
+    crec_cotiz:{ CONOCIDO:6.6,  CONTACTABLE:6.2,  NUEVO:-9.0,  TOTAL:1.0 },
+    crec_orden:{ CONOCIDO:3.5,  CONTACTABLE:-6.6, NUEVO:-17.0, TOTAL:-5.4 },
+    crec_fact: { CONOCIDO:9.3,  CONTACTABLE:21.7, NUEVO:-7.3, TOTAL:5.4 },
+    crec_venta_total:{ CONOCIDO:5.7, CONTACTABLE:-1.3, NUEVO:-3.2, TOTAL:1.8 },
+    aprobacion:{ CONOCIDO:7230, CONTACTABLE:1784, NUEVO:3838, TOTAL:12852 },
+    completacion:{ CONOCIDO:7235, CONTACTABLE:1790, NUEVO:3847, TOTAL:12872 },
+    confirmacion_citas:{ CONOCIDO:7082, CONTACTABLE:1776, NUEVO:3756, TOTAL:12614 },
+    venta_mismo_mes_m: { CONOCIDO:11179, CONTACTABLE:2967, NUEVO:6497, TOTAL:20643 },
+    devoluciones_m:    { CONOCIDO:0,    CONTACTABLE:-164, NUEVO:-702, TOTAL:-866 },
+    venta_total_m:     { CONOCIDO:14235, CONTACTABLE:6042, NUEVO:6506, TOTAL:26783 },
+    ticket_m:  { CONOCIDO:2.02, CONTACTABLE:2.24, NUEVO:2.34, TOTAL:2.14 }
+  },
+  6: {
+    // FUENTE: Tableau Funnel · CIERRE OFICIAL junio 2026 · screenshot 7 jul 2026
+    visor:     { CONOCIDO:10473, CONTACTABLE:4951, NUEVO:7926, TOTAL:23350 },
+    cotiz:     { CONOCIDO:20001, CONTACTABLE:7895, NUEVO:13784, TOTAL:41680 },
+    orden:     { CONOCIDO:12057, CONTACTABLE:3954, NUEVO:6844, TOTAL:22855 },
+    facturado: { CONOCIDO:7322,  CONTACTABLE:1743, NUEVO:3711, TOTAL:12776 },
+    // % conversión etapa siguiente (Tableau)
+    conv:      { CONOCIDO:60.3, CONTACTABLE:50.1, NUEVO:49.7, TOTAL:54.8 },
+    conv_ord:  { CONOCIDO:72.1, CONTACTABLE:53.9, NUEVO:66.6, TOTAL:67.3 },
+    // % crecimiento YoY (Tableau cierre)
+    crec_visor:{ CONOCIDO:-14.3, CONTACTABLE:-4.1, NUEVO:-21.4, TOTAL:-15.0 },
+    crec_cotiz:{ CONOCIDO:3.0,   CONTACTABLE:13.0, NUEVO:-10.6, TOTAL:-0.3 },
+    crec_orden:{ CONOCIDO:-1.0,  CONTACTABLE:2.6,  NUEVO:-22.7, TOTAL:-8.1 },
+    crec_fact: { CONOCIDO:6.1,   CONTACTABLE:28.8, NUEVO:-12.4, TOTAL:2.3 },
+    // Métricas adicionales cierre junio
+    aprobacion:{ CONOCIDO:8686,  CONTACTABLE:2123, NUEVO:4543, TOTAL:15352 },
+    completacion:{ CONOCIDO:8699, CONTACTABLE:2130, NUEVO:4557, TOTAL:15386 },
+    confirmacion_citas:{ CONOCIDO:8576, CONTACTABLE:2080, NUEVO:4484, TOTAL:15140 },
+    venta_mismo_mes_m: { CONOCIDO:15144, CONTACTABLE:3828, NUEVO:8961, TOTAL:27932 },
+    devoluciones_m:    { CONOCIDO:-241,  CONTACTABLE:-832, NUEVO:-21,  TOTAL:-1095 },
+    venta_total_m:     { CONOCIDO:17835, CONTACTABLE:6900, NUEVO:8920, TOTAL:33655 },
+    ticket_m:  { CONOCIDO:2.07, CONTACTABLE:2.20, NUEVO:2.41, TOTAL:2.19 }
+  }
+};
+
+function rebuildFunnelFromMonth() {
+  const cur = FUNNEL_ALL_MONTHS[CURRENT_MONTH];
+  const junRef = FUNNEL_ALL_MONTHS[6];
+  const keys = ['visor','cotiz','orden','facturado','conv','conv_ord','crec_visor','crec_cotiz','crec_orden','crec_fact','crec_venta_total','aprobacion','completacion','confirmacion_citas','venta_mismo_mes_m','devoluciones_m','venta_total_m','ticket_m'];
+
+  function mergeWith(src, fallback) {
+    if (!src) return fallback || null;
+    const m = {};
+    keys.forEach(k => { m[k] = (src[k] != null) ? src[k] : (fallback ? fallback[k] : null); });
+    // yoy.facturado usa VENTA TOTAL (crec_venta_total) porque la card FACTURACIÓN muestra $, no OPs
+    m.yoy = { visor: m.crec_visor, cotiz: m.crec_cotiz, orden: m.crec_orden, facturado: m.crec_venta_total || m.crec_fact };
+    return m;
+  }
+  
+  // TODO
+  const mergedTodo = mergeWith(cur, junRef);
+  if (mergedTodo) {
+    FUNNEL.TODO.jun = mergedTodo;
+    FUNNEL.TODO.may = FUNNEL_ALL_MONTHS[CURRENT_PREV_MONTH] || junRef || cur;
+    FUNNEL.TODO.yoy = mergedTodo.yoy;  // FIX: sincronizar YoY con el mes seleccionado (antes quedaba hardcoded a junio)
+    FUNNEL_DATA_AVAILABLE = true;
+  } else {
+    if (junRef) FUNNEL.TODO.jun = junRef;
+    FUNNEL_DATA_AVAILABLE = false;
+  }
+  
+  // CONTADO
+  const contadoCur = FUNNEL_CONTADO_ALL_MONTHS ? FUNNEL_CONTADO_ALL_MONTHS[CURRENT_MONTH] : null;
+  if (contadoCur) {
+    const mergedC = mergeWith(contadoCur, mergedTodo);
+    FUNNEL.CONTADO = { jun: mergedC, may: FUNNEL_CONTADO_ALL_MONTHS[CURRENT_PREV_MONTH] || mergedC, yoy: mergedC.yoy };
+  } else if (mergedTodo) {
+    // Fallback: si no hay CONTADO, dejar null (mostrará "Pendiente")
+    FUNNEL.CONTADO = null;
+  }
+  
+  // CREDITO
+  const creditoCur = FUNNEL_CREDITO_ALL_MONTHS ? FUNNEL_CREDITO_ALL_MONTHS[CURRENT_MONTH] : null;
+  if (creditoCur) {
+    const mergedR = mergeWith(creditoCur, mergedTodo);
+    FUNNEL.CREDITO = { jun: mergedR, may: FUNNEL_CREDITO_ALL_MONTHS[CURRENT_PREV_MONTH] || mergedR, yoy: mergedR.yoy };
+  } else if (mergedTodo) {
+    FUNNEL.CREDITO = null;
+  }
+  
+  // Sincronizar FACT (venta total del mes)
+  if (typeof FACT !== 'undefined' && cur && cur.venta_total_m) {
+    const vtm = cur.venta_total_m;
+    if (FACT.jun && FACT.jun.total) {
+      Object.keys(vtm).forEach(t => {
+        if (FACT.jun.total[t]) FACT.jun.total[t].venta = vtm[t] * 1e6;
+      });
+    }
+  }
+}
+let FUNNEL_DATA_AVAILABLE = true;
+
+const VENTAS_ALL_MONTHS = {
+  // Solo junio = datos REALES desde Tableau MCP
+  1: null, 2: null, 3: null, 4: null, 5: null,
+  9: {
+    // FUENTE: Tableau Tablero de Ventas NonBank · SEPTIEMBRE al 14 · API directa 2026-09-15 (Fecha=14/09/2026)
+    colombia: { op_venta:20654859179, crec_op:3.8,  presupuesto:36140900739, venta:15028824715, cumpl:41.6, crec_venta:9.7,  cumpl_proy:100.4 },
+    contado:  { op_venta:5972568590,  crec_op:13.1, presupuesto:11044491245, venta:5059206320,  cumpl:45.8, crec_venta:19.3, cumpl_proy:101.4, participacion:33.7 },
+    credito:  { op_venta:14683795376, crec_op:0.5,  presupuesto:25098628031, venta:9969618395,  cumpl:39.7, crec_venta:5.5,  cumpl_proy:99.9,  participacion:66.3 }
+  },
+  8: {
+    // FUENTE: Tableau Tablero de Ventas NonBank · AGOSTO al 9 · última foto pre-cierre
+    colombia: { op_venta:18394377146, crec_op:11.4, presupuesto:38387436197, venta:8995268642,  cumpl:23.4, crec_venta:1.6,  cumpl_proy:128.9 },
+    contado:  { op_venta:4244516193,  crec_op:27.3, presupuesto:10888784561, venta:2708874126,  cumpl:24.9, crec_venta:5.3,  cumpl_proy:110.6, participacion:30.1 },
+    credito:  { op_venta:14150789191, crec_op:7.4,  presupuesto:27500686620, venta:6286739009,  cumpl:22.9, crec_venta:0.0,  cumpl_proy:136.1, participacion:69.9 }
+  },
+  7: {
+    // FUENTE: Tableau Tablero de Ventas NonBank · JULIO al 23 · API directa 2026-07-24 (Fecha=23/07/2026)
+    colombia: { op_venta:34548613330, crec_op:3.9,  presupuesto:39881971586, venta:26794444795, cumpl:67.2, crec_venta:1.8,  cumpl_proy:94.3 },
+    contado:  { op_venta:10543321244, crec_op:14.0, presupuesto:12857293193, venta:9650987080,  cumpl:75.1, crec_venta:7.7,  cumpl_proy:100.7, participacion:36.0 },
+    credito:  { op_venta:24007493262, crec_op:0.0,  presupuesto:27026654048, venta:17144789281, cumpl:63.4, crec_venta:-1.2, cumpl_proy:91.2,  participacion:64.0 }
+  },
+  6: {
+    // FUENTE: Tableau Tablero de Ventas NonBank · CIERRE OFICIAL junio 2026 (screenshot 7 jul 2026)
+    // Nota: viewFilters de API MCP no aplica filtro Mes — usar screenshot para valores actualizados
+    colombia: { op_venta:40221582906, crec_op:-4.4, presupuesto:34501245917, venta:33674846515, cumpl:97.6, crec_venta:9.7, cumpl_proy:97.6 },
+    contado:  { op_venta:13040982337, crec_op:3.9,  presupuesto:11368698279, venta:12233562917, cumpl:107.6, crec_venta:9.9, cumpl_proy:107.6, participacion:36.3 },
+    credito:  { op_venta:27182945210, crec_op:-7.9, presupuesto:23134364673, venta:21443061377, cumpl:92.7, crec_venta:9.6, cumpl_proy:92.7,  participacion:63.7 }
+  }
+};
+
+function rebuildVentasFromMonth() {
+  const cur = VENTAS_ALL_MONTHS[CURRENT_MONTH];
+  if (cur) {
+    VENTAS.colombia = cur.colombia;
+    VENTAS.contado = cur.contado;
+    VENTAS.credito = cur.credito;
+    VENTAS_DATA_AVAILABLE = true;
+  } else {
+    VENTAS_DATA_AVAILABLE = false;
+  }
+}
+let VENTAS_DATA_AVAILABLE = true;
+
+// ============ TRÁFICO PRESENCIAL (Tableau · misma fuente) ============
+// Visitantes a tiendas físicas · mismos días transcurridos
+// Fecha de última carga manual del CSV de tráfico (Email + SMS)
+// Se actualiza cada vez que Andrea sube el CSV trafico-email-sms-2026.csv
+const TRAFICO_MANUAL_ULTIMA_CARGA = '8 sep 2026';
+const TRAFICO_MANUAL_ULTIMO_DIA = '5 sep 2026';
+
+const TRAFICO_PRESENCIAL = {
+  // FUENTE: Tableau · TABLERO DE TRÁFICO (viewId 0ec8e39a-d8c0-41f8-b417-a0b1408801e9) · sección GRAFICO DE TRAFICO MENSUAL
+  // URL: https://elena.mueblesjamar.com.co/#/views/TablerodeTrfico/TABLERODETRFICO
+  // NOTA: Ya NO se consulta "Tráfico Ecommerce v2" para presencial (fuente errada). Actualizado 8 sep 2026.
+  hist: [
+    { mes:'ene', val:147211 },
+    { mes:'feb', val:110186 },
+    { mes:'mar', val:129114 },
+    { mes:'abr', val:115836 },
+    { mes:'may', val:122056 },
+    { mes:'jun', val:113647 },
+    { mes:'jul', val:121597 },
+    { mes:'ago', val:120105 },
+    { mes:'sep', val:53195 }
+  ],
+  total: 1032947
+};
+
+// ============ VENTAS NONBANK (junio 2026) ============
+// Datos del Tablero de Ventas NonBank · hojas País + Tipo Venta
+const VENTAS = {
+  // FUENTE: Tableau Tablero de Ventas NonBank · Colombia · CIERRE OFICIAL junio 2026
+  // Valores actualizados con "Avance a la Fecha" del Tableau · screenshot 7 jul 2026
+  colombia: {
+    op_venta:    40221582906,
+    crec_op:     -4.4,
+    presupuesto: 34501245917,
+    venta:       33674846515,
+    cumpl:       97.6,
+    crec_venta:  9.7,
+    cumpl_proy:  97.6
+  },
+  contado: {
+    op_venta:    13040982337,
+    crec_op:     3.9,
+    presupuesto: 11368698279,
+    venta:       12233562917,
+    cumpl:       107.6,
+    crec_venta:  9.9,
+    cumpl_proy:  107.6,
+    participacion: 36.3
+  },
+  credito: {
+    op_venta:    27182945210,
+    crec_op:     -7.9,
+    presupuesto: 23134364673,
+    venta:       21443061377,
+    cumpl:       92.7,
+    crec_venta:  9.6,
+    cumpl_proy:  92.7,
+    participacion: 63.7
+  }
+};
+
+// ============ FACTURACIÓN (Hoja 3 del Tableau Funnel) ============
+// $ Venta Oferta + # Facturas + # Clientes Únicos, por tipo cliente × tipo venta
+const FACT = {
+  jun: {
+    contado: {
+      CONOCIDO:    { venta:4760000000, facturas:2800, clientes:2380 },
+      CONTACTABLE: { venta:3690000000, facturas:1750, clientes:1480 },
+      NUEVO:       { venta:2800000000, facturas:1400, clientes:1100 },
+      TOTAL:       { venta:11250000000, facturas:5950, clientes:4960 }
+    },
+    credito: {
+      CONOCIDO:    { venta:11045000000, facturas:3990, clientes:3990 },
+      CONTACTABLE: { venta:4400000000,  facturas:1600, clientes:1490 },
+      NUEVO:       { venta:3420000000,  facturas:1400, clientes:1280 },
+      TOTAL:       { venta:18865000000, facturas:6990, clientes:6760 }
+    },
+    total: {
+      CONOCIDO:    { venta:15805000000, facturas:6790, clientes:6370 },
+      CONTACTABLE: { venta:8090000000,  facturas:3350, clientes:2192 },
+      NUEVO:       { venta:6220000000,  facturas:2800, clientes:2857 },
+      TOTAL:       { venta:30115000000, facturas:12940, clientes:11419 }
+    }
+  }
+};
+
+// ============ FACTURACIÓN POR LÍNEA DE PRODUCTO (Hoja 3) ============
+const LINEAS = [
+  // FUENTE: Tableau Cliente 360 (Chrome directo) · Julio 2026 en curso · breakdown Conocido/Nuevo aprox por % del Tableau
+  { name:'COLCHONES', CONOCIDO:{cli:412, vta:750398000}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:338, vta:613962000} },
+  { name:'DOBLE', CONOCIDO:{cli:274, vta:546415200}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:233, vta:465464800} },
+  { name:'COMPLEMENTO DORM', CONOCIDO:{cli:266, vta:47736000}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:227, vta:40664000} },
+  { name:'SALAS', CONOCIDO:{cli:266, vta:636762600}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:226, vta:542427400} },
+  { name:'ACCESORIOS', CONOCIDO:{cli:202, vta:25987500}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:118, vta:15262500} },
+  { name:'COMEDORES', CONOCIDO:{cli:136, vta:447475600}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:126, vta:413054400} },
+  { name:'ENTRETENIMIENTO', CONOCIDO:{cli:142, vta:156231300}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:108, vta:117858700} },
+  { name:'LENCERIA COLCHON', CONOCIDO:{cli:116, vta:13910000}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:107, vta:12840000} },
+  { name:'DESCANSO', CONOCIDO:{cli:123, vta:297118200}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:93, vta:224141800} },
+  { name:'SERVICIO A CLIENTE', CONOCIDO:{cli:111, vta:3839600}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:80, vta:2780400} },
+  { name:'COMPLEMENTOS', CONOCIDO:{cli:100, vta:91884000}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:62, vta:56316000} },
+  { name:'JUVENIL', CONOCIDO:{cli:66, vta:117077300}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:43, vta:74852700} },
+  { name:'CLOSET', CONOCIDO:{cli:46, vta:74115400}, CONTACTABLE:{cli:0, vta:0}, NUEVO:{cli:23, vta:36504600} }
+];
+
+// ============ ESTRATO (Cliente 360 v1) ============
+// Junio 2026 · Conocido y Nuevo solamente (Cliente 360 no incluye Contactable Lead)
+const ESTRATOS = [
+  // FUENTE: Tableau Cliente 360 (Chrome directo) · Julio 2026 en curso · Colombia
+  { name:'Estrato 3',    clientes:1092, pct_con:55, pct_nv:45, venta:2515120000, crec_cli:-2.5,  crec_vta:-2.3 },
+  { name:'Estrato 2',    clientes:521,  pct_con:55, pct_nv:45, venta:1193990000, crec_cli:-16.4, crec_vta:-16.6 },
+  { name:'Estrato 4',    clientes:355,  pct_con:62, pct_nv:38, venta:730310000,  crec_cli:-6.3,  crec_vta:-16.0 },
+  { name:'Estrato 5',    clientes:222,  pct_con:62, pct_nv:38, venta:623690000,  crec_cli:1.8,   crec_vta:10.7 },
+  { name:'Estrato 1',    clientes:221,  pct_con:55, pct_nv:45, venta:549140000,  crec_cli:-15.3, crec_vta:-9.4 },
+  { name:'Estrato 6',    clientes:109,  pct_con:63, pct_nv:37, venta:317850000,  crec_cli:-13.5, crec_vta:8.4 },
+  { name:'Estrato 0',    clientes:24,   pct_con:42, pct_nv:58, venta:54010000,   crec_cli:20.0,  crec_vta:8.1 },
+  { name:'Sin clasif.',  clientes:0,    pct_con:null,pct_nv:null,venta:0,        crec_cli:-100,  crec_vta:-100 }
+];
+
+// ============ RANGO DE EDADES (Cliente 360 v1) ============
+const EDADES = [
+  // FUENTE: Tableau Cliente 360 (Chrome directo) · Julio 2026 en curso · Colombia
+  { name:'55+ años',    clientes:553, pct_con:79, pct_nv:21, venta:1285540000, crec_cli:8.4,   crec_vta:15.2,  ticket:2325566, frec:0.92 },
+  { name:'35-44 años',  clientes:527, pct_con:69, pct_nv:31, venta:1189040000, crec_cli:-9.1,  crec_vta:-15.0, ticket:2257192, frec:0.93 },
+  { name:'Sin clasif.', clientes:549, pct_con:17, pct_nv:83, venta:1171480000, crec_cli:-3.0,  crec_vta:-5.6,  ticket:2133843, frec:0.92 },
+  { name:'45-54 años',  clientes:408, pct_con:76, pct_nv:24, venta:1053350000, crec_cli:-11.1, crec_vta:-5.2,  ticket:2582721, frec:0.95 },
+  { name:'25-34 años',  clientes:381, pct_con:51, pct_nv:49, venta:981090000,  crec_cli:-20.1, crec_vta:-18.6, ticket:2575565, frec:0.93 },
+  { name:'16-24 años',  clientes:126, pct_con:35, pct_nv:65, venta:303610000,  crec_cli:-19.2, crec_vta:-4.6,  ticket:2409603, frec:0.95 }
+];
+
+const ESTRATOS_BY_MONTH = {
+  6: [
+    { name:'Estrato 3',    clientes:1465, pct_con:55, pct_nv:45, venta:3520710000, crec_cli:7.6,  crec_vta:26.2 },
+    { name:'Estrato 2',    clientes:757,  pct_con:56, pct_nv:44, venta:1779090000, crec_cli:13.5, crec_vta:19.3 },
+    { name:'Estrato 4',    clientes:456,  pct_con:61, pct_nv:39, venta:1022730000, crec_cli:-5.6, crec_vta:-11.4 },
+    { name:'Estrato 5',    clientes:291,  pct_con:69, pct_nv:31, venta:704730000,  crec_cli:5.1,  crec_vta:9.8 },
+    { name:'Estrato 1',    clientes:290,  pct_con:54, pct_nv:46, venta:796000000,  crec_cli:5.8,  crec_vta:41.1 },
+    { name:'Estrato 6',    clientes:158,  pct_con:65, pct_nv:35, venta:389710000,  crec_cli:1.3,  crec_vta:5.3 },
+    { name:'Estrato 0',    clientes:26,   pct_con:50, pct_nv:50, venta:49870000,   crec_cli:-7.1, crec_vta:-10.6 },
+    { name:'Sin clasif.',  clientes:0,    pct_con:null,pct_nv:null,venta:1220000,   crec_cli:-100, crec_vta:-96.1 }
+  ],
+  9: [
+    // FUENTE: Tableau Cliente 360 v1 · corte septiembre 2026 al 14 · Actualización 15 sep · API directa
+    // SEPTIEMBRE parcial · Total facturados 5.801
+    { name:'Estrato 3',   clientes:2467, pct_con:58, pct_nv:42, venta:6422380000, crec_cli:18.0, crec_con:10.3, crec_nv:27.4,  crec_vta:20.1 },
+    { name:'Estrato 2',   clientes:1127, pct_con:57, pct_nv:43, venta:2724980000, crec_cli:-11.5,crec_con:-6.3, crec_nv:-17.8, crec_vta:-8.6 },
+    { name:'Estrato 4',   clientes:853,  pct_con:56, pct_nv:44, venta:2255750000, crec_cli:18.0, crec_con:7.6,  crec_nv:29.2,  crec_vta:22.5 },
+    { name:'Estrato 1',   clientes:532,  pct_con:55, pct_nv:45, venta:1419550000, crec_cli:-3.6, crec_con:2.5,  crec_nv:-10.7, crec_vta:6.5 },
+    { name:'Estrato 5',   clientes:507,  pct_con:65, pct_nv:35, venta:1408340000, crec_cli:9.6,  crec_con:-3.4, crec_nv:34.7,  crec_vta:17.4 },
+    { name:'Estrato 6',   clientes:278,  pct_con:63, pct_nv:37, venta:700000000,  crec_cli:20.5, crec_con:3.4,  crec_nv:45.5,  crec_vta:20.7 },
+    { name:'Estrato 0',   clientes:37,   pct_con:61, pct_nv:39, venta:108060000,  crec_cli:-32.5,crec_con:27.8, crec_nv:-49.7, crec_vta:-37.1 }
+  ],
+  8: [
+    // FUENTE: Tableau Cliente 360 v1 · corte agosto 2026 al 9 · última foto pre-cierre
+    // AGOSTO parcial · Total facturados 3.561
+    { name:'Estrato 3',   clientes:1481, pct_con:61, pct_nv:39, venta:3717300000, crec_cli:-1.5, crec_vta:-3.0 },
+    { name:'Estrato 2',   clientes:820,  pct_con:73, pct_nv:27, venta:1998500000, crec_cli:-4.0, crec_vta:-7.5 },
+    { name:'Estrato 4',   clientes:442,  pct_con:59, pct_nv:41, venta:1104500000, crec_cli:-1.0, crec_vta:-1.0 },
+    { name:'Estrato 5',   clientes:329,  pct_con:55, pct_nv:45, venta:852000000,  crec_cli:-2.5, crec_vta:3.0 },
+    { name:'Estrato 1',   clientes:304,  pct_con:78, pct_nv:22, venta:854000000,  crec_cli:-11.0,crec_vta:4.0 },
+    { name:'Estrato 6',   clientes:155,  pct_con:55, pct_nv:45, venta:432000000,  crec_cli:5.5,  crec_vta:16.0 },
+    { name:'Estrato 0',   clientes:28,   pct_con:53, pct_nv:47, venta:75000000,   crec_cli:22.0, crec_vta:40.0 }
+  ],
+  7: [
+    // FUENTE: Tableau Cliente 360 v1 · corte julio 2026 al 23 · Actualización 24 jul · API directa
+    { name:'Estrato 3',   clientes:4358, pct_con:61, pct_nv:39, venta:10807000000, crec_cli:-3.4,  crec_vta:-4.8 },
+    { name:'Estrato 2',   clientes:2248, pct_con:73, pct_nv:27, venta:5544800000,  crec_cli:-5.0,  crec_vta:-10.4 },
+    { name:'Estrato 4',   clientes:1373, pct_con:59, pct_nv:41, venta:3213800000,  crec_cli:-2.0,  crec_vta:-1.4 },
+    { name:'Estrato 1',   clientes:826,  pct_con:78, pct_nv:22, venta:2362000000,  crec_cli:-16.5, crec_vta:4.1 },
+    { name:'Estrato 5',   clientes:809,  pct_con:55, pct_nv:45, venta:2247400000,  crec_cli:-4.5,  crec_vta:2.9 },
+    { name:'Estrato 6',   clientes:673,  pct_con:55, pct_nv:45, venta:1864900000,  crec_cli:4.5,   crec_vta:21.3 },
+    { name:'Estrato 0',   clientes:77,   pct_con:53, pct_nv:47, venta:176500000,   crec_cli:22.0,  crec_vta:42.3 },
+    { name:'Sin clasif.', clientes:23,   pct_con:100,pct_nv:0,  venta:41850000,    crec_cli:120.0, crec_vta:117.4 }
+  ]
+};
+
+const EDADES_BY_MONTH = {
+  6: [
+    { name:'35-44 años',  clientes:731, pct_con:71, pct_nv:29, venta:1908030000, crec_cli:1.4,   crec_vta:18.9, ticket:2610165, frec:0.88 },
+    { name:'55+ años',    clientes:700, pct_con:75, pct_nv:25, venta:1697230000, crec_cli:26.8,  crec_vta:35.2, ticket:2424608, frec:0.86 },
+    { name:'45-54 años',  clientes:540, pct_con:76, pct_nv:24, venta:1316270000, crec_cli:12.7,  crec_vta:37.2, ticket:2437532, frec:0.86 },
+    { name:'25-34 años',  clientes:514, pct_con:54, pct_nv:46, venta:1308780000, crec_cli:-9.7,  crec_vta:-0.9, ticket:2546269, frec:0.88 },
+    { name:'16-24 años',  clientes:178, pct_con:38, pct_nv:62, venta:436650000,  crec_cli:11.9,  crec_vta:23.9, ticket:2453089, frec:0.94 },
+    { name:'Sin clasif.', clientes:780, pct_con:23, pct_nv:77, venta:1597110000, crec_cli:1.7,   crec_vta:-0.6, ticket:2047582, frec:0.89 }
+  ],
+  9: [
+    // FUENTE: Tableau Cliente 360 v1 · corte septiembre 2026 al 14 · Actualización 15 sep · API directa
+    // SEPTIEMBRE parcial · Total facturados 5.801
+    { name:'Sin clasif.', clientes:1343, pct_con:65, pct_nv:35, venta:3106000000, crec_cli:32.4, crec_con:25.1, crec_nv:40.7,  crec_vta:27.5,  ticket:2312751, frec:1.11 },
+    { name:'35-44 años',  clientes:1226, pct_con:70, pct_nv:30, venta:3541000000, crec_cli:0.6,  crec_con:-0.6, crec_nv:4.9,   crec_vta:8.0,   ticket:2887439, frec:0.99 },
+    { name:'55+ años',    clientes:1172, pct_con:80, pct_nv:20, venta:2811600000, crec_cli:10.0, crec_con:15.3, crec_nv:-19.3, crec_vta:15.9,  ticket:2398976, frec:0.90 },
+    { name:'45-54 años',  clientes:926,  pct_con:78, pct_nv:22, venta:2632090000, crec_cli:9.4,  crec_con:15.1, crec_nv:-10.2, crec_vta:8.0,   ticket:2842106, frec:0.90 },
+    { name:'25-34 años',  clientes:857,  pct_con:58, pct_nv:42, venta:2314470000, crec_cli:-18.2,crec_con:-8.2, crec_nv:-26.7, crec_vta:-18.9, ticket:2701250, frec:0.98 },
+    { name:'16-24 años',  clientes:277,  pct_con:48, pct_nv:52, venta:675830000,  crec_cli:-33.1,crec_con:10.1, crec_nv:-50.9, crec_vta:-21.3, ticket:2440180, frec:0.90 }
+  ],
+  8: [
+    // FUENTE: Tableau Cliente 360 v1 · corte agosto 2026 al 9 · última foto pre-cierre
+    // AGOSTO parcial · Total facturados 3.561
+    { name:'Sin clasif.', clientes:739,  pct_con:51, pct_nv:49, venta:1712500000, crec_cli:14.0,  crec_vta:1.0,  ticket:2316780, frec:0.87 },
+    { name:'35-44 años',  clientes:789,  pct_con:53, pct_nv:47, venta:1988000000, crec_cli:4.0,   crec_vta:10.0, ticket:2519650, frec:0.87 },
+    { name:'55+ años',    clientes:704,  pct_con:51, pct_nv:49, venta:1760000000, crec_cli:10.5,  crec_vta:14.0, ticket:2500000, frec:0.89 },
+    { name:'45-54 años',  clientes:604,  pct_con:53, pct_nv:47, venta:1547000000, crec_cli:9.0,   crec_vta:11.0, ticket:2560930, frec:0.89 },
+    { name:'25-34 años',  clientes:520,  pct_con:51, pct_nv:49, venta:1418800000, crec_cli:-6.5,  crec_vta:5.0,  ticket:2728460, frec:0.89 },
+    { name:'16-24 años',  clientes:205,  pct_con:49, pct_nv:51, venta:490500000,  crec_cli:-26.0, crec_vta:2.5,  ticket:2392680, frec:0.89 }
+  ],
+  7: [
+    // FUENTE: Tableau Cliente 360 v1 · corte julio 2026 al 23 · Actualización 24 jul · API directa
+    { name:'Sin clasif.', clientes:2305, pct_con:51, pct_nv:49, venta:5135900000, crec_cli:14.9,  crec_vta:0.6,  ticket:2228130, frec:0.87 },
+    { name:'35-44 años',  clientes:2142, pct_con:53, pct_nv:47, venta:5395100000, crec_cli:3.9,   crec_vta:10.4, ticket:2518800, frec:0.87 },
+    { name:'55+ años',    clientes:2033, pct_con:51, pct_nv:49, venta:5081100000, crec_cli:11.0,  crec_vta:14.5, ticket:2499810, frec:0.89 },
+    { name:'45-54 años',  clientes:1664, pct_con:53, pct_nv:47, venta:4260000000, crec_cli:9.5,   crec_vta:11.0, ticket:2560100, frec:0.89 },
+    { name:'25-34 años',  clientes:1532, pct_con:51, pct_nv:49, venta:4181000000, crec_cli:-5.9,  crec_vta:4.9,  ticket:2729180, frec:0.89 },
+    { name:'16-24 años',  clientes:511,  pct_con:49, pct_nv:51, venta:1221800000, crec_cli:-27.5, crec_vta:2.4,  ticket:2391870, frec:0.89 }
+  ]
+};
+
+const LINEAS_BY_MONTH = {
+  6: [
+    { name:'COLCHONES',         CONOCIDO:{cli:541, vta:1014442059}, CONTACTABLE:{cli:358, vta:688131904}, NUEVO:{cli:127, vta:238474010} },
+    { name:'DOBLE',             CONOCIDO:{cli:439, vta:872690267},  CONTACTABLE:{cli:302, vta:640559095}, NUEVO:{cli:77,  vta:156747670} },
+    { name:'SALAS',             CONOCIDO:{cli:386, vta:906969464},  CONTACTABLE:{cli:244, vta:688466722}, NUEVO:{cli:48,  vta:114537330} },
+    { name:'COMEDORES',         CONOCIDO:{cli:214, vta:640547841},  CONTACTABLE:{cli:150, vta:473940433}, NUEVO:{cli:26,  vta:84407659}  },
+    { name:'DESCANSO',          CONOCIDO:{cli:159, vta:331630043},  CONTACTABLE:{cli:94,  vta:184544877}, NUEVO:{cli:23,  vta:51232355}  },
+    { name:'ENTRETENIMIENTO',   CONOCIDO:{cli:123, vta:129154598},  CONTACTABLE:{cli:63,  vta:62090788},  NUEVO:{cli:19,  vta:21080378}  },
+    { name:'COMPLEMENTO DORM',  CONOCIDO:{cli:370, vta:109854516},  CONTACTABLE:{cli:281, vta:48093886},  NUEVO:{cli:73,  vta:14167817}  },
+    { name:'JUVENIL',           CONOCIDO:{cli:null,vta:129231997},  CONTACTABLE:{cli:null,vta:87925376},  NUEVO:{cli:null,vta:8836134}   },
+    { name:'CLOSET',            CONOCIDO:{cli:null,vta:79121997},   CONTACTABLE:{cli:null,vta:39402543},  NUEVO:{cli:null,vta:13973507}  },
+    { name:'ACCESORIOS',        CONOCIDO:{cli:370, vta:0},          CONTACTABLE:{cli:97,  vta:0},         NUEVO:{cli:107, vta:0}         }
+  ],
+  9: [
+    // FUENTE: Tableau Cliente 360 v1 · sección Líneas · corte sept 2026 al 14 · Actualización 15 sep · API directa
+    // SEPTIEMBRE parcial · 14 días · Total facturados 5.801
+    { name:'COLCHONES',         clientes:1584, venta:3047250000, crec_con:-3.4, crec_nv:-19.7, crec_vta:-5.9,  pct_con:56, pct_nv:44, CONOCIDO:{cli:876, vta:1786672412}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:708, vta:1260577588} },
+    { name:'SALAS',             clientes:1375, venta:3254580000, crec_con:8.1,  crec_nv:4.5,   crec_vta:4.4,   pct_con:58, pct_nv:42, CONOCIDO:{cli:798, vta:1889455940}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:577, vta:1365124060} },
+    { name:'DOBLE',             clientes:1299, venta:2856690000, crec_con:6.6,  crec_nv:4.5,   crec_vta:6.9,   pct_con:61, pct_nv:39, CONOCIDO:{cli:793, vta:1743380900}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:506, vta:1113309100} },
+    { name:'COMPLEMENTO DORM',  clientes:1185, venta:217190000,  crec_con:-1.6, crec_nv:-4.6,  crec_vta:-3.1,  pct_con:53, pct_nv:47, CONOCIDO:{cli:628, vta:115110700},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:557, vta:102079300} },
+    { name:'ACCESORIOS',        clientes:941,  venta:150370000,  crec_con:57.4, crec_nv:42.3,  crec_vta:51.6,  pct_con:59, pct_nv:41, CONOCIDO:{cli:555, vta:88718300},   CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:386, vta:61651700} },
+    { name:'COMEDORES',         clientes:670,  venta:2301410000, crec_con:-13.7,crec_nv:-20.4, crec_vta:-6.4,  pct_con:56, pct_nv:44, CONOCIDO:{cli:375, vta:1288790000},CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:295, vta:1012620000} },
+    { name:'DESCANSO',          clientes:549,  venta:1202540000, crec_con:44.1, crec_nv:20.6,  crec_vta:56.4,  pct_con:61, pct_nv:39, CONOCIDO:{cli:335, vta:733550000},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:214, vta:468990000} },
+    { name:'SERVICIO A CLIENTE',clientes:464,  venta:20780000,   crec_con:17.9, crec_nv:26.4,  crec_vta:21.3,  pct_con:54, pct_nv:46, CONOCIDO:{cli:251, vta:11220000},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:213, vta:9560000} },
+    { name:'COMPLEMENTOS',      clientes:436,  venta:363410000,  crec_con:62.6, crec_nv:98.6,  crec_vta:74.4,  pct_con:61, pct_nv:39, CONOCIDO:{cli:266, vta:221680000},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:170, vta:141730000} },
+    { name:'ENTRETENIMIENTO',   clientes:406,  venta:461690000,  crec_con:-8.6, crec_nv:-3.5,  crec_vta:-6.5,  pct_con:60, pct_nv:40, CONOCIDO:{cli:244, vta:277014000},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:162, vta:184676000} },
+    { name:'LENCERIA COLCHON',  clientes:393,  venta:64240000,   crec_con:4.8,  crec_nv:9.5,   crec_vta:7.6,   pct_con:40, pct_nv:60, CONOCIDO:{cli:157, vta:25700000},   CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:236, vta:38540000} },
+    { name:'CLOSET',            clientes:250,  venta:335110000,  crec_con:20.2, crec_nv:-14.9, crec_vta:4.8,   pct_con:56, pct_nv:44, CONOCIDO:{cli:140, vta:187660000},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:110, vta:147450000} },
+    { name:'JUVENIL',           clientes:249,  venta:430330000,  crec_con:-2.0, crec_nv:20.2,  crec_vta:6.0,   pct_con:60, pct_nv:40, CONOCIDO:{cli:149, vta:258198000},  CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:100, vta:172132000} }
+  ],
+  8: [
+    // FUENTE: Tableau Cliente 360 v1 · view Facturación · corte agosto 2026 al 9 · última foto pre-cierre
+    // AGOSTO parcial · 9 días
+    { name:'COLCHONES',         CONOCIDO:{cli:576, vta:1128025952}, CONTACTABLE:{cli:338, vta:624715857},NUEVO:{cli:138, vta:250689867} },
+    { name:'SALAS',             CONOCIDO:{cli:491, vta:1168881645}, CONTACTABLE:{cli:209, vta:558725281},NUEVO:{cli:100, vta:227499633} },
+    { name:'DOBLE',             CONOCIDO:{cli:437, vta:932055962},  CONTACTABLE:{cli:270, vta:512634572},NUEVO:{cli:105, vta:188331542} },
+    { name:'COMPLEMENTO DORM',  CONOCIDO:{cli:396, vta:106439082},  CONTACTABLE:{cli:239, vta:50083294}, NUEVO:{cli:101, vta:19351979} },
+    { name:'COMEDORES',         CONOCIDO:{cli:254, vta:872358645},  CONTACTABLE:{cli:107, vta:346177650},NUEVO:{cli:32,  vta:109492700} },
+    { name:'ACCESORIOS',        CONOCIDO:{cli:327, vta:90389551},   CONTACTABLE:{cli:73,  vta:13764691}, NUEVO:{cli:85,  vta:11641346} },
+    { name:'LENCERIA COLCHON',  CONOCIDO:{cli:218, vta:26430118},   CONTACTABLE:{cli:108, vta:16005021}, NUEVO:{cli:62,  vta:8347795} },
+    { name:'DESCANSO',          CONOCIDO:{cli:179, vta:407882480},  CONTACTABLE:{cli:88,  vta:204752429},NUEVO:{cli:32,  vta:69250701} },
+    { name:'ENTRETENIMIENTO',   CONOCIDO:{cli:181, vta:183976761},  CONTACTABLE:{cli:83,  vta:70054397}, NUEVO:{cli:28,  vta:33241176} },
+    { name:'SERVICIO A CLIENTE',CONOCIDO:{cli:126, vta:0},          CONTACTABLE:{cli:75,  vta:0},        NUEVO:{cli:23,  vta:0} },
+    { name:'COMPLEMENTOS',      CONOCIDO:{cli:138, vta:73717221},   CONTACTABLE:{cli:52,  vta:43303650}, NUEVO:{cli:27,  vta:18151315} },
+    { name:'JUVENIL',           CONOCIDO:{cli:78,  vta:131150676},  CONTACTABLE:{cli:44,  vta:79641035}, NUEVO:{cli:14,  vta:24953783} },
+    { name:'CLOSET',            CONOCIDO:{cli:83,  vta:103306391},  CONTACTABLE:{cli:37,  vta:45787703}, NUEVO:{cli:16,  vta:16557984} }
+  ],
+  7: [
+    // FUENTE: Tableau Cliente 360 v1 · view Facturación · corte julio 2026 al 23 · Actualización 24 jul · API directa
+    { name:'COLCHONES',         CONOCIDO:{cli:1837,vta:3409734678}, CONTACTABLE:{cli:796, vta:1367858376},NUEVO:{cli:774, vta:1643659176} },
+    { name:'SALAS',             CONOCIDO:{cli:1197,vta:2794557345}, CONTACTABLE:{cli:511, vta:1280471093},NUEVO:{cli:456, vta:1245771794} },
+    { name:'DOBLE',             CONOCIDO:{cli:1210,vta:2580203811}, CONTACTABLE:{cli:596, vta:1155176362},NUEVO:{cli:566, vta:1281717356} },
+    { name:'COMEDORES',         CONOCIDO:{cli:596, vta:1920007590}, CONTACTABLE:{cli:316, vta:971811235}, NUEVO:{cli:247, vta:834978652} },
+    { name:'COMPLEMENTO DORM',  CONOCIDO:{cli:1109,vta:360291405},  CONTACTABLE:{cli:548, vta:106501359}, NUEVO:{cli:544, vta:124020612} },
+    { name:'DESCANSO',          CONOCIDO:{cli:496, vta:1125334763}, CONTACTABLE:{cli:196, vta:422723515}, NUEVO:{cli:216, vta:509054521} },
+    { name:'ENTRETENIMIENTO',   CONOCIDO:{cli:580, vta:589085784},  CONTACTABLE:{cli:251, vta:230503400}, NUEVO:{cli:168, vta:251551424} },
+    { name:'JUVENIL',           CONOCIDO:{cli:274, vta:437782765},  CONTACTABLE:{cli:105, vta:178272755}, NUEVO:{cli:99,  vta:220440932} },
+    { name:'CLOSET',            CONOCIDO:{cli:166, vta:249546952},  CONTACTABLE:{cli:59,  vta:63037761},  NUEVO:{cli:46,  vta:77854632} },
+    { name:'ACCESORIOS',        CONOCIDO:{cli:808, vta:128375178},  CONTACTABLE:{cli:206, vta:30204885},  NUEVO:{cli:266, vta:46581719} },
+    { name:'LENCERIA COLCHON',  CONOCIDO:{cli:564, vta:66109316},   CONTACTABLE:{cli:238, vta:25254199},  NUEVO:{cli:253, vta:33185818} },
+    { name:'COMPLEMENTOS',      CONOCIDO:{cli:408, vta:203027303},  CONTACTABLE:{cli:122, vta:92463448},  NUEVO:{cli:116, vta:111302606} },
+    { name:'SERVICIO A CLIENTE',CONOCIDO:{cli:439, vta:0},          CONTACTABLE:{cli:226, vta:0},         NUEVO:{cli:112, vta:0} }
+  ]
+};
+
+// Aliases dinámicos que se re-asignan al cambiar de mes
+let ESTRATOS_CURRENT = ESTRATOS_BY_MONTH[CURRENT_MONTH] || ESTRATOS_BY_MONTH[6];
+let EDADES_CURRENT = EDADES_BY_MONTH[CURRENT_MONTH] || EDADES_BY_MONTH[6];
+let LINEAS_CURRENT = LINEAS_BY_MONTH[CURRENT_MONTH] || LINEAS_BY_MONTH[6];
+
+function rebuildCliente360FromMonth() {
+  ESTRATOS_CURRENT = ESTRATOS_BY_MONTH[CURRENT_MONTH] || ESTRATOS_BY_MONTH[6];
+  EDADES_CURRENT = EDADES_BY_MONTH[CURRENT_MONTH] || EDADES_BY_MONTH[6];
+  LINEAS_CURRENT = LINEAS_BY_MONTH[CURRENT_MONTH] || LINEAS_BY_MONTH[6];
+  AGENCIAS = AGENCIAS_BY_MONTH[CURRENT_MONTH] || AGENCIAS_BY_MONTH[6];
+}
+
+const AGENCIAS_BY_MONTH = {
+  // FUENTE: Tableau Funnel_Nuevo_Conocido · TRÁFICO Agencias · por mes 2026
+  6: [
+    { name:'PRINCIPAL',            CONOCIDO:999, CONTACTABLE:458, NUEVO:752 },
+    { name:'TIENDA VIRTUAL',       CONOCIDO:887, CONTACTABLE:462, NUEVO:826 },
+    { name:'FLORIDA CC',           CONOCIDO:490, CONTACTABLE:475, NUEVO:763 },
+    { name:'CUATRO VIENTOS',       CONOCIDO:789, CONTACTABLE:371, NUEVO:501 },
+    { name:'MAYORCA CC',           CONOCIDO:560, CONTACTABLE:245, NUEVO:471 },
+    { name:'NORTE',                CONOCIDO:784, CONTACTABLE:182, NUEVO:253 },
+    { name:'MOLINOS CC',           CONOCIDO:544, CONTACTABLE:247, NUEVO:351 },
+    { name:'SAN FELIPE',           CONOCIDO:684, CONTACTABLE:177, NUEVO:268 },
+    { name:'SANTA MARTA',          CONOCIDO:493, CONTACTABLE:205, NUEVO:345 },
+    { name:'JAMAR FABRICATO',      CONOCIDO:261, CONTACTABLE:223, NUEVO:516 },
+    { name:'CACIQUE',              CONOCIDO:370, CONTACTABLE:191, NUEVO:339 },
+    { name:'SUBA',                 CONOCIDO:285, CONTACTABLE:215, NUEVO:157 },
+    { name:'ALMACEN VALLEDUPAR',   CONOCIDO:264, CONTACTABLE:146, NUEVO:242 },
+    { name:'RIOHACHA',             CONOCIDO:310, CONTACTABLE:134, NUEVO:161 },
+    { name:'SINCELEJO',            CONOCIDO:280, CONTACTABLE:90,  NUEVO:200 },
+    { name:'MONTERIA',             CONOCIDO:260, CONTACTABLE:115, NUEVO:199 },
+    { name:'LAS AMERICAS CC',      CONOCIDO:202, CONTACTABLE:125, NUEVO:226 },
+    { name:'LA PLAZUELA',          CONOCIDO:269, CONTACTABLE:92,  NUEVO:113 },
+    { name:'TRINITARIAS',          CONOCIDO:242, CONTACTABLE:83,  NUEVO:143 },
+    { name:'JAMAR NORTE BOGOTA',   CONOCIDO:125, CONTACTABLE:109, NUEVO:189 },
+    { name:'JAMAR CRA 30',         CONOCIDO:103, CONTACTABLE:86,  NUEVO:226 },
+    { name:'JAMAR EL EDEN',        CONOCIDO:94,  CONTACTABLE:89,  NUEVO:182 },
+    { name:'HIPERJAMAR',           CONOCIDO:183, CONTACTABLE:73,  NUEVO:92  },
+    { name:'VALLEDUPAR',           CONOCIDO:189, CONTACTABLE:32,  NUEVO:32  },
+    { name:'BOSA',                 CONOCIDO:94,  CONTACTABLE:66,  NUEVO:36  },
+    { name:'BUCARAMANGA CENTRO',   CONOCIDO:75,  CONTACTABLE:26,  NUEVO:22  },
+    { name:'ENSUENO CC',           CONOCIDO:38,  CONTACTABLE:22,  NUEVO:8   },
+    { name:'JAMAR PREMIUN PLAZA',  CONOCIDO:41,  CONTACTABLE:14,  NUEVO:5   },
+    { name:'METROPOLITANO',        CONOCIDO:40,  CONTACTABLE:0,   NUEVO:2   },
+    { name:'PLAZA DEL SOL',        CONOCIDO:30,  CONTACTABLE:0,   NUEVO:1   }
+  ],
+  9: [
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte Fecha 14/09/2026 · Actualización 15 sep · API directa
+    // SEPTIEMBRE parcial al día 14
+    { name:'PRINCIPAL',            CONOCIDO:521, CONTACTABLE:241, NUEVO:247 },
+    { name:'TIENDA VIRTUAL',       CONOCIDO:441, CONTACTABLE:264, NUEVO:283 },
+    { name:'FLORIDA CC',           CONOCIDO:290, CONTACTABLE:262, NUEVO:276 },
+    { name:'CUATRO VIENTOS',       CONOCIDO:340, CONTACTABLE:156, NUEVO:166 },
+    { name:'NORTE',                CONOCIDO:419, CONTACTABLE:100, NUEVO: 86 },
+    { name:'MOLINOS CC',           CONOCIDO:285, CONTACTABLE:127, NUEVO:129 },
+    { name:'MAYORCA CC',           CONOCIDO:229, CONTACTABLE:139, NUEVO:152 },
+    { name:'SAN FELIPE',           CONOCIDO:319, CONTACTABLE: 95, NUEVO: 71 },
+    { name:'CACIQUE',              CONOCIDO:183, CONTACTABLE:123, NUEVO:127 },
+    { name:'SANTA MARTA',          CONOCIDO:226, CONTACTABLE:114, NUEVO: 80 },
+    { name:'LAS AMERICAS CC',      CONOCIDO:159, CONTACTABLE:138, NUEVO: 92 },
+    { name:'JAMAR FABRICATO',      CONOCIDO:108, CONTACTABLE:100, NUEVO:131 },
+    { name:'ALMACEN VALLEDUPAR',   CONOCIDO:136, CONTACTABLE: 98, NUEVO: 99 },
+    { name:'RIOHACHA',             CONOCIDO:141, CONTACTABLE: 80, NUEVO: 76 },
+    { name:'SUBA',                 CONOCIDO:146, CONTACTABLE: 97, NUEVO: 42 },
+    { name:'JAMAR NORTE BOGOTA',   CONOCIDO: 63, CONTACTABLE: 76, NUEVO:108 },
+    { name:'JAMAR EL EDEN',        CONOCIDO: 81, CONTACTABLE: 55, NUEVO:109 }
+  ],
+  8: [
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte Fecha 09/08/2026 · última foto pre-cierre
+    // AGOSTO parcial al día 14
+    { name:'TIENDA VIRTUAL',       CONOCIDO:534, CONTACTABLE:505, NUEVO:672 },
+    { name:'PRINCIPAL',            CONOCIDO:542, CONTACTABLE:360, NUEVO:331 },
+    { name:'FLORIDA CC',           CONOCIDO:212, CONTACTABLE:394, NUEVO:442 },
+    { name:'CUATRO VIENTOS',       CONOCIDO:302, CONTACTABLE:221, NUEVO:179 },
+    { name:'NORTE',                CONOCIDO:392, CONTACTABLE:134, NUEVO:127 },
+    { name:'MOLINOS CC',           CONOCIDO:232, CONTACTABLE:153, NUEVO:178 },
+    { name:'SUBA',                 CONOCIDO:176, CONTACTABLE:218, NUEVO:162 },
+    { name:'SAN FELIPE',           CONOCIDO:329, CONTACTABLE:110, NUEVO:112 },
+    { name:'MAYORCA CC',           CONOCIDO:219, CONTACTABLE:138, NUEVO:167 },
+    { name:'SANTA MARTA',          CONOCIDO:245, CONTACTABLE:154, NUEVO:124 },
+    { name:'CACIQUE',              CONOCIDO:173, CONTACTABLE:124, NUEVO:156 },
+    { name:'LAS AMERICAS CC',      CONOCIDO:115, CONTACTABLE: 94, NUEVO:153 },
+    { name:'JAMAR CRA 30',         CONOCIDO: 52, CONTACTABLE:107, NUEVO:156 },
+    { name:'RIOHACHA',             CONOCIDO:132, CONTACTABLE: 83, NUEVO: 89 },
+    { name:'MONTERIA',             CONOCIDO:110, CONTACTABLE: 86, NUEVO:108 },
+    { name:'JAMAR NORTE BOGOTA',   CONOCIDO: 68, CONTACTABLE:111, NUEVO:111 },
+    { name:'JAMAR FABRICATO',      CONOCIDO: 94, CONTACTABLE: 81, NUEVO:109 }
+  ],
+  7: [
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte Fecha 23/07/2026 · Actualización 24 jul · API directa
+    { name:'PRINCIPAL',            CONOCIDO:999, CONTACTABLE:462, NUEVO:618 },
+    { name:'TIENDA VIRTUAL',       CONOCIDO:771, CONTACTABLE:359, NUEVO:694 },
+    { name:'FLORIDA CC',           CONOCIDO:412, CONTACTABLE:394, NUEVO:580 },
+    { name:'CUATRO VIENTOS',       CONOCIDO:699, CONTACTABLE:276, NUEVO:405 },
+    { name:'NORTE',                CONOCIDO:720, CONTACTABLE:168, NUEVO:213 },
+    { name:'MAYORCA CC',           CONOCIDO:463, CONTACTABLE:205, NUEVO:347 },
+    { name:'SAN FELIPE',           CONOCIDO:596, CONTACTABLE:193, NUEVO:198 },
+    { name:'MOLINOS CC',           CONOCIDO:460, CONTACTABLE:195, NUEVO:304 },
+    { name:'SANTA MARTA',          CONOCIDO:428, CONTACTABLE:160, NUEVO:263 },
+    { name:'CACIQUE',              CONOCIDO:300, CONTACTABLE:152, NUEVO:240 },
+    { name:'JAMAR FABRICATO',      CONOCIDO:210, CONTACTABLE:150, NUEVO:271 },
+    { name:'ALMACEN VALLEDUPAR',   CONOCIDO:245, CONTACTABLE:129, NUEVO:227 },
+    { name:'SUBA',                 CONOCIDO:271, CONTACTABLE:214, NUEVO: 90 },
+    { name:'MONTERIA',             CONOCIDO:259, CONTACTABLE: 99, NUEVO:172 },
+    { name:'RIOHACHA',             CONOCIDO:226, CONTACTABLE:118, NUEVO:146 },
+    { name:'SINCELEJO',            CONOCIDO:212, CONTACTABLE: 87, NUEVO:176 },
+    { name:'LAS AMERICAS CC',      CONOCIDO:163, CONTACTABLE:127, NUEVO:184 },
+    { name:'LA PLAZUELA',          CONOCIDO:241, CONTACTABLE: 93, NUEVO:100 },
+    { name:'TRINITARIAS',          CONOCIDO:238, CONTACTABLE: 59, NUEVO:113 },
+    { name:'JAMAR NORTE BOGOTA',   CONOCIDO: 92, CONTACTABLE: 97, NUEVO:211 },
+    { name:'JAMAR CRA 30',         CONOCIDO: 87, CONTACTABLE: 69, NUEVO:221 },
+    { name:'HIPERJAMAR',           CONOCIDO:204, CONTACTABLE: 77, NUEVO: 83 },
+    { name:'JAMAR EL EDEN',        CONOCIDO:125, CONTACTABLE: 71, NUEVO:160 },
+    { name:'VALLEDUPAR',           CONOCIDO:207, CONTACTABLE: 24, NUEVO: 26 },
+    { name:'BOSA',                 CONOCIDO:116, CONTACTABLE: 74, NUEVO: 27 },
+    { name:'BUCARAMANGA CENTRO',   CONOCIDO: 62, CONTACTABLE: 22, NUEVO: 16 },
+    { name:'ENSUENO CC',           CONOCIDO: 21, CONTACTABLE: 19, NUEVO: 16 },
+    { name:'JAMAR PREMIUN PLAZA',  CONOCIDO: 33, CONTACTABLE: 11, NUEVO: 10 },
+    { name:'METROPOLITANO',        CONOCIDO: 44, CONTACTABLE:  0, NUEVO:  1 },
+    { name:'PLAZA DEL SOL',        CONOCIDO: 21, CONTACTABLE:  1, NUEVO:  0 }
+  ]
+};
+
+let AGENCIAS = AGENCIAS_BY_MONTH[CURRENT_MONTH] || AGENCIAS_BY_MONTH[6];
+
+function activeTipos(tipo) {
+  if (tipo === 'GLOBAL') return ['CONOCIDO','CONTACTABLE','NUEVO'];
+  return [tipo]; // CONOCIDO, CONTACTABLE, o NUEVO
+}
+
+function renderConversion(tipo, venta) {
+  const data = FUNNEL[venta];
+
+  // Helper deltas
+  function deltaSpan(v, decimals=1, inverted=false) {
+    if (v == null) return '—';
+    const cls = (inverted ? v < 0 : v >= 0) ? 'delta-up' : 'delta-down';
+    return `<span class="${cls}">${v>=0?'▲ +':'▼ '}${v.toFixed(decimals)}%</span>`;
+  }
+
+  if (!data) {
+    const pend = '<div style="padding:16px; text-align:center; color:#a0a0a0; font-size:11px;">⚠️ Pendiente Tipo Venta = ' + venta + '</div>';
+    ['vc-visor-body','vc-cotiz-body','vc-orden-body','vc-fact-body'].forEach(id => {
+      document.getElementById(id).innerHTML = pend;
+    });
+    ['conv-v2c','conv-c2o','conv-o2f'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '—%'; });
+    document.getElementById('agencia-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center; padding:18px; color:#a0a0a0;">⚠️ Pendiente</td></tr>';
+    document.getElementById('lineas-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center; padding:18px; color:#a0a0a0;">⚠️ Pendiente</td></tr>';
+    document.getElementById('estrato-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center; padding:14px; color:#a0a0a0;">⚠️ Pendiente</td></tr>';
+    document.getElementById('edad-tbody').innerHTML = '<tr><td colspan="7" style="text-align:center; padding:14px; color:#a0a0a0;">⚠️ Pendiente</td></tr>';
+    return;
+  }
+
+  const tipoOrder = ['CONOCIDO','CONTACTABLE','NUEVO'];
+  const tipoLabels = { CONOCIDO:'Conocido', CONTACTABLE:'Contact.', NUEVO:'Nuevo' };
+  const isActive = t => tipo !== 'GLOBAL' && tipo === t;
+
+  // ====== Build compact card body ======
+  function buildBody(category, options={}) {
+    // category: 'visor' | 'cotiz' | 'orden' | 'facturado'
+    // Detectar si esta categoría tiene dato real del mes actual, o es fallback junio
+    const curMonthData = FUNNEL_ALL_MONTHS[CURRENT_MONTH];
+    const hasCurrentMonth = curMonthData && curMonthData[category] != null;
+    const mesAbrev = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][CURRENT_MONTH];
+    const labelMonth = hasCurrentMonth ? mesAbrev : 'Jun';
+    const fallbackTag = hasCurrentMonth ? '' : ' <span style="font-size:8px; color:#7a4a00; background:#fff4d6; padding:1px 4px; border-radius:2px; margin-left:2px; text-transform:none;">último dato jun</span>';
+
+    const dJ = data.jun[category];
+    const dY = data.yoy?.[category];
+    const totalJ = dJ?.TOTAL || 0;
+    const yoy = hasCurrentMonth ? dY?.TOTAL : null;
+    const isMoney = options.money;
+    const fmtVal = v => isMoney ? fmtMoney(v) : fmtNumber(v);
+
+    let breakdown = '';
+    tipoOrder.forEach(t => {
+      const v = dJ?.[t] || 0;
+      const yoyT = hasCurrentMonth ? dY?.[t] : null;
+      const cls = isActive(t) ? 'tipo-line highlight' : 'tipo-line';
+      const yoyHtml = yoyT != null
+        ? `<span class="${yoyT>=0?'delta-up':'delta-down'}" style="font-size:8px; margin-left:4px;">${yoyT>=0?'+':''}${yoyT.toFixed(1)}%YoY</span>`
+        : '';
+      breakdown += `<div class="${cls}"><span class="tl-name">${tipoLabels[t]}</span><span class="tl-val">${fmtVal(v)}${yoyHtml}</span></div>`;
+    });
+
+    const deltaLine = hasCurrentMonth
+      ? `<div class="dlt">YoY ${deltaSpan(yoy, 1)}</div>`
+      : '';
+
+    return `
+      <div class="vc-total">
+        <div class="lbl">Total ${labelMonth}${fallbackTag}</div>
+        <div class="val">${fmtVal(totalJ)}</div>
+        ${deltaLine}
+      </div>
+      <div style="font-size:8px; color:#6a7c87; text-transform:uppercase; font-weight:700; margin: 6px 0 3px;">Por tipo cliente</div>
+      ${breakdown}`;
+  }
+
+  document.getElementById('vc-visor-body').innerHTML = buildBody('visor');
+  document.getElementById('vc-cotiz-body').innerHTML = buildBody('cotiz');
+  document.getElementById('vc-orden-body').innerHTML = buildBody('orden');
+
+  // ====== FACTURACIÓN especial (con OP + $ Contado/Crédito) ======
+  function buildFactBody() {
+    // Usar venta_total_m del data actual (respeta filtro venta y mes)
+    const ventaMap = data.jun.venta_total_m || {};
+    const factTotalJ = (ventaMap.TOTAL || 0) * 1e6;
+    const opJ = data.jun.facturado?.TOTAL || 0;
+    const opYoY = data.yoy?.facturado?.TOTAL;
+
+    let breakdown = '';
+    tipoOrder.forEach(t => {
+      const ventaT = (ventaMap[t] || 0) * 1e6;
+      const opYoY = data.yoy?.facturado?.[t];
+      const cls = isActive(t) ? 'tipo-line highlight' : 'tipo-line';
+      const yoyHtml = opYoY != null
+        ? `<span class="${opYoY>=0?'delta-up':'delta-down'}" style="font-size:8px; margin-left:4px;">${opYoY>=0?'+':''}${opYoY.toFixed(1)}%YoY</span>`
+        : '';
+      breakdown += `<div class="${cls}"><span class="tl-name">${tipoLabels[t]}</span><span class="tl-val">${fmtMoney(ventaT)}${yoyHtml}</span></div>`;
+    });
+
+    const curMonth = FUNNEL_ALL_MONTHS[CURRENT_MONTH];
+    const hasCurr = curMonth && curMonth.facturado != null;
+    const mesAb = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][CURRENT_MONTH];
+    const lblMonth = hasCurr ? mesAb : 'Jun';
+    const fbTag = hasCurr ? '' : ' <span style="font-size:8px; color:#7a4a00; background:#fff4d6; padding:1px 4px; border-radius:2px; margin-left:2px; text-transform:none;">último dato jun</span>';
+    return `
+      <div class="vc-total">
+        <div class="lbl">Venta Total ${lblMonth}${fbTag}</div>
+        <div class="val">${fmtMoney(factTotalJ)}</div>
+        <div class="dlt">${fmtNumber(opJ)} OP · YoY ${deltaSpan(opYoY, 1)}</div>
+      </div>
+      <div style="display:flex; gap:4px; margin: 4px 0 6px; font-size:9px;">
+        <div style="flex:1; padding:4px; background:rgba(45,196,165,0.12); border-radius:3px; text-align:center;">
+          <div style="font-weight:700; color:#1e7a3f; font-size:8px;">CONTADO</div>
+          <div style="font-weight:700; color:#1a3a4a;">${fmtMoney(((FUNNEL.CONTADO && FUNNEL.CONTADO.jun && FUNNEL.CONTADO.jun.venta_total_m?.TOTAL) || 0) * 1e6)}</div>
+        </div>
+        <div style="flex:1; padding:4px; background:rgba(31,56,100,0.08); border-radius:3px; text-align:center;">
+          <div style="font-weight:700; color:#1F3864; font-size:8px;">CRÉDITO</div>
+          <div style="font-weight:700; color:#1a3a4a;">${fmtMoney(((FUNNEL.CREDITO && FUNNEL.CREDITO.jun && FUNNEL.CREDITO.jun.venta_total_m?.TOTAL) || 0) * 1e6)}</div>
+        </div>
+      </div>
+      <div style="font-size:8px; color:#6a7c87; text-transform:uppercase; font-weight:700; margin: 4px 0 3px;">$ por tipo cliente</div>
+      ${breakdown}`;
+  }
+  document.getElementById('vc-fact-body').innerHTML = buildFactBody();
+
+  // ====== Arrows de conversión ======
+  // % conv vs filtered tipo
+  let v2c, c2o;
+  if (tipo === 'GLOBAL') {
+    v2c = data.jun.conv?.TOTAL;
+    c2o = data.jun.conv_ord?.TOTAL;
+  } else {
+    v2c = data.jun.conv?.[tipo];
+    c2o = data.jun.conv_ord?.[tipo];
+  }
+  const ordenTotal = tipo === 'GLOBAL' ? data.jun.orden?.TOTAL : data.jun.orden?.[tipo];
+  const factOpTotal = tipo === 'GLOBAL' ? data.jun.facturado?.TOTAL : data.jun.facturado?.[tipo];
+  const o2f = ordenTotal > 0 ? (factOpTotal / ordenTotal * 100) : null;
+  const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = (v != null ? v.toFixed(1) : '—') + '%'; };
+  setText('conv-v2c', v2c);
+  setText('conv-c2o', c2o);
+  setText('conv-o2f', o2f);
+
+  // ====== TABLA AGENCIAS ======
+  const sortKey = tipo === 'GLOBAL' ? 'TOTAL' : tipo;
+  const hC = tipo === 'CONOCIDO', hCt = tipo === 'CONTACTABLE', hN = tipo === 'NUEVO';
+  try {
+    const rows = AGENCIAS.map(a => ({ ...a, TOTAL: a.CONOCIDO + a.CONTACTABLE + a.NUEVO }));
+    rows.sort((a,b) => b[sortKey] - a[sortKey]);
+    document.getElementById('th-conocido')?.classList.toggle('col-active', hC);
+    document.getElementById('th-contactable')?.classList.toggle('col-active', hCt);
+    document.getElementById('th-nuevo')?.classList.toggle('col-active', hN);
+    let aBody = '';
+    rows.forEach((r, i) => {
+      aBody += `<tr>
+        <td><span class="agencia-rank">${i+1}</span>${r.name}</td>
+        <td class="${hC?'col-active':''}">${fmtNumber(r.CONOCIDO)}</td>
+        <td class="${hCt?'col-active':''}">${fmtNumber(r.CONTACTABLE)}</td>
+        <td class="${hN?'col-active':''}">${fmtNumber(r.NUEVO)}</td>
+        <td><b>${fmtNumber(r.TOTAL)}</b></td></tr>`;
+    });
+    const tb = document.getElementById('agencia-tbody');
+    if (tb) tb.innerHTML = aBody;
+    console.log('[Vista360] Agencias rendered:', rows.length);
+  } catch(e) { console.error('[Vista360] Agencias falló:', e.message); }
+
+  // ====== TABLA LÍNEAS ======
+  try {
+    // Nuevo layout LÍNEAS: # Clientes | Crec Conocido | Crec Nuevo | Crec Vta | $ Facturado
+    // Si el objeto tiene 'clientes' + 'crec_con/crec_nv/crec_vta' usa el nuevo formato.
+    // Fallback al layout viejo si no vienen los campos (compat con meses anteriores).
+    const linRows = LINEAS_CURRENT.map(l => {
+      // Si no viene 'venta' calculada, sumar del formato viejo
+      const totalVta = (l.venta != null) ? l.venta : ['CONOCIDO','CONTACTABLE','NUEVO'].reduce((s,t) => s + (l[t]?.vta || 0), 0);
+      return { ...l, totalVta };
+    });
+    linRows.sort((a,b) => b.totalVta - a.totalVta);
+    const fmtPct = v => (v == null || isNaN(v)) ? '—' : ((v >= 0 ? '+' : '') + v.toFixed(1) + '%');
+    const clsPct = v => (v == null || isNaN(v)) ? '' : (v >= 0 ? 'delta-up' : 'delta-down');
+    let lBody = '';
+    linRows.forEach((r, i) => {
+      // Preferir el nuevo formato con crec_con/crec_nv/crec_vta
+      const usaNuevo = (r.crec_con != null || r.crec_nv != null || r.crec_vta != null);
+      const cli = r.clientes != null ? r.clientes : (['CONOCIDO','CONTACTABLE','NUEVO'].reduce((s,t) => s + (r[t]?.cli || 0), 0));
+      if (usaNuevo) {
+        lBody += `<tr>
+          <td><span class="agencia-rank">${i+1}</span>${r.name}</td>
+          <td>${fmtNumber(cli)}</td>
+          <td class="${clsPct(r.crec_con)}">${fmtPct(r.crec_con)}</td>
+          <td class="${clsPct(r.crec_nv)}">${fmtPct(r.crec_nv)}</td>
+          <td class="${clsPct(r.crec_vta)}">${fmtPct(r.crec_vta)}</td>
+          <td><b>${r.totalVta > 0 ? fmtMoney(r.totalVta) : '—'}</b></td>
+        </tr>`;
+      } else {
+        // Fallback: mostrar solo # clientes total + $ total (para meses sin crecimiento cargado)
+        lBody += `<tr>
+          <td><span class="agencia-rank">${i+1}</span>${r.name}</td>
+          <td>${fmtNumber(cli)}</td>
+          <td colspan="3" style="text-align:center; color:#a0a0a0;">— sin datos de crecimiento —</td>
+          <td><b>${r.totalVta > 0 ? fmtMoney(r.totalVta) : '—'}</b></td>
+        </tr>`;
+      }
+    });
+    const tb = document.getElementById('lineas-tbody');
+    if (tb) tb.innerHTML = lBody;
+    console.log('[Vista360] Líneas rendered:', linRows.length);
+  } catch(e) { console.error('[Vista360] Líneas falló:', e.message); }
+
+  // ====== TABLAS ESTRATO Y EDAD ======
+  // Toggle headers de forma segura (no rompe render si algún elemento falta)
+  try {
+    document.getElementById('th-est-con')?.classList.toggle('col-active', hC);
+    document.getElementById('th-est-nv')?.classList.toggle('col-active', hN);
+    document.getElementById('th-edad-con')?.classList.toggle('col-active', hC);
+    document.getElementById('th-edad-nv')?.classList.toggle('col-active', hN);
+  } catch(e) { console.warn('toggle headers Estrato/Edad falló:', e.message); }
+  function renderClienteTable(arr, tbodyId, hasTicket=false, mode='conteo') {
+    // mode = 'conteo' (default: # Clientes | # Con | # Nuevos | $ Venta | Crec Vta | [Ticket])
+    // mode = 'crecimiento' (nuevo layout ESTRATOS: # Clientes | Crec Con | Crec Nuevo | Crec Vta | $ Facturado)
+    let html = '';
+    const fmtPct = v => (v == null || isNaN(v)) ? '—' : ((v >= 0 ? '+' : '') + v.toFixed(1) + '%');
+    const clsPct = v => (v == null || isNaN(v)) ? '' : (v >= 0 ? 'delta-up' : 'delta-down');
+    arr.forEach((r, i) => {
+      if (mode === 'crecimiento') {
+        // Nuevo layout para ESTRATOS
+        html += `<tr>
+          <td><span class="agencia-rank">${i+1}</span>${r.name}</td>
+          <td>${fmtNumber(r.clientes)}</td>
+          <td class="${clsPct(r.crec_con)}">${fmtPct(r.crec_con)}</td>
+          <td class="${clsPct(r.crec_nv)}">${fmtPct(r.crec_nv)}</td>
+          <td class="${clsPct(r.crec_vta)}">${fmtPct(r.crec_vta)}</td>
+          <td>${r.venta > 0 ? fmtMoney(r.venta) : '—'}</td>
+        </tr>`;
+      } else {
+        const nCon = r.pct_con != null ? Math.round(r.clientes * r.pct_con / 100) : null;
+        const nNv  = r.pct_nv  != null ? Math.round(r.clientes * r.pct_nv  / 100) : null;
+        const crecVta = (r.crec_vta != null && !isNaN(r.crec_vta)) ? r.crec_vta : null;
+        const crecCls = crecVta == null ? '' : (crecVta >= 0 ? 'delta-up' : 'delta-down');
+        const crecStr = crecVta == null ? '—' : ((crecVta >= 0 ? '+' : '') + crecVta.toFixed(1) + '%');
+        const ticketStr = hasTicket ? (r.ticket != null && !isNaN(r.ticket) ? '$' + (r.ticket/1e6).toFixed(2) + ' M' : '—') : '';
+        const ticketCol = hasTicket ? `<td>${ticketStr}</td>` : '';
+        html += `<tr>
+          <td><span class="agencia-rank">${i+1}</span>${r.name}</td>
+          <td>${fmtNumber(r.clientes)}</td>
+          <td class="${hC?'col-active':''}">${nCon != null ? fmtNumber(nCon) : '—'}</td>
+          <td class="${hN?'col-active':''}">${nNv != null ? fmtNumber(nNv) : '—'}</td>
+          <td>${r.venta > 0 ? fmtMoney(r.venta) : '—'}</td>
+          <td class="${crecCls}">${crecStr}</td>
+          ${ticketCol}
+        </tr>`;
+      }
+    });
+    const tbody = document.getElementById(tbodyId);
+    if (tbody) tbody.innerHTML = html;
+  }
+  try {
+    renderClienteTable(ESTRATOS_CURRENT, 'estrato-tbody', false, 'crecimiento');
+    renderClienteTable(EDADES_CURRENT, 'edad-tbody', false, 'crecimiento');
+  } catch(e) { console.error('renderClienteTable falló:', e.message); }
+}
+
+function renderVentas() {
+  function cumplCls(p) { if (p == null) return ''; if (p < 60) return 'low'; if (p < 90) return 'ok'; return 'high'; }
+  function deltaSpan(v) {
+    if (v == null) return '—';
+    const cls = v >= 0 ? 'delta-up' : 'delta-down';
+    return `<span class="${cls}">${v >= 0 ? '▲ +' : '▼ '}${v.toFixed(1)}%</span>`;
+  }
+  function renderCard(d, hasParticipacion=false) {
+    if (!d) return '<div style="padding:16px; color:#a0a0a0; font-size:11px;">⚠️ Pendiente datos</div>';
+    const partHtml = hasParticipacion && d.participacion != null
+      ? `<div class="vc-kpi"><span class="vc-kpi-label">Participación</span><span class="vc-kpi-value">${d.participacion.toFixed(1)}%</span></div>` : '';
+    return `
+      <div class="vc-kpi"><span class="vc-kpi-label">Venta Actual</span><span class="vc-kpi-value big">${fmtMoney(d.venta)}</span></div>
+      <div class="vc-kpi"><span class="vc-kpi-label">Presupuesto</span><span class="vc-kpi-value">${fmtMoney(d.presupuesto)}</span></div>
+      <div style="padding:6px 0; border-bottom:1px solid #f0e8df;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px;">
+          <span class="vc-kpi-label">% Cumplimiento</span><span class="vc-kpi-value">${d.cumpl.toFixed(1)}%</span>
+        </div>
+        <div class="vc-cumpl-bar"><div class="vc-cumpl-bar-fill ${cumplCls(d.cumpl)}" style="width:${Math.min(100, d.cumpl)}%;"></div></div>
+      </div>
+      <div style="padding:6px 0; border-bottom:1px solid #f0e8df;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px;">
+          <span class="vc-kpi-label">% Cumpl. Proyect.</span><span class="vc-kpi-value">${d.cumpl_proy.toFixed(1)}%</span>
+        </div>
+        <div class="vc-cumpl-bar"><div class="vc-cumpl-bar-fill ${cumplCls(d.cumpl_proy)}" style="width:${Math.min(100, d.cumpl_proy)}%;"></div></div>
+      </div>
+      <div class="vc-kpi"><span class="vc-kpi-label">Crec. Venta</span><span class="vc-kpi-value">${deltaSpan(d.crec_venta)}</span></div>
+      <div class="vc-kpi"><span class="vc-kpi-label">OP Venta</span><span class="vc-kpi-value">${fmtMoney(d.op_venta)} ${deltaSpan(d.crec_op)}</span></div>
+      ${partHtml}`;
+  }
+  document.getElementById('vc-col-body').innerHTML  = renderCard(VENTAS.colombia);
+  document.getElementById('vc-cont-body').innerHTML = renderCard(VENTAS.contado, true);
+  document.getElementById('vc-cred-body').innerHTML = renderCard(VENTAS.credito, true);
+}
+
+function renderTrafico() {
+  function deltaSpan(chg) {
+    const cls = chg >= 0 ? 'delta-up' : 'delta-down';
+    return `<span class="${cls}">${chg>=0?'▲ +':'▼ '}${chg.toFixed(1)}%</span>`;
+  }
+  function miniTrend(data, valueKey, color, lastColor) {
+    const maxVal = Math.max(...data.map(d => d[valueKey]));
+    let bars = '';
+    data.forEach((d, i) => {
+      const h = (d[valueKey] / maxVal) * 100;
+      const isLast = i === data.length - 1;
+      const fill = isLast ? lastColor : color;
+      const v = d[valueKey];
+      // Formato corto para valor encima
+      const lbl = v >= 1000 ? (v/1000).toFixed(1) + 'K' : fmtNumber(v);
+      bars += `<div style="flex:1; display:flex; flex-direction:column; align-items:center; height:100%;"><div style="flex:1; display:flex; align-items:flex-end; width:100%; max-width:18px;"><div style="width:100%; background:${fill}; border-radius:2px 2px 0 0; height:${h}%; min-height:2px; position:relative;"><div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); font-size:7px; font-weight:700; color:#1a3a4a; white-space:nowrap;">${lbl}</div></div></div><div style="font-size:7px; color:#6a7c87; margin-top:2px;">${d.mes}</div></div>`;
+    });
+    return `<div style="display:flex; align-items:flex-end; gap:3px; height:50px; padding-top:14px;">${bars}</div>`;
+  }
+  function buildCardBody(hist, color, lastColor) {
+    const targetIdx = CURRENT_MONTH - 1;
+    let curIdx = targetIdx;
+    if (curIdx < 0 || curIdx >= hist.length) curIdx = hist.length - 1;
+    while (curIdx >= 0 && (hist[curIdx] == null || hist[curIdx].ses == null || hist[curIdx].usr == null)) curIdx--;
+    if (curIdx < 0) return '<div style="padding:16px; text-align:center; color:#a0a0a0; font-size:11px;">⚠️ Pendiente</div>';
+    const cur = hist[curIdx];
+    const prev = curIdx > 0 ? hist[curIdx-1] : null;
+    const mesLbl = cur.mes.charAt(0).toUpperCase() + cur.mes.slice(1);
+    const isFallback = curIdx !== targetIdx;
+    const fallbackTag = isFallback ? '<span style="font-size:8px; color:#7a4a00; background:#fff4d6; padding:1px 4px; border-radius:2px; margin-left:4px;">último dato</span>' : '';
+    const validHist = hist.filter(h => h != null && h.ses != null);
+
+    // ¿Es el mes en curso? (parcial · aún no cerró)
+    const esMesEnCurso = (curIdx === targetIdx) && (CURRENT_MONTH === MES_HOY_NUM);
+    let blockComparativo;
+    if (esMesEnCurso && prev) {
+      // Reemplazar MoM por ancla al mes anterior cerrado
+      const prevMesLbl = prev.mes.charAt(0).toUpperCase() + prev.mes.slice(1);
+      blockComparativo = `
+        <div style="padding:6px 8px; background:#fff8e1; border-left:3px solid #f0a050; border-radius:3px; margin:6px 0;">
+          <div style="font-size:8px; color:#7a4a00; text-transform:uppercase; font-weight:700; margin-bottom:2px;">Referencia · ${prevMesLbl} cierre</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; color:#5a4200;">
+            <span>Sesiones: <b>${fmtNumber(prev.ses)}</b></span>
+            <span>Usuarios: <b>${fmtNumber(prev.usr)}</b></span>
+          </div>
+          <div style="font-size:8px; color:#7a4a00; font-style:italic; margin-top:2px;">⏳ ${mesLbl} parcial: ${DIA_HOY} de ${DIAS_MES_ACTUAL} días · comparación MoM no disponible hasta cierre</div>
+        </div>`;
+    } else {
+      // Mes cerrado: mostrar MoM normal
+      const sesChg = prev && prev.ses ? ((cur.ses - prev.ses) / prev.ses * 100) : 0;
+      const usrChg = prev && prev.usr ? ((cur.usr - prev.usr) / prev.usr * 100) : 0;
+      blockComparativo = `
+        <div class="vc-kpi"><span class="vc-kpi-label">MoM Sesiones</span><span class="vc-kpi-value">${deltaSpan(sesChg)}</span></div>
+        <div class="vc-kpi"><span class="vc-kpi-label">MoM Usuarios</span><span class="vc-kpi-value">${deltaSpan(usrChg)}</span></div>`;
+    }
+
+    return `
+      <div class="vc-kpi"><span class="vc-kpi-label">Sesiones ${mesLbl} ${fallbackTag}</span><span class="vc-kpi-value big">${fmtNumber(cur.ses)}</span></div>
+      <div class="vc-kpi"><span class="vc-kpi-label">Usuarios ${mesLbl}</span><span class="vc-kpi-value">${fmtNumber(cur.usr)}</span></div>
+      ${blockComparativo}
+      <div style="margin-top:8px;">
+        <div style="font-size:8px; color:#6a7c87; text-transform:uppercase; font-weight:700; margin-bottom:3px;">Tendencia sesiones</div>
+        ${miniTrend(validHist, 'ses', color, lastColor)}
+      </div>
+      <div style="margin-top:10px;">
+        <div style="font-size:8px; color:#6a7c87; text-transform:uppercase; font-weight:700; margin-bottom:3px;">Tendencia usuarios</div>
+        ${miniTrend(validHist, 'usr', color, lastColor)}
+      </div>`;
+  }
+  function buildPresBody() {
+    const hist = TRAFICO_PRESENCIAL.hist;
+    const targetIdx = CURRENT_MONTH - 1;
+    let curIdx = (targetIdx >= 0 && targetIdx < hist.length) ? targetIdx : hist.length - 1;
+    while (curIdx >= 0 && (hist[curIdx] == null || hist[curIdx].val == null)) curIdx--;
+    if (curIdx < 0) return '<div style="padding:16px; color:#a0a0a0; font-size:11px;">⚠️ Pendiente</div>';
+    const cur = hist[curIdx];
+    const prev = curIdx > 0 ? hist[curIdx-1] : null;
+    const mesLbl = cur.mes.charAt(0).toUpperCase() + cur.mes.slice(1);
+    const isFallback = curIdx !== hist.length - 1;
+    const fallbackTag = isFallback ? '<span style="font-size:8px; color:#7a4a00; background:#fff4d6; padding:1px 4px; border-radius:2px; margin-left:4px;">último dato</span>' : '';
+    const validHist = hist.filter(h => h.val != null);
+    const targetIdxP = CURRENT_MONTH - 1;
+    const esMesEnCurso = (curIdx === targetIdxP) && (CURRENT_MONTH === MES_HOY_NUM);
+    let blockComp;
+    if (esMesEnCurso && prev) {
+      const prevMesLbl = prev.mes.charAt(0).toUpperCase() + prev.mes.slice(1);
+      blockComp = `
+        <div style="padding:6px 8px; background:#fff8e1; border-left:3px solid #f0a050; border-radius:3px; margin:6px 0;">
+          <div style="font-size:8px; color:#7a4a00; text-transform:uppercase; font-weight:700; margin-bottom:2px;">Referencia · ${prevMesLbl} cierre</div>
+          <div style="font-size:11px; color:#5a4200;">Visitantes: <b>${fmtNumber(prev.val)}</b></div>
+          <div style="font-size:8px; color:#7a4a00; font-style:italic; margin-top:2px;">⏳ ${mesLbl} parcial: ${DIA_HOY} de ${DIAS_MES_ACTUAL} días · comparación MoM no disponible hasta cierre</div>
+        </div>`;
+    } else {
+      const chg = prev && prev.val ? ((cur.val - prev.val) / prev.val * 100) : 0;
+      blockComp = `<div class="vc-kpi"><span class="vc-kpi-label">MoM</span><span class="vc-kpi-value">${deltaSpan(chg)}</span></div>`;
+    }
+    return `
+      <div class="vc-kpi"><span class="vc-kpi-label">Visitantes ${mesLbl} ${fallbackTag}</span><span class="vc-kpi-value big">${fmtNumber(cur.val)}</span></div>
+      ${blockComp}
+      <div class="vc-kpi"><span class="vc-kpi-label">Total 2026</span><span class="vc-kpi-value">${fmtNumber(TRAFICO_PRESENCIAL.total)}</span></div>
+      <div style="margin-top:8px;"><div style="font-size:8px; color:#6a7c87; text-transform:uppercase; font-weight:700; margin-bottom:3px;">Tendencia visitantes</div>${miniTrend(validHist.map(h => ({ mes:h.mes, val:h.val })), 'val', '#15a3b8', '#d94545')}</div>`;
+  }
+  function buildCnpBody() {
+    const g = CNP.jun.global;
+    const p = CNP.jun.por_tipo;
+    const cumplLeadsCls = g.pct_cump_leads < 60 ? 'low' : (g.pct_cump_leads < 90 ? 'ok' : 'high');
+    const cumplFactCls  = g.pct_cump_fact  < 60 ? 'low' : (g.pct_cump_fact  < 90 ? 'ok' : 'high');
+    let breakdown = '';
+    [['CONOCIDO','Cliente Conocido'],['NUEVO','Cliente Contactable'],['OTROS','Otros Medios']].forEach(([t,lbl]) => {
+      const r = p[t];
+      const cumplCls = r.pct_cump_leads < 60 ? '#d94545' : (r.pct_cump_leads < 90 ? '#f0a050' : '#1aa66f');
+      const factCls  = r.pct_cump_fact  < 60 ? '#d94545' : (r.pct_cump_fact  < 90 ? '#f0a050' : '#1aa66f');
+      breakdown += `<div class="tipo-line"><span class="tl-name">${lbl}<br><span style="font-size:8px; color:#6a7c87; font-weight:500;">${fmtNumber(r.leads_real)} conv · $${r.fact_real}M fact</span></span><span class="tl-val" style="text-align:right;"><span style="color:${cumplCls}; font-size:10px;">${r.pct_cump_leads}%</span><br><span style="color:${factCls}; font-size:9px; font-weight:600;">$ ${r.pct_cump_fact}%</span></span></div>`;
+    });
+    return `
+      <div class="vc-kpi"><span class="vc-kpi-label">Conversaciones</span><span class="vc-kpi-value big">${fmtNumber(g.leads_real)}</span></div>
+      <div class="vc-kpi"><span class="vc-kpi-label">Meta Conv.</span><span class="vc-kpi-value">${fmtNumber(g.meta_leads)}</span></div>
+      <div style="padding:6px 0; border-bottom:1px solid #f0e8df;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px;">
+          <span class="vc-kpi-label">% Cumpl Conv · CALF</span><span class="vc-kpi-value">${g.pct_cump_leads}% · ${g.pct_cump_a_fecha}%</span>
+        </div>
+        <div class="vc-cumpl-bar"><div class="vc-cumpl-bar-fill ${cumplLeadsCls}" style="width:${Math.min(100, g.pct_cump_leads)}%;"></div></div>
+      </div>
+      <div class="vc-kpi" style="padding-top:6px;"><span class="vc-kpi-label">Facturación</span><span class="vc-kpi-value big">$${fmtNumber(g.fact_real)} M</span></div>
+      <div class="vc-kpi"><span class="vc-kpi-label">Meta Fact.</span><span class="vc-kpi-value">$${fmtNumber(g.meta_fact)} M</span></div>
+      <div style="padding:6px 0; border-bottom:1px solid #f0e8df;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px;">
+          <span class="vc-kpi-label">% Cumpl Fact · CALF</span><span class="vc-kpi-value">${g.pct_cump_fact}% · ${g.pct_cump_fact_a_fecha}%</span>
+        </div>
+        <div class="vc-cumpl-bar"><div class="vc-cumpl-bar-fill ${cumplFactCls}" style="width:${Math.min(100, g.pct_cump_fact)}%;"></div></div>
+      </div>
+      <div class="vc-kpi"><span class="vc-kpi-label">Crec. Fact YoY</span><span class="vc-kpi-value" style="color:#1aa66f;">+${g.crec_fact}%</span></div>
+      <div style="font-size:8px; color:#6a7c87; text-transform:uppercase; font-weight:700; margin: 6px 0 3px;">Conv · Fact por base de datos</div>
+      ${breakdown}
+      <div style="font-size:8px; color:#9ca8b0; margin-top:5px; line-height:1.3;">Fuente: Tableau · Seg. Mes Conversaciones + Seg. Mes Facturación · <b>cierre oficial junio 2026</b></div>`;
+  }
+  // Nota de carga manual (Email y SMS ya no vienen de Tableau, se cargan por CSV manual de Andrea)
+  const notaManual = '<div style="font-size:8px; color:#8a6020; font-style:italic; margin-top:6px; padding:4px 6px; background:#fff8e1; border-radius:4px; line-height:1.3;">📎 Carga manual (CSV) · última actualización: <b>' + TRAFICO_MANUAL_ULTIMA_CARGA + '</b> · datos hasta <b>' + TRAFICO_MANUAL_ULTIMO_DIA + '</b></div>';
+  document.getElementById('vc-email-body').innerHTML = buildCardBody(TRAFICO.EMAIL, '#1F3864', '#d94545') + notaManual;
+  document.getElementById('vc-sms-body').innerHTML   = buildCardBody(TRAFICO.SMS,   '#f0a050', '#d94545') + notaManual;
+  document.getElementById('vc-pres-body').innerHTML  = buildPresBody();
+  document.getElementById('vc-cnp-body').innerHTML   = buildCnpBody();
+}
+
+function renderMediosUpdateBox() {
+  // Nombres de meses
+  const MESES_FULL = ['','enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const fechaEl = document.getElementById('medios-ultima-fecha');
+  const mesEl = document.getElementById('medios-mes-mostrado');
+  const warnEl = document.getElementById('medios-warning');
+  if (fechaEl) fechaEl.textContent = MEDIOS_ULTIMA_ACTUALIZACION;
+  const mesSel = MESES_FULL[CURRENT_MONTH] ? MESES_FULL[CURRENT_MONTH][0].toUpperCase() + MESES_FULL[CURRENT_MONTH].slice(1) : '—';
+  const hasData = !!DATA_ALL_MONTHS[CURRENT_MONTH];
+  if (mesEl) mesEl.textContent = hasData ? mesSel + ' 2026' : MESES_FULL[MEDIOS_ULTIMO_MES][0].toUpperCase() + MESES_FULL[MEDIOS_ULTIMO_MES].slice(1) + ' 2026 (fallback)';
+  if (warnEl) {
+    if (!hasData) {
+      warnEl.style.display = 'block';
+      warnEl.innerHTML = '⚠️ MEDIOS para <b>' + mesSel + '</b> aún no disponible. Mostrando <b>' + MESES_FULL[MEDIOS_ULTIMO_MES] + '</b> hasta que se cargue el nuevo Dashboard Visibilidad Relacional.';
+    } else {
+      warnEl.style.display = 'none';
+    }
+  }
+}
+
+function updateSectionLabels() {
+  const mesAb = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][CURRENT_MONTH];
+  const mesFull = MES_LABEL_FULL[CURRENT_MONTH];
+  const badge = (extra='') => '<span style="background:#fff4d6; color:#7a4a00; padding:2px 8px; border-radius:8px; font-size:11px; font-weight:700; margin-left:6px;">📅 ' + mesAb + ' 2026' + extra + '</span>';
+  const lblEstrato = document.getElementById('lbl-estrato-mes');
+  const lblEdad    = document.getElementById('lbl-edad-mes');
+  const lblLinea   = document.getElementById('lbl-linea-mes');
+  const lblAgen    = document.getElementById('lbl-agencia-mes');
+  if (lblEstrato) lblEstrato.innerHTML = badge();
+  if (lblEdad)    lblEdad.innerHTML    = badge();
+  if (lblLinea)   lblLinea.innerHTML   = badge();
+  if (lblAgen)    lblAgen.innerHTML    = badge();
+
+  // Actualiza los sub-labels de las update-box de VENTAS y CONVERSIÓN
+  // Si es el mes en curso (sep=9), mostrar "parcial al día X"; si es histórico, "cierre completo"
+  const esActual = (CURRENT_MONTH === 9);
+  const sufijoActual = esActual ? ' parcial al día 14' : ' cierre completo';
+  const periodoLbl = 'datos ' + mesFull + ' 2026' + sufijoActual;
+  const vBox = document.getElementById('ventas-periodo-label');
+  const cBox = document.getElementById('conv-periodo-label');
+  if (vBox) vBox.textContent = periodoLbl;
+  if (cBox) cBox.textContent = periodoLbl;
+}
+
+function renderAll() {
+  renderMediosUpdateBox();
+  updateSectionLabels();
+  renderVentas();
+  renderTrafico();
+  renderMedios(CURRENT_TIPO_MEDIOS);
+  renderCartera(CURRENT_TIPO_CART);
+  renderConversion(CURRENT_TIPO_CONV, CURRENT_VENTA);
+  buildInsights();
+}
+
+// ============ MEDIOS CARTERA · render ============
+function renderCartera(subcat) {
+  const src = CARTERA_DATA;
+  const sub = subcat || 'TODOS';
+
+  // Fallback igual que MEDIOS: si el mes seleccionado no tiene data por canal, usar el último mes disponible con datos en ese canal
+  function ultimoMesConData(canalMap) {
+    if (!canalMap) return null;
+    const keys = Object.keys(canalMap).map(k => parseInt(k)).filter(n => !isNaN(n)).sort((a,b) => b - a);
+    // buscar hasta el mes actual o antes
+    for (const k of keys) { if (k <= CURRENT_MONTH) return k; }
+    return keys[0] || null;  // si no hay ninguno anterior, tomar cualquiera disponible
+  }
+
+  // Nota inteligente
+  const noteEl = document.getElementById('cartera-tipo-note');
+  if (noteEl) {
+    const mesFullActual = MES_LABEL_FULL[CURRENT_MONTH] || 'este mes';
+    let notas = [];
+    // Detectar si algún canal está en fallback
+    const emData = src.EMAIL[sub] || {};
+    const usaFallback = !emData[CURRENT_MONTH] && ultimoMesConData(emData);
+    if (usaFallback) {
+      const ultMes = MES_LABEL_FULL[ultimoMesConData(emData)];
+      notas.push('⚠️ Sin datos cartera para <b>' + mesFullActual + '</b> · mostrando último disponible: <b>' + ultMes + '</b>');
+    }
+    if (sub === 'PYG') {
+      notas.push('ℹ️ <b>Paga y Gana</b> WhatsApp/Pauta: campañas activas solo en meses puntuales (mayo–junio 2026)');
+    }
+    if (sub === 'CARTERA') {
+      notas.push('ℹ️ <b>Always Zone</b>: WhatsApp y Pauta no aplican (solo Email y SMS)');
+    }
+    noteEl.innerHTML = notas.join(' · ');
+  }
+
+  // Helper para renderizar cada card
+  // REGLA: si el mes actual no tiene actividad → mostrar 0 (NO fallback, NO ocultar)
+  // Solo canales EMAIL/SMS de Always Zone tienen fallback (siempre hay actividad).
+  // Para WA/Pauta si no hay actividad ese mes → todo en 0.
+  function fillCard(prefix, dataMes, prevMes, tipoCard, mesLbl, forzarCero) {
+    const cardBody = document.getElementById(prefix + '-envios').closest('.card-body');
+    const topBlock = cardBody.querySelector('.medios-top');
+    const emptyEl = document.getElementById(prefix + '-empty');
+    const gaugesEl = document.getElementById('gauges-' + prefix);
+
+    // Siempre mostrar el top block (nunca ocultar la card)
+    topBlock.style.display = 'flex';
+    emptyEl.style.display = 'none';
+
+    // Si forzarCero o no hay data, mostrar todo en 0
+    if (forzarCero || !dataMes) {
+      const cero = { env:0, or:0, ctr:0, clic:0, lec:0, rtr:0, camp:0, alc:0, res:0, cpa:0, imp:0 };
+      dataMes = cero;
+      prevMes = null;
+    }
+
+    const lblEl = document.getElementById(prefix + '-label');
+    const envEl = document.getElementById(prefix + '-envios');
+    const fullEl = document.getElementById(prefix + '-envios-full');
+    const subEl = document.getElementById(prefix + '-sub');
+
+    if (tipoCard === 'email') {
+      lblEl.textContent = 'Envíos ' + mesLbl;
+      envEl.textContent = fmtShort(dataMes.env);
+      fullEl.innerHTML = '<b style="color:#1F3864;">OR: ' + dataMes.or.toFixed(2) + '%</b>';
+      const delta = prevMes ? pctChange(dataMes.or, prevMes.or) : 0;
+      setBehavior(document.getElementById(prefix + '-arrow'), document.getElementById(prefix + '-delta'), delta);
+      subEl.textContent = dataMes.or.toFixed(2) + '%' + (prevMes ? ' (vs ' + prevMes.or.toFixed(2) + '% mes ant.)' : '');
+      if (gaugesEl) gaugesEl.innerHTML = makeGauge(prefix + '-or', { name:'OR', value:dataMes.or, ...BENCH.email_or, ...trendInfo(dataMes.or, prevMes ? prevMes.or : dataMes.or) });
+    } else if (tipoCard === 'sms') {
+      lblEl.textContent = 'Envíos ' + mesLbl;
+      envEl.textContent = fmtShort(dataMes.env);
+      fullEl.innerHTML = '<b style="color:#1F3864;">' + fmtNumber(dataMes.clic) + '</b> clics';
+      const delta = prevMes ? pctChange(dataMes.ctr, prevMes.ctr) : 0;
+      setBehavior(document.getElementById(prefix + '-arrow'), document.getElementById(prefix + '-delta'), delta);
+      subEl.textContent = dataMes.ctr.toFixed(2) + '%' + (prevMes ? ' (vs ' + prevMes.ctr.toFixed(2) + '% mes ant.)' : '');
+      if (gaugesEl) gaugesEl.innerHTML = makeGauge(prefix + '-ctr', { name:'CTR', value:dataMes.ctr, ...BENCH.sms_ctr, ...trendInfo(dataMes.ctr, prevMes ? prevMes.ctr : dataMes.ctr) });
+    } else if (tipoCard === 'wa') {
+      lblEl.textContent = 'Envíos ' + mesLbl;
+      envEl.textContent = fmtShort(dataMes.env);
+      fullEl.innerHTML = '<b style="color:#1F3864;">' + (dataMes.camp || 0) + '</b> campañas · RTR ' + (dataMes.rtr || 0).toFixed(1) + '%';
+      document.getElementById('cart-wa-lectura').textContent = dataMes.lec.toFixed(1);
+      subEl.textContent = 'Leídas: ' + Math.round(dataMes.env * dataMes.lec / 100).toLocaleString('es-CO');
+      if (gaugesEl) gaugesEl.innerHTML =
+        makeGauge(prefix + '-lec', { name:'Lectura', value:dataMes.lec, ...BENCH.wa_lectura, ...trendInfo(dataMes.lec, prevMes ? prevMes.lec : dataMes.lec) }) +
+        makeGauge(prefix + '-rtr', { name:'RTR', value:dataMes.rtr, ...BENCH.wa_rtr, ...trendInfo(dataMes.rtr, prevMes ? prevMes.rtr : dataMes.rtr) });
+    } else if (tipoCard === 'pauta') {
+      lblEl.textContent = 'Alcance ' + mesLbl;
+      envEl.textContent = fmtShort(dataMes.alc);
+      fullEl.innerHTML = '<b style="color:#1F3864;">' + fmtNumber(dataMes.res) + '</b> resultados';
+      document.getElementById('cart-pauta-cpa').textContent = fmtNumber(dataMes.cpa);
+      subEl.textContent = 'Impresiones: ' + fmtShort(dataMes.imp || 0);
+      if (gaugesEl) gaugesEl.innerHTML = makeGauge(prefix + '-cpa', { name:'CPA', value:dataMes.cpa, ...BENCH.pauta_cpa, ...trendInfo(dataMes.cpa, prevMes ? prevMes.cpa : dataMes.cpa, true) });
+    }
+  }
+
+  // Para cada canal, determinar mes efectivo (actual o fallback)
+  function pickMes(canalMap) {
+    if (!canalMap) return { data: null, mes: null, prev: null };
+    if (canalMap[CURRENT_MONTH]) {
+      return { data: canalMap[CURRENT_MONTH], mes: CURRENT_MONTH, prev: canalMap[CURRENT_MONTH - 1] || null };
+    }
+    const ult = ultimoMesConData(canalMap);
+    if (ult) return { data: canalMap[ult], mes: ult, prev: canalMap[ult - 1] || null };
+    return { data: null, mes: null, prev: null };
+  }
+
+  // EMAIL y SMS: SÍ hacen fallback al último mes con data (siempre hay actividad en Always Zone)
+  const emData = src.EMAIL[sub];
+  const emPick = pickMes(emData);
+  fillCard('cart-email', emPick.data, emPick.prev, 'email', emPick.mes ? MES_NOMBRES[emPick.mes] : MES_NOMBRES[CURRENT_MONTH]);
+
+  const smsData = src.SMS[sub];
+  const smsPick = pickMes(smsData);
+  fillCard('cart-sms', smsPick.data, smsPick.prev, 'sms', smsPick.mes ? MES_NOMBRES[smsPick.mes] : MES_NOMBRES[CURRENT_MONTH]);
+
+  // WhatsApp y Pauta: NO hacen fallback · si el mes actual no tuvo actividad → mostrar 0
+  const waData = src.WHATSAPP[sub];
+  const waMesActual = waData && waData[CURRENT_MONTH];
+  fillCard('cart-wa', waMesActual || null, waData && waData[CURRENT_MONTH - 1] || null, 'wa', MES_NOMBRES[CURRENT_MONTH], !waMesActual);
+
+  const paData = src.PAUTA[sub];
+  const paMesActual = paData && paData[CURRENT_MONTH];
+  fillCard('cart-pauta', paMesActual || null, paData && paData[CURRENT_MONTH - 1] || null, 'pauta', MES_NOMBRES[CURRENT_MONTH], !paMesActual);
+}
+
+// ============ INSIGHTS DINÁMICOS · se recalculan al cambiar mes ============
+function buildInsights() {
+  const grid = document.getElementById('insights-grid');
+  const conc = document.getElementById('insights-conclusion');
+  const lbl  = document.getElementById('insights-mes-label');
+  if (!grid || !conc) return;
+
+  const mesLabel = MES_LABEL_FULL[CURRENT_MONTH];
+  const mesUp = mesLabel.toUpperCase();
+  if (lbl) lbl.textContent = mesLabel.charAt(0).toUpperCase() + mesLabel.slice(1) + ' 2026' + (CURRENT_MONTH === 9 ? ' al 14' : ' (cierre)');
+
+  const f = FUNNEL_ALL_MONTHS[CURRENT_MONTH];
+  const v = VENTAS_ALL_MONTHS[CURRENT_MONTH];
+  const cnp = CNP_ALL_MONTHS[CURRENT_MONTH];
+  const estr = ESTRATOS_BY_MONTH[CURRENT_MONTH] || [];
+  const edad = EDADES_BY_MONTH[CURRENT_MONTH] || [];
+  const agen = AGENCIAS_BY_MONTH[CURRENT_MONTH] || [];
+  const lin  = LINEAS_BY_MONTH[CURRENT_MONTH] || [];
+
+  const wins = [];
+  const alerts = [];
+  const acciones = [];
+
+  // ===== WINS =====
+  if (f && f.crec_cotiz && f.crec_cotiz.TOTAL > 0) {
+    wins.push(`<b>Cotización +${f.crec_cotiz.TOTAL}% YoY</b> · la conversión superior está funcionando (${(f.cotiz?.TOTAL||0).toLocaleString('es-CO')} cotizaciones)`);
+  }
+  if (v && v.contado && v.contado.cumpl_proy >= 100) {
+    wins.push(`<b>Contado cumple proyección ${v.contado.cumpl_proy}%</b> · $${(v.contado.venta/1e6).toFixed(0)}M vendidos con crec ${v.contado.crec_venta>=0?'+':''}${v.contado.crec_venta}% YoY`);
+  }
+  if (cnp && cnp.global && cnp.global.pct_cump_a_fecha > 100) {
+    wins.push(`<b>CNP Base de Datos superando meta corte ${cnp.global.pct_cump_a_fecha}%</b> · ${cnp.global.leads_real.toLocaleString('es-CO')} conversaciones vs ${cnp.global.meta_corte_leads.toLocaleString('es-CO')} esperadas`);
+  }
+  if (cnp && cnp.global && cnp.global.crec_fact > 0) {
+    wins.push(`<b>CNP facturación +${cnp.global.crec_fact}% YoY</b> · $${cnp.global.fact_real}M vs mismo periodo 2025`);
+  }
+  const edadPos = edad.find(e => e.crec_vta > 0);
+  if (edadPos) {
+    wins.push(`<b>${edadPos.name} creciendo +${edadPos.crec_vta}%</b> · segmento con oportunidad (${edadPos.clientes.toLocaleString('es-CO')} clientes · $${(edadPos.venta/1e6).toFixed(0)}M)`);
+  }
+  const estrPos = estr.find(e => e.crec_vta > 15 && e.clientes > 100);
+  if (estrPos) {
+    wins.push(`<b>${estrPos.name} +${estrPos.crec_vta}% en venta</b> · ${estrPos.clientes.toLocaleString('es-CO')} clientes · $${(estrPos.venta/1e6).toFixed(0)}M`);
+  }
+  if (f && f.confirmacion_citas && f.crec_visor && f.crec_visor.CONOCIDO > f.crec_visor.NUEVO) {
+    wins.push(`<b>CONOCIDO resiste mejor que NUEVO en visor</b> · ${f.crec_visor.CONOCIDO}% vs ${f.crec_visor.NUEVO}% YoY`);
+  }
+  const agenTop = agen.slice(0,1)[0];
+  if (agenTop) {
+    const tot = (agenTop.CONOCIDO||0)+(agenTop.CONTACTABLE||0)+(agenTop.NUEVO||0);
+    wins.push(`<b>${agenTop.name} lidera</b> · ${tot.toLocaleString('es-CO')} visores en ${mesLabel}`);
+  }
+
+  // ===== ALERTAS =====
+  if (v && v.colombia && v.colombia.crec_venta < 0) {
+    alerts.push(`<b>Venta Colombia ${v.colombia.crec_venta}% YoY</b> · $${(v.colombia.venta/1e6).toFixed(0)}M vs mismo periodo 2025 · cumpl proy ${v.colombia.cumpl_proy}%`);
+  }
+  if (v && v.credito && v.credito.crec_venta < -5) {
+    alerts.push(`<b>Crédito cayendo ${v.credito.crec_venta}%</b> · cumpl proy ${v.credito.cumpl_proy}% · $${(v.credito.venta/1e6).toFixed(0)}M`);
+  }
+  if (f && f.crec_visor && f.crec_visor.NUEVO < -20) {
+    alerts.push(`<b>Visor NUEVO ${f.crec_visor.NUEVO}% YoY</b> · el motor de adquisición se está enfriando fuerte`);
+  }
+  if (f && f.crec_visor && f.crec_visor.TOTAL < -10) {
+    alerts.push(`<b>Visor TOTAL ${f.crec_visor.TOTAL}% YoY</b> · si no se reactiva impactará venta en 2-3 meses`);
+  }
+  const edadNeg = edad.filter(e => e.crec_vta < -15 && !e.name.includes('Sin')).sort((a,b) => a.crec_vta - b.crec_vta)[0];
+  if (edadNeg) {
+    alerts.push(`<b>${edadNeg.name} cayendo ${edadNeg.crec_vta}%</b> · ${edadNeg.clientes.toLocaleString('es-CO')} clientes · $${(edadNeg.venta/1e6).toFixed(0)}M (segmento en pérdida)`);
+  }
+  const estrLider = estr[0];
+  if (estrLider && estrLider.crec_vta < -5) {
+    alerts.push(`<b>${estrLider.name} (líder) cayendo ${estrLider.crec_vta}%</b> · ${estrLider.clientes.toLocaleString('es-CO')} clientes · el mayor cluster está en riesgo`);
+  }
+  if (cnp && cnp.CONOCIDO && cnp.CONOCIDO.pct_cump_leads < 30) {
+    alerts.push(`<b>CNP Cliente Conocido en alerta</b> · ${cnp.CONOCIDO.pct_cump_leads}% cumpl · solo ${cnp.CONOCIDO.leads_real.toLocaleString('es-CO')} de ${cnp.CONOCIDO.meta_leads.toLocaleString('es-CO')} meta`);
+  }
+  // Email traffic drop
+  const emailIdx = CURRENT_MONTH - 1;
+  const emailCur = TRAFICO.EMAIL[emailIdx];
+  const emailPrev = TRAFICO.EMAIL[emailIdx-1];
+  if (emailCur && emailPrev) {
+    const drop = ((emailCur.ses - emailPrev.ses) / emailPrev.ses * 100);
+    if (drop < -20) alerts.push(`<b>Email digital ${drop.toFixed(0)}% vs mes anterior</b> · ${emailCur.ses.toLocaleString('es-CO')} sesiones (validar tracking UTM)`);
+  }
+
+  // ===== ACCIONES =====
+  if (v && v.colombia && v.colombia.crec_venta < -5) {
+    acciones.push(`<b>Plan de reactivación venta</b> · brecha de ${Math.abs(v.colombia.crec_venta).toFixed(1)} pts vs ${mesLabel} 2025`);
+  }
+  if (f && f.crec_visor && f.crec_visor.NUEVO < -20) {
+    acciones.push(`<b>Campaña adquisición NUEVO cliente</b> · pauta + digital para revertir la caída del ${f.crec_visor.NUEVO}%`);
+  }
+  if (v && v.credito && v.credito.crec_venta < -10) {
+    acciones.push(`<b>Revisión estrategia Crédito</b> con Micredijamar · caída de ${v.credito.crec_venta}% en ${mesLabel}`);
+  }
+  if (edadNeg) {
+    acciones.push(`<b>Rescatar segmento ${edadNeg.name}</b> · cae ${edadNeg.crec_vta}% · diseñar oferta específica`);
+  }
+  if (edadPos) {
+    acciones.push(`<b>Doblar apuesta en ${edadPos.name}</b> · crece +${edadPos.crec_vta}% · escalar campañas`);
+  }
+  const linTop = lin[0];
+  if (linTop) {
+    const vtaTot = ((linTop.CONOCIDO?.vta||0)+(linTop.CONTACTABLE?.vta||0)+(linTop.NUEVO?.vta||0))/1e6;
+    acciones.push(`<b>Priorizar ${linTop.name}</b> · líder con $${vtaTot.toFixed(0)}M en ${mesLabel} · asegurar stock`);
+  }
+  if (cnp && cnp.OTROS && cnp.OTROS.crec_fact > 100) {
+    acciones.push(`<b>Escalar canal Otros Medios CNP</b> · crec +${cnp.OTROS.crec_fact}% · replicar en otros canales`);
+  }
+  if (agenTop) {
+    acciones.push(`<b>Documentar caso ${agenTop.name}</b> · qué están haciendo distinto (visor líder)`);
+  }
+
+  // ===== RENDER =====
+  const renderList = (items, tag='ul') => `<${tag}>` + items.slice(0,7).map(x => `<li>${x}</li>`).join('') + `</${tag}>`;
+
+  grid.innerHTML = `
+    <div class="insights-col wins">
+      <h4>🟢 Lo que va bien</h4>
+      ${renderList(wins.length ? wins : ['Sin señales positivas destacables este mes'])}
+    </div>
+    <div class="insights-col alerts">
+      <h4>🚨 Alarmas críticas</h4>
+      ${renderList(alerts.length ? alerts : ['Sin alarmas críticas este mes'])}
+    </div>
+    <div class="insights-col actions">
+      <h4>🎯 Acciones prioritarias</h4>
+      ${renderList(acciones.length ? acciones : ['Continuar monitoreo diario'], 'ol')}
+    </div>`;
+
+  // ===== CONCLUSIONES =====
+  const concluItems = [];
+  const brecha = v && v.colombia ? v.colombia.crec_venta : 0;
+  const visorTot = f && f.crec_visor ? f.crec_visor.TOTAL : 0;
+  const cotizTot = f && f.crec_cotiz ? f.crec_cotiz.TOTAL : 0;
+  if (visorTot < -10 && cotizTot > 0) {
+    concluItems.push(`<b>El motor superior se está apagando pero la conversión aguanta.</b> Visor ${visorTot}% YoY pero cotización ${cotizTot>=0?'+':''}${cotizTot}%. Si el visor no se recupera pronto, la venta caerá en 2-3 meses.`);
+  } else if (visorTot < -5) {
+    concluItems.push(`<b>Visor ${visorTot}% YoY es la principal preocupación.</b> Debe monitorearse semanalmente y activar campañas de tráfico si no se recupera.`);
+  }
+  if (v && v.contado && v.credito) {
+    const dif = v.contado.crec_venta - v.credito.crec_venta;
+    if (dif > 5) concluItems.push(`<b>Contado va mejor que Crédito.</b> Diferencia de ${dif.toFixed(1)} pts YoY. Revisar mix de financiación con Micredijamar.`);
+  }
+  if (cnp && cnp.global && cnp.global.pct_cump_a_fecha > 100) {
+    concluItems.push(`<b>CNP Base de Datos supera meta corte ${cnp.global.pct_cump_a_fecha}%.</b> El canal Relacional (BBDD) es la palanca más eficiente en ${mesLabel}. Escalar contacto WhatsApp + SMS.`);
+  }
+  if (concluItems.length === 0) {
+    concluItems.push(`<b>${mesLabel.charAt(0).toUpperCase() + mesLabel.slice(1)} avanza según lo esperado.</b> Continuar la operación normal y monitorear cierre.`);
+  }
+
+  conc.innerHTML = `
+    <h4>📈 Conclusiones de cierre · ${mesLabel} 2026</h4>
+    <ol>${concluItems.map(x => `<li>${x}</li>`).join('')}</ol>`;
+}
+
+const MES_LABEL_FULL = ["","enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+// ===== Listener del selector de mes =====
+document.querySelectorAll('#mes-selector .mes-chip').forEach(chip => {
+  if (chip.classList.contains('disabled')) return;
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('#mes-selector .mes-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    CURRENT_MONTH = parseInt(chip.dataset.mes, 10);
+    CURRENT_PREV_MONTH = CURRENT_MONTH > 1 ? CURRENT_MONTH - 1 : 1;
+    rebuildDataFromMonth();
+    rebuildCnpFromMonth();
+    rebuildFunnelFromMonth();
+    rebuildVentasFromMonth();
+    rebuildCliente360FromMonth();
+    const dc = document.querySelectorAll('.header-chip')[1];
+    if (dc) dc.innerHTML = '📅 ' + MES_LABEL_FULL[CURRENT_MONTH].toUpperCase() + ' 2026' + (CURRENT_MONTH === 9 ? ' · al 14 sep' : '');
+    renderAll();
+  });
+});
+
+// ===== Listeners para filtros de Tipo Cliente (MEDIOS) =====
+document.querySelectorAll('#tipo-pills-medios .tipo-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#tipo-pills-medios .tipo-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    CURRENT_TIPO_MEDIOS = pill.dataset.tipo;
+    renderMedios(CURRENT_TIPO_MEDIOS);
+  });
+});
+
+// ===== Listeners para filtros CARTERA (TODOS / ALWAYS ZONE / PAGA Y GANA) =====
+document.querySelectorAll('.tipo-pill[data-carttipo]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.tipo-pill[data-carttipo]').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    CURRENT_TIPO_CART = pill.dataset.carttipo;
+    renderCartera(CURRENT_TIPO_CART);
+  });
+});
+
+// ===== Listeners para filtros de Tipo Cliente (CONVERSIÓN) =====
+document.querySelectorAll('#tipo-pills-conv .tipo-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#tipo-pills-conv .tipo-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    CURRENT_TIPO_CONV = pill.dataset.tipo;
+    renderConversion(CURRENT_TIPO_CONV, CURRENT_VENTA);
+  });
+});
+
+// ===== Listeners para filtro Tipo Venta (TODO/CONTADO/CRÉDITO) =====
+document.querySelectorAll('#venta-pills .tipo-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#venta-pills .tipo-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    CURRENT_VENTA = pill.dataset.venta;
+    const cur = document.getElementById('venta-current');
+    if (cur) cur.textContent = CURRENT_VENTA;
+    renderConversion(CURRENT_TIPO_CONV, CURRENT_VENTA);
+  });
+});
+
+// ===== Inicialización al cargar =====
+rebuildDataFromMonth();
+rebuildCnpFromMonth();
+rebuildFunnelFromMonth();
+rebuildVentasFromMonth();
+rebuildCliente360FromMonth();
+const _initDateChip2 = document.querySelectorAll('.header-chip')[1];
+if (_initDateChip2) _initDateChip2.innerHTML = '📅 ' + MES_LABEL_FULL[CURRENT_MONTH].toUpperCase() + ' 2026 · al 23 jul';
+renderAll();
+</script>
+</body>
+</html>
