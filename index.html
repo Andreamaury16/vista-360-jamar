@@ -789,7 +789,7 @@
     <div class="section-header">TRÁFICO</div>
     <div class="update-box">
       <b>📎 Email · SMS Digital:</b> CSV manual (<code>trafico-email-sms-2026.csv</code>) — se actualiza cuando Andrea sube nuevo archivo<br>
-      <b>🔄 Presencial:</b> Tableau <code>Tablero de Ventas NonBank</code> (auto, mismo día del corte)<br>
+      <b>🔄 Presencial:</b> Tableau <code>Tablero de Tráfico</code> · sección "Gráfico Tráfico Mensual" (auto, mismo día del corte)<br>
       <b>Variables JS:</b> <code>TRAFICO.EMAIL</code>, <code>TRAFICO.SMS</code>, <code>TRAFICO_PRESENCIAL.hist</code>
     </div>
 
@@ -1822,10 +1822,9 @@ const TRAFICO_MANUAL_ULTIMA_CARGA = '8 sep 2026';
 const TRAFICO_MANUAL_ULTIMO_DIA = '5 sep 2026';
 
 const TRAFICO_PRESENCIAL = {
-  // FUENTE: Tableau · Tablero de Ventas NonBank (viewId 34762000-ee23-472e-aa59-84fff8a349cc)
-  // URL: https://elena.mueblesjamar.com.co/#/views/TablerodeVentasNonBank/TablerodeVentasNonBank
-  // NOTA: Corrección 21 sep 2026 — Presencial YA NO se consulta de "TABLERO DE TRÁFICO" ni "Tráfico Ecommerce v2".
-  // Email/SMS Digital: manual (CSV) · Presencial: automático desde Tablero de Ventas NonBank.
+  // FUENTE: Tableau · TABLERO DE TRÁFICO (viewId 0ec8e39a-d8c0-41f8-b417-a0b1408801e9) · sección "Gráfico Tráfico Mensual"
+  // URL: https://elena.mueblesjamar.com.co/#/views/TablerodeTrfico/TABLERODETRFICO?:iid=3
+  // Regla confirmada 21 sep 2026 · Email/SMS Digital: CSV manual · Presencial: auto desde este view.
   hist: [
     { mes:'ene', val:147211 },
     { mes:'feb', val:110186 },
