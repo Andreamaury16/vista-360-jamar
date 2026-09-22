@@ -1032,7 +1032,30 @@
           </div>
         </div>
       </div>
+      <div class="card full-w table-big">
+        <div class="card-header">📈 TENDENCIA ANUAL DEL RECAUDO 2026 · COLOMBIA</div>
+        <div class="card-body">
+          <div class="agencia-table-wrap" style="max-height:none;">
+            <table class="agencia-table">
+              <thead><tr>
+                <th>Mes</th><th>Objetivo</th><th>Recaudo</th><th>% Cumpl.</th><th>% Cumpl. proyectado</th>
+                <th>Recaudo 2025</th><th>Var. vs 2025</th><th style="width:22%;">Recaudo</th>
+              </tr></thead>
+              <tbody id="recaudo-tendencia-tbody"></tbody>
+            </table>
+          </div>
+          <div style="font-size:8px;color:#8a6020;font-style:italic;margin-top:4px;">Meses cerrados = corte último día del mes · Recaudo 2025 desde Tableau Recaudo › Históricos Colombia · la fila resaltada es el mes seleccionado arriba</div>
+        </div>
+      </div>
     </div>
+
+    <!-- ============ INSIGHTS DE CARTERA ============ -->
+    <div class="section-header" style="margin-top:14px;">💡 INSIGHTS DE CARTERA · RECAUDO</div>
+    <details class="insights-panel" open>
+      <summary>📊 Análisis de cartera · <span id="insights-cartera-label">Recaudo 2026</span> · Colombia</summary>
+      <div class="insights-grid" id="insights-cartera-grid"></div>
+      <div class="insights-conclusion" id="insights-cartera-conclusion"></div>
+    </details>
 
     <!-- ============ INSIGHTS · al final ============ -->
     <div class="section-header" style="margin-top:14px;">💡 INSIGHTS · ANÁLISIS ESTRATÉGICO</div>
@@ -2766,57 +2789,234 @@ function updateSectionLabels() {
 }
 
 // ============ RECAUDO · Tableau Recaudo › DETALLE RECAUDO (viewId 956cbcc6-6d7f-417b-bc58-884cabc8781c) ============
-// Filtro PAIS = COLOMBIA · valores en pesos · fila = [objetivo, obj_fecha, recaudo, pct_cumpl, falt_obj_fecha, falt_obj_mes, obj_diario, pct_proy]
-// Se actualiza diariamente (tarea 8:00 AM). Snapshot del día: no es histórico por mes.
-const RECAUDO = {
-  fecha: '22/09/2026',
-  pais: [
-    ['COLOMBIA', 36408169458, 27180502124, 25573930515, 94.1, 1606571609, 10834238943, 455741975, 94.9]
-  ],
-  estado: [
-    ['ADELANTADO',  7986487067,  4351383434,  3082996395,  70.9, 1268387039, 4903490672, 152391482,  82.9],
-    ['ACTIVA',      25641290967, 21036096723, 20911947946, 99.4, 124148777,  4729343021, 245100625,  99.0],
-    ['DEFINICIÓN',  928711455,   579495606,   511052849,   88.2, 68442757,   417658606,  19072116,   91.5],
-    ['PREDEMANDA',  401477130,   244478040,   254103007,   103.9, 0,         147374123,  9534373,    101.1],
-    ['PREJURÍDICO', 723387225,   546141609,   498789506,   91.3, 47352103,   224597719,  11211999,   92.7],
-    ['JURÍDICA',    375367993,   189583822,   158179294,   83.4, 31404529,   217188700,  9009544,    90.4],
-    ['OTROS',       351447622,   233322891,   156861519,   67.2, 76461372,   194586103,  9421838,    76.8]
-  ],
-  tramo: [
-    ['A', 7986487067,  4351383434,  3082996395,  70.9,  1268387039, 4903490672, 152391482, 82.9],
-    ['0', 21234078551, 17566840719, 17327228964, 98.6,  239611755,  3906849587, 183383624, 98.4],
-    ['1', 3521665673,  2800528334,  2847980754,  101.7, 0,          673684919,  44633046,  100.7],
-    ['2', 885546743,   668727670,   736738228,   110.2, 0,          148808515,  17083955,  106.6],
-    ['3', 497314100,   375573725,   346301142,   92.2,  29272583,   151012958,  7866328,   93.3],
-    ['4', 226073124,   170567884,   152488364,   89.4,  18079520,   73584760,   3345671,   91.2],
-    ['5', 401477130,   244478040,   254103007,   103.9, 0,          147374123,  9534373,   101.1],
-    ['6', 178306501,   111270086,   115819645,   104.1, 0,          62486856,   3672456,   101.4],
-    ['7', 155971501,   97299838,    77657419,    79.8,  19642419,   78314082,   3180084,   86.3],
-    ['8', 251789735,   157066079,   129882604,   82.7,  27183475,   121907131,  5125580,   88.1],
-    ['9', 342643718,   213859603,   187693181,   87.8,  26166422,   154950537,  7093995,   91.3],
-    ['J', 375367993,   189583822,   158179293,   83.4,  31404529,   217188700,  9009544,   90.4],
-    ['O', 351447622,   233322891,   156861519,   67.2,  76461372,   194586103,  9421838,   76.8]
-  ]
+// Filtro PAIS = COLOMBIA · valores en pesos · fila = [nombre, objetivo, obj_a_la_fecha, recaudo, %cumpl, falt_obj_fecha, falt_obj_mes, objetivo_fecha(diario), %cumpl_proy]
+// Meses cerrados (1..8) = corte último día del mes (INMUTABLES). Mes en curso = corte diario (tarea 8:00 AM).
+// Tramos A/5/J/O son idénticos a estados ADELANTADO/PREDEMANDA/JURÍDICA/OTROS (se derivan).
+// deptos = [nombre, objetivo, recaudo, %cumpl]
+function _recMes(fecha, pais, est, tr, deptos) {
+  const E = {}; est.forEach(r => E[r[0]] = r);
+  const T = {}; tr.forEach(r => T[r[0]] = r);
+  const alias = (k, src) => [k].concat(src.slice(1));
+  const tramo = [alias('A', E['ADELANTADO']), T['0'], T['1'], T['2'], T['3'], T['4'], alias('5', E['PREDEMANDA']),
+                 T['6'], T['7'], T['8'], T['9'], alias('J', E['JURÍDICA']), alias('O', E['OTROS'])];
+  return { fecha, pais: [['COLOMBIA'].concat(pais)], estado: est, tramo, deptos };
+}
+const RECAUDO_BY_MONTH = {
+  1: _recMes('31/01/2026', [34976311193, 34948607972, 34423313567, 98.5, 525294405, 552997626, 1952074391, 98.4], [
+    ['ADELANTADO', 6780562463, 6752973796, 6739490013, 99.8, 13483783, 41072450, 741109610, 99.4],
+    ['ACTIVA', 24559519290, 24559440167, 24761779519, 100.8, 0, 0, 836426310, 100.8],
+    ['DEFINICIÓN', 1423983163, 1423966467, 1295786837, 91.0, 128179630, 128196326, 176496121, 91.0],
+    ['PREDEMANDA', 428984446, 428980285, 403400177, 94.0, 25580108, 25584269, 43979091, 94.0],
+    ['PREJURÍDICO', 890735326, 890730847, 630406912, 70.8, 260323935, 260328414, 47352653, 70.8],
+    ['JURÍDICA', 249960753, 249958186, 204530999, 81.8, 45427187, 45429754, 27133768, 81.8],
+    ['OTROS', 642565751, 642558223, 387919110, 60.4, 254639113, 254646641, 79576838, 60.4]], [
+    ['0', 21001247368, 21001184533, 21456404286, 102.2, 0, 0, 664232150, 102.2],
+    ['1', 2755343761, 2755331393, 2494453175, 90.5, 260878218, 260890586, 130743012, 90.5],
+    ['2', 802928162, 802924281, 810922058, 101.0, 0, 0, 41451148, 101.0],
+    ['3', 533599830, 533597028, 387204616, 72.6, 146392412, 146395214, 29614896, 72.6],
+    ['4', 357135496, 357133818, 243202296, 68.1, 113931522, 113933200, 17737757, 68.1],
+    ['6', 326428091, 326424263, 270062662, 82.7, 56361601, 56365429, 40459251, 82.7],
+    ['7', 244420538, 244417672, 210277840, 86.0, 34139832, 34142698, 30294794, 86.0],
+    ['8', 347832817, 347828739, 389901248, 112.1, 0, 0, 43112268, 112.1],
+    ['9', 505301718, 505295793, 425545087, 84.2, 79750706, 79756631, 62629809, 84.2]], [
+    ['ANTIOQUIA', 7169365439, 7834945500, 109.4], ['ATLÁNTICO', 8350141737, 7594078810, 91.0], ['BOLÍVAR', 5087033743, 4832571247, 95.1],
+    ['CESAR', 1515113205, 1453559619, 96.1], ['CÓRDOBA', 1032101638, 969091095, 94.0], ['CUNDINAMARCA', 6226105874, 6239236666, 100.3],
+    ['GUAJIRA', 1038198166, 930671011, 89.7], ['MAGDALENA', 2037841411, 1974141240, 96.9], ['SANTANDER', 1534409466, 1601905823, 104.5],
+    ['OTROS', 986000513, 993112556, 100.8]]),
+  2: _recMes('28/02/2026', [32665094932, 32646609080, 33649860722, 103.1, 0, 0, 2024863906, 103.0], [
+    ['ADELANTADO', 5773128034, 5754765539, 7300273472, 126.9, 0, 0, 720830650, 126.5],
+    ['ACTIVA', 24245750735, 24245655728, 23683989751, 97.7, 561665977, 561760984, 1004337654, 97.7],
+    ['DEFINICIÓN', 1239002814, 1238987808, 1169208304, 94.4, 69779504, 69794510, 158627308, 94.4],
+    ['PREDEMANDA', 412345304, 412341751, 336661139, 81.6, 75680612, 75684165, 37556525, 81.6],
+    ['PREJURÍDICO', 479782018, 479778635, 547652085, 114.1, 0, 0, 35760892, 114.1],
+    ['JURÍDICA', 202357118, 202354600, 250377524, 123.7, 0, 0, 26616665, 123.7],
+    ['OTROS', 312728910, 312725019, 361698447, 115.7, 0, 0, 41134212, 115.7]], [
+    ['0', 20347123205, 20347047609, 19895415750, 97.8, 451631859, 451707455, 799136798, 97.8],
+    ['1', 3168800084, 3168784293, 3080220455, 97.2, 88563838, 88579629, 166931823, 97.2],
+    ['2', 729827446, 729823826, 708353546, 97.1, 21470280, 21473900, 38269033, 97.1],
+    ['3', 255972067, 255970591, 341011803, 133.2, 0, 0, 15610357, 133.2],
+    ['4', 223809950, 223808044, 206640282, 92.3, 17167762, 17169668, 20150536, 92.3],
+    ['6', 293602939, 293599384, 239186382, 81.5, 54413002, 54416557, 37589458, 81.5],
+    ['7', 215806751, 215804137, 192826250, 89.4, 22977887, 22980501, 27629351, 89.4],
+    ['8', 365351716, 365347291, 331486369, 90.7, 33860922, 33865347, 46775325, 90.7],
+    ['9', 364241407, 364236996, 405709303, 111.4, 0, 0, 46633174, 111.4]], [
+    ['ANTIOQUIA', 6719236681, 7888234821, 117.5], ['ATLÁNTICO', 7744418683, 7295090019, 94.2], ['BOLÍVAR', 4731624831, 4703856158, 99.5],
+    ['CESAR', 1398704479, 1416025767, 101.3], ['CÓRDOBA', 963981081, 927043651, 96.2], ['CUNDINAMARCA', 5790609751, 5940473557, 102.7],
+    ['GUAJIRA', 1012800001, 986389693, 97.5], ['MAGDALENA', 1921843248, 1961929929, 102.1], ['SANTANDER', 1441380693, 1544994140, 107.3],
+    ['OTROS', 940495483, 985822987, 104.9]]),
+  3: _recMes('31/03/2026', [36518332781, 36494647246, 37968880998, 104.0, 0, 0, 2268952078, 104.0], [
+    ['ADELANTADO', 6886350289, 6862731505, 7362256444, 107.3, 0, 0, 689724910, 106.9],
+    ['ACTIVA', 26731774485, 26731720325, 27495767255, 102.9, 0, 0, 1281341719, 102.9],
+    ['DEFINICIÓN', 1263574190, 1263568007, 1290667344, 102.1, 0, 0, 146277314, 102.1],
+    ['PREDEMANDA', 465398228, 465395993, 403241912, 86.6, 62154081, 62156316, 52876998, 86.6],
+    ['PREJURÍDICO', 497162306, 497160991, 606412845, 122.0, 0, 0, 31120218, 122.0],
+    ['JURÍDICA', 332670016, 332668525, 435509988, 130.9, 0, 0, 35271607, 130.9],
+    ['OTROS', 341403267, 341401900, 375025210, 109.8, 0, 0, 32339312, 109.8]], [
+    ['0', 22172621580, 22172577609, 22640249383, 102.1, 0, 0, 1040290977, 102.1],
+    ['1', 3413997931, 3413990380, 3666152079, 107.4, 0, 0, 178638119, 107.4],
+    ['2', 1145154974, 1145152336, 1189365793, 103.9, 0, 0, 62412622, 103.9],
+    ['3', 328807865, 328806994, 399522730, 121.5, 0, 0, 20602243, 121.5],
+    ['4', 168354441, 168353997, 206890115, 122.9, 0, 0, 10517975, 122.9],
+    ['6', 298524627, 298523166, 224973286, 75.4, 73549880, 73551341, 34558611, 75.4],
+    ['7', 208519912, 208518892, 208518177, 100.0, 715, 1735, 24139234, 100.0],
+    ['8', 332473806, 332472180, 267833912, 80.6, 64638268, 64639894, 38488749, 80.6],
+    ['9', 424055844, 424053769, 589341969, 139.0, 0, 0, 49090721, 139.0]], [
+    ['ANTIOQUIA', 7643244917, 8718229598, 114.1], ['ATLÁNTICO', 8545712882, 8347384269, 97.7], ['BOLÍVAR', 5219153441, 5247814754, 100.6],
+    ['CESAR', 1547283569, 1582547044, 102.3], ['CÓRDOBA', 1086462188, 1147987239, 105.7], ['CUNDINAMARCA', 6565638179, 6802111873, 103.7],
+    ['GUAJIRA', 1130059130, 1159331684, 102.7], ['MAGDALENA', 2099457827, 2152976644, 102.6], ['SANTANDER', 1619243407, 1677553243, 103.7],
+    ['OTROS', 1062077241, 1132944650, 106.7]]),
+  4: _recMes('30/04/2026', [36320367841, 36277552195, 34684647091, 95.6, 1592905104, 1635720750, 2208709442, 95.5], [
+    ['ADELANTADO', 7214310084, 7171559179, 6899497584, 96.2, 272061595, 314812500, 677059155, 95.6],
+    ['ACTIVA', 26108143233, 26108090605, 24894038592, 95.3, 1214052013, 1214104641, 1245101940, 95.3],
+    ['DEFINICIÓN', 1146822814, 1146817422, 1143556565, 99.7, 3260857, 3266249, 127561389, 99.7],
+    ['PREDEMANDA', 362415260, 362413579, 426386232, 117.7, 0, 0, 39772603, 117.7],
+    ['PREJURÍDICO', 689629897, 689628152, 626270974, 90.8, 63357178, 63358923, 41295654, 90.8],
+    ['JURÍDICA', 437860673, 437858760, 360654272, 82.4, 77204488, 77206401, 45254053, 82.4],
+    ['OTROS', 361185879, 361184499, 334242872, 92.5, 26941627, 26943007, 32664648, 92.5]], [
+    ['0', 21935641640, 21935597843, 20755420255, 94.6, 1180177588, 1180221385, 1036142227, 94.6],
+    ['1', 3149166615, 3149159996, 3083933800, 97.9, 65226196, 65232815, 156598200, 97.9],
+    ['2', 1023334979, 1023332765, 1054684537, 103.1, 0, 0, 52361514, 103.1],
+    ['3', 515084190, 515082885, 464884049, 90.3, 50198836, 50200141, 30865787, 90.3],
+    ['4', 174545707, 174545266, 161386925, 92.5, 13158341, 13158782, 10429868, 92.5],
+    ['6', 256713177, 256711970, 268291850, 104.5, 0, 0, 28554271, 104.5],
+    ['7', 206672340, 206671368, 156899088, 75.9, 49772280, 49773252, 22988216, 75.9],
+    ['8', 300769356, 300767942, 229510078, 76.3, 71257864, 71259278, 33454651, 76.3],
+    ['9', 382667941, 382666142, 488855549, 127.7, 0, 0, 42564251, 127.7]], [
+    ['ANTIOQUIA', 7656477271, 8012451050, 104.8], ['ATLÁNTICO', 8474223108, 7621124820, 90.0], ['BOLÍVAR', 5219677910, 4724677329, 90.6],
+    ['CESAR', 1527524024, 1516826766, 99.4], ['CÓRDOBA', 1057304496, 998696358, 94.6], ['CUNDINAMARCA', 6497666426, 6232522878, 96.0],
+    ['GUAJIRA', 1133095810, 1059307488, 93.6], ['MAGDALENA', 2063651489, 1956553447, 94.9], ['SANTANDER', 1631594725, 1531702594, 94.0],
+    ['OTROS', 1059152583, 1030784361, 97.5]]),
+  5: _recMes('31/05/2026', [35455970536, 35452518638, 36367268658, 102.6, 0, 0, 1243236594, 102.6], [
+    ['ADELANTADO', 4907049564, 4903597666, 6596451624, 134.5, 0, 0, 152345512, 134.4],
+    ['ACTIVA', 27476281617, 27476281617, 26922858090, 98.0, 553423527, 553423527, 941876300, 98.0],
+    ['DEFINICIÓN', 1264154322, 1264154322, 1030555367, 81.5, 233598955, 233598955, 64911594, 81.5],
+    ['PREDEMANDA', 370920702, 370920702, 392880257, 105.9, 0, 0, 16845710, 105.9],
+    ['PREJURÍDICO', 842324020, 842324020, 704706246, 83.7, 137617774, 137617774, 38371604, 83.7],
+    ['JURÍDICA', 306607739, 306607739, 372529804, 121.5, 0, 0, 15419651, 121.5],
+    ['OTROS', 288632574, 288632574, 347287270, 120.3, 0, 0, 13466223, 120.3]], [
+    ['0', 22947185806, 22947185806, 22665735956, 98.8, 281449850, 281449850, 747592729, 98.8],
+    ['1', 3420963427, 3420963427, 3240789644, 94.7, 180173783, 180173783, 140717599, 94.7],
+    ['2', 1108132384, 1108132384, 1016332490, 91.7, 91799894, 91799894, 53565972, 91.7],
+    ['3', 490462060, 490462060, 452440731, 92.2, 38021329, 38021329, 22823448, 92.2],
+    ['4', 351861960, 351861960, 252265515, 71.7, 99596445, 99596445, 15548156, 71.7],
+    ['6', 317932505, 317932505, 284892100, 89.6, 33040405, 33040405, 16325147, 89.6],
+    ['7', 215942542, 215942542, 169907662, 78.7, 46034880, 46034880, 11088183, 78.7],
+    ['8', 294780630, 294780630, 217832818, 73.9, 76947812, 76947812, 15136349, 73.9],
+    ['9', 435498644, 435498644, 357922787, 82.2, 77575857, 77575857, 22361915, 82.2]], [
+    ['ANTIOQUIA', 7523472314, 8539579238, 113.5], ['ATLÁNTICO', 8237319106, 7980669917, 96.9], ['BOLÍVAR', 5089702720, 4813537189, 94.6],
+    ['CESAR', 1538514238, 1614829288, 105.0], ['CÓRDOBA', 1033142441, 1059635696, 102.6], ['CUNDINAMARCA', 6295865570, 6680059995, 106.1],
+    ['GUAJIRA', 1097842599, 1094913971, 99.7], ['MAGDALENA', 2010444192, 1978430366, 98.4], ['SANTANDER', 1586574668, 1528445277, 96.3],
+    ['OTROS', 1043092688, 1077167721, 103.3]]),
+  6: _recMes('30/06/2026', [36090524504, 36060300093, 36046633580, 100.0, 13666513, 43890924, 2845277357, 99.9], [
+    ['ADELANTADO', 5143780947, 5113640741, 5536173273, 108.3, 0, 0, 853128747, 107.6],
+    ['ACTIVA', 28071157529, 28071089515, 27494250563, 97.9, 576838952, 576906966, 1609097512, 97.9],
+    ['DEFINICIÓN', 1075106553, 1075099207, 1271357821, 118.3, 0, 0, 173797025, 118.3],
+    ['PREDEMANDA', 449030855, 449028123, 367082296, 81.8, 81945827, 81948559, 64628589, 81.7],
+    ['PREJURÍDICO', 690483357, 690480988, 670959120, 97.2, 19521868, 19524237, 56058568, 97.2],
+    ['JURÍDICA', 373448522, 373446509, 380157325, 101.8, 0, 0, 47636048, 101.8],
+    ['OTROS', 287516741, 287515011, 326653182, 113.6, 0, 0, 40930869, 113.6]], [
+    ['0', 23570280531, 23570225587, 23204478917, 98.4, 365746670, 365801614, 1299878845, 98.4],
+    ['1', 3386574044, 3386564643, 3278097829, 96.8, 108466814, 108476215, 222407037, 96.8],
+    ['2', 1114302954, 1114299284, 1011673817, 90.8, 102625467, 102629137, 86811630, 90.8],
+    ['3', 453837158, 453835526, 439146388, 96.8, 14689138, 14690770, 38598983, 96.8],
+    ['4', 236646199, 236645461, 231812732, 98.0, 4832729, 4833467, 17459586, 98.0],
+    ['6', 235408806, 235407197, 223875865, 95.1, 11531332, 11532941, 38055158, 95.1],
+    ['7', 194167312, 194165985, 227512469, 117.2, 0, 0, 31388239, 117.2],
+    ['8', 209110777, 209109348, 297241364, 142.1, 0, 0, 33803934, 142.1],
+    ['9', 436419659, 436416677, 522728123, 119.8, 0, 0, 70549694, 119.8]], [
+    ['ANTIOQUIA', 7701762554, 8293476896, 107.8], ['ATLÁNTICO', 8324408275, 7922320906, 95.3], ['BOLÍVAR', 5218418788, 5005103787, 96.0],
+    ['CESAR', 1601072709, 1603576607, 100.2], ['CÓRDOBA', 1033685770, 971005882, 94.0], ['CUNDINAMARCA', 6286801018, 6421586266, 102.2],
+    ['GUAJIRA', 1116664827, 1083671762, 97.1], ['MAGDALENA', 2058578509, 1987400501, 96.6], ['SANTANDER', 1655044617, 1582202234, 95.7],
+    ['OTROS', 1094087437, 1176288739, 107.6]]),
+  7: _recMes('31/07/2026', [36692366572, 36610425911, 36986940385, 101.0, 0, 0, 2129314367, 100.8], [
+    ['ADELANTADO', 5269843438, 5187969760, 6161099693, 118.8, 0, 0, 544600844, 116.9],
+    ['ACTIVA', 27846698329, 27846644218, 27754671432, 99.7, 91972786, 92026897, 1280171641, 99.7],
+    ['DEFINICIÓN', 1399062805, 1399056492, 1118205740, 79.9, 280850752, 280857065, 149349665, 79.9],
+    ['PREDEMANDA', 464305691, 464303466, 438325945, 94.4, 25977521, 25979746, 52642086, 94.4],
+    ['PREJURÍDICO', 880605039, 880602849, 760704196, 86.4, 119898653, 119900843, 51797467, 86.4],
+    ['JURÍDICA', 456255746, 456254507, 384098320, 84.2, 72156187, 72157426, 29316315, 84.2],
+    ['OTROS', 375595525, 375594619, 369835059, 98.5, 5759560, 5760466, 21436349, 98.5]], [
+    ['0', 22803958828, 22803914623, 22678836092, 99.5, 125078531, 125122736, 1045809636, 99.5],
+    ['1', 3904284892, 3904277454, 3943906111, 101.0, 0, 0, 175978743, 101.0],
+    ['2', 1138454608, 1138452141, 1131929229, 99.4, 6522912, 6525379, 58383262, 99.4],
+    ['3', 546050798, 546049283, 491796894, 90.1, 54252389, 54253904, 35839997, 90.1],
+    ['4', 334554241, 334553566, 268907302, 80.4, 65646264, 65646939, 15957469, 80.4],
+    ['6', 260663267, 260662091, 182483380, 70.0, 78178711, 78179887, 27825750, 70.0],
+    ['7', 299495674, 299494322, 171372607, 57.2, 128121715, 128123067, 31971101, 57.2],
+    ['8', 295493293, 295491960, 301355531, 102.0, 0, 0, 31543848, 102.0],
+    ['9', 543410571, 543408119, 462994222, 85.2, 80413897, 80416349, 58008966, 85.2]], [
+    ['ANTIOQUIA', 7889603921, 8672613699, 110.2], ['ATLÁNTICO', 8445518102, 7994392869, 94.9], ['BOLÍVAR', 5316124692, 5083451229, 95.8],
+    ['CESAR', 1638410345, 1688719304, 103.4], ['CÓRDOBA', 1053966184, 1048682654, 99.7], ['CUNDINAMARCA', 6277934409, 6425490112, 102.5],
+    ['GUAJIRA', 1147051449, 1155871631, 101.0], ['MAGDALENA', 2092562792, 2088460925, 100.1], ['SANTANDER', 1696544348, 1663457317, 98.3],
+    ['OTROS', 1134650330, 1165800645, 103.0]]),
+  8: _recMes('31/08/2026', [35890590381, 35838833580, 35843861012, 100.0, 0, 46729369, 2079228195, 99.9], [
+    ['ADELANTADO', 6827234388, 6775536319, 6644467831, 98.1, 131068488, 182766557, 689740636, 97.3],
+    ['ACTIVA', 26208615231, 26208566318, 26629285685, 101.6, 0, 0, 1157194962, 101.6],
+    ['DEFINICIÓN', 1106156222, 1106151586, 984016504, 89.0, 122135082, 122139718, 109688985, 89.0],
+    ['PREDEMANDA', 326104637, 326103054, 343655152, 105.4, 0, 0, 37443046, 105.4],
+    ['PREJURÍDICO', 720637800, 720636091, 696364492, 96.6, 24271599, 24273308, 40415853, 96.6],
+    ['JURÍDICA', 352677326, 352676334, 287710034, 81.6, 64966300, 64967292, 23489901, 81.6],
+    ['OTROS', 349164776, 349163878, 258361314, 74.0, 90802564, 90803462, 21254811, 74.0]], [
+    ['0', 21709820569, 21709780623, 22096803210, 101.8, 0, 0, 945061317, 101.8],
+    ['1', 3377931069, 3377924488, 3489167875, 103.3, 0, 0, 155691585, 103.3],
+    ['2', 1120863593, 1120861207, 1043314600, 93.1, 77546607, 77548993, 56442061, 93.1],
+    ['3', 469421530, 469420380, 472603091, 100.7, 0, 0, 27201056, 100.7],
+    ['4', 251216270, 251215711, 223761401, 89.1, 27454310, 27454869, 13214797, 89.1],
+    ['6', 222993257, 222992323, 197971878, 88.8, 25020445, 25021379, 22112522, 88.8],
+    ['7', 167124961, 167124261, 167413466, 100.2, 0, 0, 16572494, 100.2],
+    ['8', 230895674, 230895706, 264391723, 114.5, 0, 0, 22896243, 114.5],
+    ['9', 485141330, 485139297, 354239437, 73.0, 130899860, 130901893, 48107726, 73.0]], [
+    ['ANTIOQUIA', 7746567042, 8475701443, 109.6], ['ATLÁNTICO', 8218870489, 7743497755, 94.3], ['BOLÍVAR', 5230653668, 4931131479, 94.4],
+    ['CESAR', 1591548841, 1540534570, 96.9], ['CÓRDOBA', 1041981095, 975940791, 93.8], ['CUNDINAMARCA', 6090734328, 6359734737, 104.5],
+    ['GUAJIRA', 1133196398, 1108927100, 98.0], ['MAGDALENA', 2062889718, 1983454791, 96.3], ['SANTANDER', 1642892909, 1611255716, 98.2],
+    ['OTROS', 1131255894, 1113682630, 98.6]]),
+  // SEPTIEMBRE · mes en curso (corte diario · se reemplaza cada día)
+  9: _recMes('22/09/2026', [36408169458, 27180502124, 25573930515, 94.1, 1606571609, 10834238943, 455741975, 94.9], [
+    ['ADELANTADO', 7986487067, 4351383434, 3082996395, 70.9, 1268387039, 4903490672, 152391482, 82.9],
+    ['ACTIVA', 25641290967, 21036096723, 20911947946, 99.4, 124148777, 4729343021, 245100625, 99.0],
+    ['DEFINICIÓN', 928711455, 579495606, 511052849, 88.2, 68442757, 417658606, 19072116, 91.5],
+    ['PREDEMANDA', 401477130, 244478040, 254103007, 103.9, 0, 147374123, 9534373, 101.1],
+    ['PREJURÍDICO', 723387225, 546141609, 498789506, 91.3, 47352103, 224597719, 11211999, 92.7],
+    ['JURÍDICA', 375367993, 189583822, 158179294, 83.4, 31404529, 217188700, 9009544, 90.4],
+    ['OTROS', 351447622, 233322891, 156861519, 67.2, 76461372, 194586103, 9421838, 76.8]], [
+    ['0', 21234078551, 17566840719, 17327228964, 98.6, 239611755, 3906849587, 183383624, 98.4],
+    ['1', 3521665673, 2800528334, 2847980754, 101.7, 0, 673684919, 44633046, 100.7],
+    ['2', 885546743, 668727670, 736738228, 110.2, 0, 148808515, 17083955, 106.6],
+    ['3', 497314100, 375573725, 346301142, 92.2, 29272583, 151012958, 7866328, 93.3],
+    ['4', 226073124, 170567884, 152488364, 89.4, 18079520, 73584760, 3345671, 91.2],
+    ['6', 178306501, 111270086, 115819645, 104.1, 0, 62486856, 3672456, 101.4],
+    ['7', 155971501, 97299838, 77657419, 79.8, 19642419, 78314082, 3180084, 86.3],
+    ['8', 251789735, 157066079, 129882604, 82.7, 27183475, 121907131, 5125580, 88.1],
+    ['9', 342643718, 213859603, 187693181, 87.8, 26166422, 154950537, 7093995, 91.3]], [
+    ['ANTIOQUIA', 7855326648, 6028372900, 103.3], ['ATLÁNTICO', 8335212453, 5642139322, 90.6], ['BOLÍVAR', 5309322906, 3523418202, 88.7],
+    ['CESAR', 1620853966, 1142551959, 94.4], ['CÓRDOBA', 1070903299, 716626231, 89.5], ['CUNDINAMARCA', 6167958993, 4420771247, 96.3],
+    ['GUAJIRA', 1159892507, 796771515, 92.2], ['MAGDALENA', 2090345399, 1385605930, 89.1], ['SANTANDER', 1662572140, 1157026724, 93.9],
+    ['OTROS', 1135781146, 760646485, 89.3]])
 };
+// Recaudo mes completo 2025 ($ millones) · Tableau Recaudo › HISTÓRICOS COLOMBIA (viewId 4a335fb7-da89-4060-a38d-4d187fb4860b) · referencia YoY
+const RECAUDO_2025_M = { 1:29094, 2:28554, 3:31738, 4:28288, 5:30823, 6:28877, 7:31276, 8:29263, 9:28761, 10:31472, 11:30196, 12:34937 };
+const RECAUDO_MES_ACTUAL = 9;
+let RECAUDO = RECAUDO_BY_MONTH[RECAUDO_MES_ACTUAL];
+
+const REC_MES_LBL = ['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const recSem = p => p >= 100 ? '#1e9e5a' : (p >= 90 ? '#c98a00' : '#d94545');
+const recM = v => '$' + Math.round(v / 1e6).toLocaleString('es-CO');
 
 function renderRecaudo() {
+  RECAUDO = RECAUDO_BY_MONTH[CURRENT_MONTH] || RECAUDO_BY_MONTH[RECAUDO_MES_ACTUAL];
+  const esActual = RECAUDO === RECAUDO_BY_MONTH[RECAUDO_MES_ACTUAL];
   const fechaEl = document.getElementById('recaudo-fecha');
-  if (fechaEl) fechaEl.textContent = RECAUDO.fecha;
-  // Semáforo igual a Tableau: Verde ≥100% · Amarillo 90–99,9% · Rojo <90%
-  const sem = p => p >= 100 ? '#1e9e5a' : (p >= 90 ? '#c98a00' : '#d94545');
-  const m = v => '$' + Math.round(v / 1e6).toLocaleString('es-CO');
+  if (fechaEl) fechaEl.textContent = RECAUDO.fecha + (esActual ? ' (mes en curso)' : ' (cierre de mes)');
   const row = (r, bold) => {
-    const c = sem(r[4]);
     const w = bold ? 'font-weight:700;' : '';
     return `<tr style="${bold ? 'background:#f5efe8;' : ''}">
       <td style="text-align:left;${w}">${r[0]}</td>
-      <td style="${w}">${m(r[1])}</td><td style="${w}">${m(r[2])}</td><td style="${w}">${m(r[3])}</td>
-      <td style="color:${c};font-weight:700;">${r[4].toFixed(1)}%</td>
-      <td style="${w}">${m(r[5])}</td><td style="${w}">${m(r[6])}</td><td style="${w}">${m(r[7])}</td>
-      <td style="color:${sem(r[8])};font-weight:700;">${r[8].toFixed(1)}%</td></tr>`;
+      <td style="${w}">${recM(r[1])}</td><td style="${w}">${recM(r[2])}</td><td style="${w}">${recM(r[3])}</td>
+      <td style="color:${recSem(r[4])};font-weight:700;">${r[4].toFixed(1)}%</td>
+      <td style="${w}">${recM(r[5])}</td><td style="${w}">${recM(r[6])}</td><td style="${w}">${recM(r[7])}</td>
+      <td style="color:${recSem(r[8])};font-weight:700;">${r[8].toFixed(1)}%</td></tr>`;
   };
-  const total = RECAUDO.pais[0];
-  const totRow = ['Total general'].concat(total.slice(1));
+  const totRow = ['Total general'].concat(RECAUDO.pais[0].slice(1));
   const fill = (id, rows, withTotal) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -2825,6 +3025,133 @@ function renderRecaudo() {
   fill('recaudo-pais-tbody', RECAUDO.pais, false);
   fill('recaudo-estado-tbody', RECAUDO.estado, true);
   fill('recaudo-tramo-tbody', RECAUDO.tramo, true);
+  renderRecaudoTendencia();
+  buildInsightsCartera();
+}
+
+// Tendencia anual 2026 (ene → mes en curso)
+function renderRecaudoTendencia() {
+  const el = document.getElementById('recaudo-tendencia-tbody');
+  if (!el) return;
+  const meses = Object.keys(RECAUDO_BY_MONTH).map(Number).sort((a, b) => a - b);
+  const maxRec = Math.max(...meses.map(m => RECAUDO_BY_MONTH[m].pais[0][3]));
+  let rows = '', objY = 0, recY = 0, rec25 = 0;
+  meses.forEach(m => {
+    const p = RECAUDO_BY_MONTH[m].pais[0];
+    const parcial = m === RECAUDO_MES_ACTUAL;
+    const r25 = RECAUDO_2025_M[m] * 1e6;
+    const yoy = parcial ? null : (p[3] / r25 - 1) * 100;
+    if (!parcial) { objY += p[1]; recY += p[3]; rec25 += r25; }
+    const bar = Math.round(p[3] / maxRec * 100);
+    const sel = m === CURRENT_MONTH ? 'background:#fff4e0;' : '';
+    rows += `<tr style="${sel}">
+      <td style="text-align:left;">${REC_MES_LBL[m]}${parcial ? ' <span style="color:#8a6020;font-size:8px;">(al ' + RECAUDO_BY_MONTH[m].fecha.slice(0, 2) + ')</span>' : ''}</td>
+      <td>${recM(p[1])}</td><td>${recM(p[3])}</td>
+      <td style="color:${recSem(p[4])};font-weight:700;">${p[4].toFixed(1)}%</td>
+      <td style="color:${recSem(p[8])};font-weight:700;">${p[8].toFixed(1)}%</td>
+      <td>${parcial ? '—' : recM(r25)}</td>
+      <td style="color:${yoy == null ? '#999' : (yoy >= 0 ? '#1e9e5a' : '#d94545')};font-weight:700;">${yoy == null ? 'parcial' : (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '%'}</td>
+      <td style="text-align:left;"><div style="height:8px;width:${bar}%;background:${recSem(p[4])};border-radius:3px;opacity:.75;"></div></td></tr>`;
+  });
+  const cY = recY / objY * 100, yoyY = (recY / rec25 - 1) * 100;
+  rows += `<tr style="background:#f5efe8;font-weight:700;">
+    <td style="text-align:left;">Acum. ene–${REC_MES_LBL[RECAUDO_MES_ACTUAL - 1].toLowerCase()} (cerrados)</td>
+    <td>${recM(objY)}</td><td>${recM(recY)}</td>
+    <td style="color:${recSem(cY)};">${cY.toFixed(1)}%</td><td>—</td><td>${recM(rec25)}</td>
+    <td style="color:${yoyY >= 0 ? '#1e9e5a' : '#d94545'};">${(yoyY >= 0 ? '+' : '') + yoyY.toFixed(1)}%</td><td></td></tr>`;
+  el.innerHTML = rows;
+}
+
+// ============ INSIGHTS DE CARTERA · se recalculan solos con RECAUDO_BY_MONTH ============
+function buildInsightsCartera() {
+  const grid = document.getElementById('insights-cartera-grid');
+  const conc = document.getElementById('insights-cartera-conclusion');
+  if (!grid) return;
+  const cur = RECAUDO_BY_MONTH[RECAUDO_MES_ACTUAL];
+  const cerrados = Object.keys(RECAUDO_BY_MONTH).map(Number).filter(m => m < RECAUDO_MES_ACTUAL).sort((a, b) => a - b);
+  const P = m => RECAUDO_BY_MONTH[m].pais[0];
+  const n = cerrados.length;
+  const lbl = m => REC_MES_LBL[m].toLowerCase();
+  const mesesOk = cerrados.filter(m => P(m)[4] >= 100);
+  const mesesBajos = cerrados.filter(m => P(m)[4] < 100);
+  const objY = cerrados.reduce((a, m) => a + P(m)[1], 0), recY = cerrados.reduce((a, m) => a + P(m)[3], 0);
+  const cY = recY / objY * 100;
+  const rec25 = cerrados.reduce((a, m) => a + RECAUDO_2025_M[m] * 1e6, 0);
+  const yoyY = (recY / rec25 - 1) * 100;
+  const pc = cur.pais[0];
+  const diaCorte = parseInt(cur.fecha.slice(0, 2), 10);
+  const diasMes = new Date(2026, RECAUDO_MES_ACTUAL, 0).getDate();
+  const diasRest = Math.max(diasMes - diaCorte, 1);
+  const ritmoNec = pc[6] / diasRest;
+  const minCerrado = Math.min(...cerrados.map(m => P(m)[4]));
+  const esTramoPropio = r => !['A', '5', 'J', 'O'].includes(r[0]);
+  // Crónicos: bajo 90% en ≥ la mitad de los meses cerrados
+  const cronicos = (key) => {
+    const idx = key === 'deptos' ? 3 : 4, cnt = {};
+    cerrados.forEach(m => RECAUDO_BY_MONTH[m][key].forEach(r => { if (r[idx] < 90) cnt[r[0]] = (cnt[r[0]] || 0) + 1; }));
+    return Object.entries(cnt).filter(([, c]) => c >= Math.ceil(n / 2)).sort((a, b) => b[1] - a[1]);
+  };
+  const promedio = (key, name) => {
+    const v = cerrados.map(m => RECAUDO_BY_MONTH[m][key].find(r => r[0] === name)).filter(Boolean).map(r => r[4]);
+    return v.reduce((a, b) => a + b, 0) / v.length;
+  };
+  const estCron = cronicos('estado');
+  const trCron = cronicos('tramo').filter(([k]) => !['A', '5', 'J', 'O'].includes(k));
+  const depCron = cronicos('deptos');
+  const depAct = cur.deptos.slice().sort((a, b) => a[3] - b[3]);
+  const trAct = cur.tramo.filter(esTramoPropio).sort((a, b) => a[4] - b[4]);
+  const act = cur.estado.find(r => r[0] === 'ACTIVA');
+  const adel = cur.estado.find(r => r[0] === 'ADELANTADO');
+  const pesoActiva = act[3] / pc[3] * 100;
+  const depTop = cur.deptos.slice().sort((a, b) => b[3] - a[3])[0];
+  const depTopHist = cerrados.map(m => RECAUDO_BY_MONTH[m].deptos.find(r => r[0] === depTop[0])[3]);
+  const ult3m = cerrados.slice(-3);
+
+  const wins = [], alerts = [], acciones = [];
+  // ===== LO QUE VA BIEN =====
+  wins.push(`<b>Acumulado ene–${lbl(cerrados[n - 1])}: ${cY.toFixed(1)}% del objetivo</b> · ${recM(recY)} recaudados de ${recM(objY)} · ${mesesOk.length} de ${n} meses cerrados en ≥100% (${mesesOk.map(lbl).join(', ')})`);
+  if (yoyY > 0) wins.push(`<b>Recaudo +${yoyY.toFixed(1)}% vs 2025</b> en el acumulado ene–${lbl(cerrados[n - 1])} (${recM(recY)} vs ${recM(rec25)})`);
+  wins.push(`<b>${depTop[0]} lidera con ${depTop[3].toFixed(1)}%</b> a la fecha y cerró ≥100% en ${depTopHist.filter(v => v >= 100).length} de ${n} meses`);
+  const trBuenos = cur.tramo.filter(r => r[4] >= 100 && esTramoPropio(r)).map(r => 'T' + r[0]);
+  if (trBuenos.length) wins.push(`<b>Tramos ${trBuenos.join(', ')} sobre la meta</b> este mes`);
+  if (act[4] >= 97) wins.push(`<b>Cartera ACTIVA en ${act[4].toFixed(1)}%</b> · aporta el ${pesoActiva.toFixed(0)}% del recaudo y sostiene el resultado del país`);
+
+  // ===== ALARMAS =====
+  if (pc[4] < 100) alerts.push(`<b>${REC_MES_LBL[RECAUDO_MES_ACTUAL]} va en ${pc[4].toFixed(1)}% a la fecha</b> (proyectado ${pc[8].toFixed(1)}%) · faltan ${recM(pc[5])} para ir al día y ${recM(pc[6])} para cerrar el mes${pc[8] < minCerrado ? ' · sería el cierre más bajo del año' : ''}`);
+  if (adel[4] < 90) alerts.push(`<b>ADELANTADO en ${adel[4].toFixed(1)}%</b> · mayor faltante a la fecha (${recM(adel[5])}); en meses cerrados promedió ${promedio('estado', 'ADELANTADO').toFixed(0)}%`);
+  estCron.filter(([k]) => k !== 'ADELANTADO').slice(0, 3).forEach(([k, c]) => {
+    const r = cur.estado.find(x => x[0] === k);
+    alerts.push(`<b>${k} bajo 90% en ${c} de ${n} meses</b> · hoy ${r[4].toFixed(1)}% · problema recurrente`);
+  });
+  if (trCron.length) alerts.push(`<b>Tramos que más veces cierran bajo 90%:</b> ${trCron.slice(0, 4).map(([k, c]) => 'T' + k + ' (' + c + '/' + n + ' meses)').join(', ')}`);
+  const depRojos = depAct.filter(r => r[3] < 90).map(r => r[0] + ' ' + r[3].toFixed(1) + '%');
+  if (depRojos.length) alerts.push(`<b>Departamentos en rojo hoy:</b> ${depRojos.join(' · ')}`);
+  if (depCron.length) alerts.push(`<b>Bajo 90% de forma repetida:</b> ${depCron.map(([k, c]) => k + ' (' + c + '/' + n + ')').join(', ')}`);
+
+  // ===== ACCIONES =====
+  if (pc[4] < 100) acciones.push(`<b>Recaudar ${recM(ritmoNec)} por día</b> los ${diasRest} días restantes para cerrar ${REC_MES_LBL[RECAUDO_MES_ACTUAL]} al 100% (el objetivo diario de hoy es ${recM(pc[7])})`);
+  if (adel[4] < 90) acciones.push(`<b>Plan para cartera ADELANTADA</b> · recordatorio de cuota por SMS/WhatsApp (Paga y Gana) para cerrar la brecha de ${recM(adel[6])} del mes`);
+  acciones.push(`<b>Intensificar gestión en tramos ${trAct.slice(0, 3).map(r => 'T' + r[0]).join(', ')}</b> · menor cumplimiento del mes; priorizar acuerdos de pago antes de que pasen a jurídico`);
+  acciones.push(`<b>Refuerzo de cobro en ${depAct.slice(0, 2).map(r => r[0]).join(' y ')}</b> · menor cumplimiento del país este mes`);
+  const estCronNom = estCron.map(([k]) => k).filter(k => k !== 'ADELANTADO');
+  if (estCronNom.length) acciones.push(`<b>Revisar meta y gestión de ${estCronNom.join(' y ')}</b> con Cartera · el incumplimiento se repite mes a mes`);
+  acciones.push(`<b>Replicar prácticas de ${depTop[0]}</b> · cumplimiento consistente sobre la meta`);
+
+  const renderList = (items, tag = 'ul') => `<${tag}>` + items.slice(0, 7).map(x => `<li>${x}</li>`).join('') + `</${tag}>`;
+  grid.innerHTML = `
+    <div class="insights-col wins"><h4>🟢 Lo que va bien</h4>${renderList(wins)}</div>
+    <div class="insights-col alerts"><h4>🚨 Alarmas</h4>${renderList(alerts.length ? alerts : ['Sin alarmas críticas'])}</div>
+    <div class="insights-col actions"><h4>🎯 Acciones prioritarias</h4>${renderList(acciones, 'ol')}</div>`;
+
+  if (conc) {
+    const c = [];
+    c.push(`<b>El año va ${cY >= 100 ? 'sobre la meta' : 'cerca de la meta'} (${cY.toFixed(1)}% acumulado${yoyY >= 0 ? ', +' + yoyY.toFixed(1) + '% vs 2025' : ''}).</b> ${mesesBajos.length ? 'Los meses bajo 100% fueron ' + mesesBajos.map(m => lbl(m) + ' (' + P(m)[4].toFixed(1) + '%)').join(', ') + '.' : 'Todos los meses cerrados cumplieron.'} Últimos 3 cierres: ${ult3m.map(m => lbl(m) + ' ' + P(m)[4].toFixed(1) + '%').join(' → ')}.`);
+    c.push(`<b>${REC_MES_LBL[RECAUDO_MES_ACTUAL]} va más lento:</b> ${pc[4].toFixed(1)}% a la fecha con proyección de ${pc[8].toFixed(1)}%. ACTIVA está casi al día (${act[4].toFixed(1)}%); la brecha viene de ADELANTADO (${adel[4].toFixed(1)}%) y de los estados de mora.`);
+    c.push(`<b>La mora tardía es el punto débil que se repite.</b> ${estCron.length ? estCron.map(([k, cn]) => k + ' (' + cn + ' de ' + n + ' meses)').join(', ') + (estCron.length > 1 ? ' cerraron' : ' cerró') + ' bajo 90% al menos la mitad del año' : ''}${trCron.length ? (estCron.length ? ', igual que los tramos ' : 'Los tramos ') + trCron.slice(0, 4).map(([k]) => 'T' + k).join(', ') + '.' : '.'} Ahí está la oportunidad de mejora más clara.`);
+    conc.innerHTML = '<h4>📌 Conclusión</h4><ol>' + c.map(x => `<li>${x}</li>`).join('') + '</ol>';
+  }
+  const lblEl = document.getElementById('insights-cartera-label');
+  if (lblEl) lblEl.textContent = 'Recaudo 2026 · ene–' + lbl(RECAUDO_MES_ACTUAL) + ' · corte ' + cur.fecha;
 }
 
 function renderAll() {
