@@ -522,7 +522,8 @@
     <div class="mes-chip" data-mes="6">Jun</div>
     <div class="mes-chip" data-mes="7">Jul</div>
     <div class="mes-chip" data-mes="8">Ago</div>
-    <div class="mes-chip active" data-mes="9">Sep</div>
+    <div class="mes-chip" data-mes="9">Sep</div>
+    <div class="mes-chip active" data-mes="10">Oct</div>
   </div>
 </div>
 
@@ -1060,7 +1061,7 @@
     <!-- ============ INSIGHTS · al final ============ -->
     <div class="section-header" style="margin-top:14px;">💡 INSIGHTS · ANÁLISIS ESTRATÉGICO</div>
     <details class="insights-panel" open>
-      <summary id="insights-summary">📊 Resumen ejecutivo · <span id="insights-mes-label">Septiembre 2026 al 29</span> · Colombia</summary>
+      <summary id="insights-summary">📊 Resumen ejecutivo · <span id="insights-mes-label">Octubre 2026 al 1</span> · Colombia</summary>
       <div class="insights-grid" id="insights-grid">
         <!-- Contenido inyectado por buildInsights() -->
       </div>
@@ -1092,15 +1093,15 @@ const DATA_ALL_MONTHS = {
 
 // CURRENT_MONTH es la variable global que controla qué mes se muestra
 // Default: junio (6) porque MEDIOS solo tiene ene-jun. Julio se puede seleccionar pero MEDIOS mostrará junio + aviso.
-let CURRENT_MONTH = 9;
-let CURRENT_PREV_MONTH = 8;
+let CURRENT_MONTH = 10;
+let CURRENT_PREV_MONTH = 9;
 
 // Fecha "de hoy" para saber cuándo el mes seleccionado es el mes en curso (parcial)
 // REGLA: DIA_HOY = último día del CSV manual que Andrea sube (para Tráfico Email/SMS)
 // Se actualiza cada vez que Andrea sube un nuevo CSV
-const MES_HOY_NUM = 9;   // septiembre
-const DIA_HOY = 29;   // último día con datos (Tableau + CSV manual)
-const DIAS_MES_ACTUAL = 30;  // septiembre tiene 30 días
+const MES_HOY_NUM = 10;   // octubre
+const DIA_HOY = 1;   // último día con datos (Tableau + CSV manual)
+const DIAS_MES_ACTUAL = 31;  // octubre tiene 31 días
 // Última fecha en que se actualizó la data de MEDIOS (dashboard Visibilidad Relacional)
 const MEDIOS_ULTIMA_ACTUALIZACION = '24 sep 2026 · MEDIOS al 23 sep';
 const MEDIOS_ULTIMO_MES = 9;  // último mes con datos de MEDIOS (sep parcial)
@@ -1486,27 +1487,49 @@ const CNP_ALL_MONTHS = {
       meta_fact:81,    fact_real:76,    pct_cump_fact:94.5,   pct_cump_fact_a_fecha:94.5, crec_fact:287.5
     }
   },
-  9: {
-    // FUENTE: Tableau Puntos de Contacto NP · Tracking Leads · corte 29/09/2026 · Actualización 30 sep
-    // SEPTIEMBRE parcial al día 29 · Avance mes = 96.7% · OTROS = fila "relacional otros medios" (meta 417)
-    // Global incluye "relacional eventos tienda" (745 conversaciones · $115M, sin meta)
+  10: {
+    // FUENTE: Tableau Tracking Leads · corte 01/10/2026 (Fecha=2026-10-01) · Avance mes 3,2% · bloque Bases De Datos · 2 oct 2026
+    // OTROS = "relacional otros medios" · crecimiento fact OTROS sin dato en Tableau (0)
     global: {
-      meta_leads: 13782, leads_real: 7483, pct_cump_leads: 54.3, pct_cump_a_fecha: 56.2,
-      meta_corte_leads: 13323, eficiencia: 4.7,
-      meta_fact: 1741, fact_real: 1235, pct_cump_fact: 70.9, pct_cump_fact_a_fecha: 73.4,
-      meta_corte_fact: 1683, crec_fact: -3.8
+      meta_leads: 15397, leads_real: 27, pct_cump_leads: 0.2, pct_cump_a_fecha: 5.4,
+      meta_corte_leads: 497, eficiencia: 0.0,
+      meta_fact: 2509, fact_real: 74, pct_cump_fact: 2.9, pct_cump_fact_a_fecha: 90.9,
+      meta_corte_fact: 81, crec_fact: 38.2
     },
     CONOCIDO: {
-      meta_leads:8169, leads_real:2106, pct_cump_leads:25.8, meta_corte_leads:7897, eficiencia:4.7,
-      meta_fact:1082, fact_real:319, pct_cump_fact:29.5, pct_cump_fact_a_fecha:30.5, crec_fact:-48.4
+      meta_leads:8118, leads_real:13, pct_cump_leads:0.2, meta_corte_leads:262, eficiencia:0.0,
+      meta_fact:1559, fact_real:28, pct_cump_fact:1.8, pct_cump_fact_a_fecha:55.6, crec_fact:-8.7
     },
     CONTACTABLE: {
-      meta_leads:5196, leads_real:4233, pct_cump_leads:81.5, meta_corte_leads:5023, eficiencia:4.3,
-      meta_fact:567, fact_real:718, pct_cump_fact:126.8, pct_cump_fact_a_fecha:131.1, crec_fact:10.7
+      meta_leads:6738, leads_real:12, pct_cump_leads:0.2, meta_corte_leads:217, eficiencia:0.0,
+      meta_fact:817, fact_real:43, pct_cump_fact:5.2, pct_cump_fact_a_fecha:162.2, crec_fact:96.5
     },
     OTROS: {
-      meta_leads:417, leads_real:399, pct_cump_leads:95.7, meta_corte_leads:403, eficiencia:6.3,
-      meta_fact:93, fact_real:83, pct_cump_fact:89.2, pct_cump_fact_a_fecha:92.3, crec_fact:312.6
+      meta_leads:541, leads_real:2, pct_cump_leads:0.4, meta_corte_leads:17, eficiencia:0.0,
+      meta_fact:134, fact_real:3, pct_cump_fact:2.2, pct_cump_fact_a_fecha:67.8, crec_fact:0
+    }
+  },
+  9: {
+    // FUENTE: Tableau Puntos de Contacto NP · Tracking Leads · CIERRE SEPTIEMBRE (Fecha=30/09/2026) · Avance mes = 100% · 1 oct 2026
+    // OTROS = fila "relacional otros medios" (meta 417)
+    // Global incluye "relacional eventos tienda" (770 conversaciones · $133M, sin meta)
+    global: {
+      meta_leads: 13782, leads_real: 7610, pct_cump_leads: 55.2, pct_cump_a_fecha: 55.2,
+      meta_corte_leads: 13782, eficiencia: 5.1,
+      meta_fact: 1741, fact_real: 1301, pct_cump_fact: 74.7, pct_cump_fact_a_fecha: 74.7,
+      meta_corte_fact: 1741, crec_fact: -3.2
+    },
+    CONOCIDO: {
+      meta_leads:8169, leads_real:2162, pct_cump_leads:26.5, meta_corte_leads:8169, eficiencia:5.1,
+      meta_fact:1082, fact_real:340, pct_cump_fact:31.4, pct_cump_fact_a_fecha:31.4, crec_fact:-47.2
+    },
+    CONTACTABLE: {
+      meta_leads:5196, leads_real:4274, pct_cump_leads:82.3, meta_corte_leads:5196, eficiencia:4.7,
+      meta_fact:567, fact_real:745, pct_cump_fact:131.6, pct_cump_fact_a_fecha:131.6, crec_fact:9.1
+    },
+    OTROS: {
+      meta_leads:417, leads_real:404, pct_cump_leads:96.9, meta_corte_leads:417, eficiencia:6.7,
+      meta_fact:93, fact_real:83, pct_cump_fact:89.4, pct_cump_fact_a_fecha:89.4, crec_fact:313.2
     }
   },
   8: {
@@ -1558,24 +1581,43 @@ const CNP_ALL_MONTHS = {
 
 // ============ FUNNEL por Tipo Venta · CONTADO ============
 const FUNNEL_CONTADO_ALL_MONTHS = {
-  9: {
-    // FUENTE: Tableau · view Facturación · corte 29/09/2026 · Actualización 30 sep
-    // CONTADO/Total = 31.8% (10.947/34.438 venta oferta)
+  10: {
+    // FUENTE: Tableau · view Facturación (octubre al 1, leído 2 oct 2026) · venta oferta y Nro Facturas por tipo cliente
+    // CONTADO/Total = 29.1% (403,53M/1.385,63M) · etapas cotiz/orden/aprob/venta mismo mes = Funnel 01/10 × participación
     visor:     null,
-    cotiz:     { CONOCIDO:6247, CONTACTABLE:2467, NUEVO:3739, TOTAL:12453 },
-    orden:     { CONOCIDO:3737, CONTACTABLE:1210, NUEVO:1885, TOTAL:6831 },
-    facturado: { CONOCIDO:3809, CONTACTABLE:1269, NUEVO:1876, TOTAL:6954 },
-    conv:      { CONOCIDO:59.8, CONTACTABLE:49.0, NUEVO:50.4, TOTAL:54.9 },
-    conv_ord:  { CONOCIDO:101.9, CONTACTABLE:104.9, NUEVO:99.5, TOTAL:101.8 },
+    cotiz:     { CONOCIDO:190, CONTACTABLE:96, NUEVO:106, TOTAL:392 },
+    orden:     { CONOCIDO:100, CONTACTABLE:47, NUEVO:45, TOTAL:191 },
+    facturado: { CONOCIDO:78, CONTACTABLE:88, NUEVO:9, TOTAL:175 },
+    conv:      { CONOCIDO:52.4, CONTACTABLE:48.8, NUEVO:41.9, TOTAL:48.7 },
+    conv_ord:  { CONOCIDO:78.0, CONTACTABLE:187.2, NUEVO:20.0, TOTAL:91.6 },
     crec_visor:null,
-    crec_cotiz:{ CONOCIDO:-1.6, CONTACTABLE:4.9,  NUEVO:-21.9, TOTAL:-7.7 },
-    crec_orden:{ CONOCIDO:5.4,  CONTACTABLE:3.3,  NUEVO:-22.5, TOTAL:-4.4 },
-    crec_fact: { CONOCIDO:16.5, CONTACTABLE:40.1, NUEVO:-7.6,  TOTAL:11.4 },
-    aprobacion:{ CONOCIDO:2764, CONTACTABLE:696, NUEVO:1325, TOTAL:4785 },
-    venta_mismo_mes_m: { CONOCIDO:5154, CONTACTABLE:1426, NUEVO:2565, TOTAL:9145 },
-    devoluciones_m:    { CONOCIDO:-17,  CONTACTABLE:0,   NUEVO:-342,TOTAL:-359 },
-    venta_total_m:     { CONOCIDO:5356, CONTACTABLE:2442,NUEVO:3149,TOTAL:10947 },
-    ticket_m:  { CONOCIDO:1.41, CONTACTABLE:1.92, NUEVO:1.68, TOTAL:1.57 }
+    crec_cotiz:{ CONOCIDO:-2.4, CONTACTABLE:-3.2, NUEVO:10.6, TOTAL:0.6 },
+    crec_orden:{ CONOCIDO:-7.0, CONTACTABLE:-5.3, NUEVO:-12.1, TOTAL:-7.9 },
+    crec_fact: { CONOCIDO:27.8, CONTACTABLE:0, NUEVO:50.0, TOTAL:62.5 },
+    aprobacion:{ CONOCIDO:67, CONTACTABLE:24, NUEVO:28, TOTAL:119 },
+    venta_mismo_mes_m: { CONOCIDO:2, CONTACTABLE:1, NUEVO:0, TOTAL:4 },
+    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-8 },
+    venta_total_m:     { CONOCIDO:172, CONTACTABLE:230, NUEVO:1, TOTAL:404 },
+    ticket_m:  { CONOCIDO:2.21, CONTACTABLE:2.62, NUEVO:0.13, TOTAL:2.31 }
+  },
+  9: {
+    // FUENTE: Tableau · view Facturación (mes septiembre completo, leído 1 oct 2026) · CIERRE SEPTIEMBRE
+    // CONTADO/Total = 31.9% (11.857/37.144 venta oferta) · etapas cotiz/orden/aprob/venta = Funnel 30/09 × participación; facturado = Nro Facturas del view
+    visor:     null,
+    cotiz:     { CONOCIDO:6461, CONTACTABLE:2522, NUEVO:3889, TOTAL:12872 },
+    orden:     { CONOCIDO:3876, CONTACTABLE:1232, NUEVO:1961, TOTAL:7069 },
+    facturado: { CONOCIDO:4038, CONTACTABLE:1313, NUEVO:2033, TOTAL:7384 },
+    conv:      { CONOCIDO:60.0, CONTACTABLE:48.9, NUEVO:50.4, TOTAL:54.9 },
+    conv_ord:  { CONOCIDO:104.2, CONTACTABLE:106.6, NUEVO:103.7, TOTAL:104.5 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:-2.2, CONTACTABLE:3.7,  NUEVO:-22.1, TOTAL:-8.2 },
+    crec_orden:{ CONOCIDO:4.9,  CONTACTABLE:2.1,  NUEVO:-22.2, TOTAL:-4.8 },
+    crec_fact: { CONOCIDO:14.5, CONTACTABLE:36.6, NUEVO:-8.3,  TOTAL:9.7 },
+    aprobacion:{ CONOCIDO:2874, CONTACTABLE:710, NUEVO:1382, TOTAL:4966 },
+    venta_mismo_mes_m: { CONOCIDO:5670, CONTACTABLE:1527, NUEVO:2864, TOTAL:10061 },
+    devoluciones_m:    { CONOCIDO:-17, CONTACTABLE:0, NUEVO:-374, TOTAL:-391 },
+    venta_total_m:     { CONOCIDO:5737, CONTACTABLE:2514, NUEVO:3607, TOTAL:11857 },
+    ticket_m:  { CONOCIDO:1.42, CONTACTABLE:1.91, NUEVO:1.77, TOTAL:1.61 }
   },
   8: {
     // FUENTE: CIERRE AGOSTO · Funnel × participación CONTADO 31.3% (Ventas NonBank MY=202608)
@@ -1619,24 +1661,43 @@ const FUNNEL_CONTADO_ALL_MONTHS = {
 
 // ============ FUNNEL por Tipo Venta · CRÉDITO ============
 const FUNNEL_CREDITO_ALL_MONTHS = {
-  9: {
-    // FUENTE: Tableau · view Facturación · corte 29/09/2026 · Actualización 30 sep
-    // CRÉDITO/Total = 68.2% (23.490/34.438 venta oferta)
+  10: {
+    // FUENTE: Tableau · view Facturación (octubre al 1, leído 2 oct 2026) · venta oferta y Nro Facturas por tipo cliente
+    // CRÉDITO/Total = 70.9% (982,10M/1.385,63M) · etapas cotiz/orden/aprob/venta mismo mes = Funnel 01/10 × participación
     visor:     null,
-    cotiz:     { CONOCIDO:13404, CONTACTABLE:5294, NUEVO:8022, TOTAL:26720 },
-    orden:     { CONOCIDO:8018, CONTACTABLE:2596, NUEVO:4044, TOTAL:14659 },
-    facturado: { CONOCIDO:4662, CONTACTABLE:1488, NUEVO:1463, TOTAL:7613 },
-    conv:      { CONOCIDO:59.8, CONTACTABLE:49.0, NUEVO:50.4, TOTAL:54.9 },
-    conv_ord:  { CONOCIDO:58.1, CONTACTABLE:57.3, NUEVO:36.2, TOTAL:51.9 },
+    cotiz:     { CONOCIDO:464, CONTACTABLE:232, NUEVO:259, TOTAL:955 },
+    orden:     { CONOCIDO:243, CONTACTABLE:113, NUEVO:108, TOTAL:465 },
+    facturado: { CONOCIDO:163, CONTACTABLE:121, NUEVO:0, TOTAL:284 },
+    conv:      { CONOCIDO:52.4, CONTACTABLE:48.8, NUEVO:41.9, TOTAL:48.7 },
+    conv_ord:  { CONOCIDO:67.1, CONTACTABLE:107.1, NUEVO:0.0, TOTAL:61.1 },
     crec_visor:null,
-    crec_cotiz:{ CONOCIDO:-1.6, CONTACTABLE:4.9,  NUEVO:-21.9, TOTAL:-7.7 },
-    crec_orden:{ CONOCIDO:5.4,  CONTACTABLE:3.3,  NUEVO:-22.5, TOTAL:-4.4 },
-    crec_fact: { CONOCIDO:16.5, CONTACTABLE:40.1, NUEVO:-7.6,  TOTAL:11.4 },
-    aprobacion:{ CONOCIDO:5932, CONTACTABLE:1492, NUEVO:2842, TOTAL:10266 },
-    venta_mismo_mes_m: { CONOCIDO:11059,CONTACTABLE:3061,NUEVO:5503,TOTAL:19623 },
-    devoluciones_m:    { CONOCIDO:-35,  CONTACTABLE:0,   NUEVO:-734,TOTAL:-769 },
-    venta_total_m:     { CONOCIDO:13742,CONTACTABLE:4852,NUEVO:4896,TOTAL:23490 },
-    ticket_m:  { CONOCIDO:2.95, CONTACTABLE:3.26, NUEVO:3.35, TOTAL:3.09 }
+    crec_cotiz:{ CONOCIDO:-2.4, CONTACTABLE:-3.2, NUEVO:10.6, TOTAL:0.6 },
+    crec_orden:{ CONOCIDO:-7.0, CONTACTABLE:-5.3, NUEVO:-12.1, TOTAL:-7.9 },
+    crec_fact: { CONOCIDO:27.8, CONTACTABLE:0, NUEVO:50.0, TOTAL:62.5 },
+    aprobacion:{ CONOCIDO:162, CONTACTABLE:58, NUEVO:69, TOTAL:289 },
+    venta_mismo_mes_m: { CONOCIDO:6, CONTACTABLE:2, NUEVO:1, TOTAL:9 },
+    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-19 },
+    venta_total_m:     { CONOCIDO:595, CONTACTABLE:387, NUEVO:0, TOTAL:982 },
+    ticket_m:  { CONOCIDO:3.65, CONTACTABLE:3.2, NUEVO:0, TOTAL:3.46 }
+  },
+  9: {
+    // FUENTE: Tableau · view Facturación (mes septiembre completo, leído 1 oct 2026) · CIERRE SEPTIEMBRE
+    // CRÉDITO/Total = 68.1% (25.287/37.144 venta oferta) · etapas cotiz/orden/aprob/venta = Funnel 30/09 × participación; facturado = Nro Facturas del view
+    visor:     null,
+    cotiz:     { CONOCIDO:13778, CONTACTABLE:5377, NUEVO:8293, TOTAL:27448 },
+    orden:     { CONOCIDO:8265, CONTACTABLE:2628, NUEVO:4181, TOTAL:15074 },
+    facturado: { CONOCIDO:4974, CONTACTABLE:1554, NUEVO:1571, TOTAL:8099 },
+    conv:      { CONOCIDO:60.0, CONTACTABLE:48.9, NUEVO:50.4, TOTAL:54.9 },
+    conv_ord:  { CONOCIDO:60.2, CONTACTABLE:59.1, NUEVO:37.6, TOTAL:53.7 },
+    crec_visor:null,
+    crec_cotiz:{ CONOCIDO:-2.2, CONTACTABLE:3.7,  NUEVO:-22.1, TOTAL:-8.2 },
+    crec_orden:{ CONOCIDO:4.9,  CONTACTABLE:2.1,  NUEVO:-22.2, TOTAL:-4.8 },
+    crec_fact: { CONOCIDO:14.5, CONTACTABLE:36.6, NUEVO:-8.3,  TOTAL:9.7 },
+    aprobacion:{ CONOCIDO:6129, CONTACTABLE:1514, NUEVO:2947, TOTAL:10590 },
+    venta_mismo_mes_m: { CONOCIDO:12093, CONTACTABLE:3257, NUEVO:6108, TOTAL:21458 },
+    devoluciones_m:    { CONOCIDO:-35, CONTACTABLE:0, NUEVO:-797, TOTAL:-832 },
+    venta_total_m:     { CONOCIDO:14900, CONTACTABLE:5050, NUEVO:5336, TOTAL:25287 },
+    ticket_m:  { CONOCIDO:3.0, CONTACTABLE:3.25, NUEVO:3.4, TOTAL:3.12 }
   },
   8: {
     // FUENTE: CIERRE AGOSTO · Funnel × participación CREDITO 68.7% (Ventas NonBank MY=202608)
@@ -1698,27 +1759,49 @@ const FUNNEL_ALL_MONTHS = {
   // Solo junio = datos REALES desde Tableau MCP
   // Otros meses = pendientes hasta que TI active export histórico
   1: null, 2: null, 3: null, 4: null, 5: null,
+  10: {
+    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte 01/10/2026 (Fecha=2026-10-01) · API directa 2 oct 2026
+    // OCTUBRE parcial al día 1 · devoluciones: Tableau muestra solo total -27M (split por tipo no legible) → total en TOTAL
+    visor:     { CONOCIDO:370, CONTACTABLE:237, NUEVO:203, TOTAL:810 },
+    cotiz:     { CONOCIDO:654, CONTACTABLE:328, NUEVO:365, TOTAL:1347 },
+    orden:     { CONOCIDO:343, CONTACTABLE:160, NUEVO:153, TOTAL:656 },
+    facturado: { CONOCIDO:23, CONTACTABLE:7, NUEVO:9, TOTAL:39 },
+    conv:      { CONOCIDO:52.4, CONTACTABLE:48.8, NUEVO:41.9, TOTAL:48.7 },
+    conv_ord:  { CONOCIDO:67.1, CONTACTABLE:51.3, NUEVO:64.1, TOTAL:62.5 },
+    crec_visor:{ CONOCIDO:-8.2, CONTACTABLE:-3.3, NUEVO:-19.1, TOTAL:-9.9 },
+    crec_cotiz:{ CONOCIDO:-2.4, CONTACTABLE:-3.2, NUEVO:10.6, TOTAL:0.6 },
+    crec_orden:{ CONOCIDO:-7.0, CONTACTABLE:-5.3, NUEVO:-12.1, TOTAL:-7.9 },
+    crec_fact: { CONOCIDO:27.8, CONTACTABLE:0, NUEVO:50.0, TOTAL:62.5 },
+    crec_venta_total:{ CONOCIDO:62.1, CONTACTABLE:86.0, NUEVO:-75.7, TOTAL:71.1 },
+    aprobacion:{ CONOCIDO:229, CONTACTABLE:82, NUEVO:97, TOTAL:408 },
+    completacion:{ CONOCIDO:230, CONTACTABLE:82, NUEVO:98, TOTAL:410 },
+    confirmacion_citas:{ CONOCIDO:177, CONTACTABLE:60, NUEVO:67, TOTAL:304 },
+    venta_mismo_mes_m: { CONOCIDO:8, CONTACTABLE:3, NUEVO:1, TOTAL:13 },
+    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-27 },
+    venta_total_m:     { CONOCIDO:766, CONTACTABLE:616, NUEVO:1, TOTAL:1384 },
+    ticket_m:  { CONOCIDO:0.35, CONTACTABLE:0.49, NUEVO:0.13, TOTAL:0.33 }
+  },
   9: {
-    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte Fecha 29/09/2026 · API directa · Actualización 30 sep
-    // SEPTIEMBRE — mes en curso, datos parciales al día 29
-    visor:     { CONOCIDO:10538,CONTACTABLE:5284, NUEVO:6535, TOTAL:22357 },
-    cotiz:     { CONOCIDO:19651,CONTACTABLE:7761, NUEVO:11761,TOTAL:39173 },
-    orden:     { CONOCIDO:11755,CONTACTABLE:3806, NUEVO:5929, TOTAL:21490 },
-    facturado: { CONOCIDO:7342, CONTACTABLE:1802, NUEVO:3345, TOTAL:12489 },
-    conv:      { CONOCIDO:59.8, CONTACTABLE:49.0, NUEVO:50.4, TOTAL:54.9 },
-    conv_ord:  { CONOCIDO:74.0, CONTACTABLE:57.8, NUEVO:70.6, TOTAL:70.2 },
-    crec_visor:{ CONOCIDO:-11.4,CONTACTABLE:-5.4, NUEVO:-39.2, TOTAL:-20.8 },
-    crec_cotiz:{ CONOCIDO:-1.6, CONTACTABLE:4.9,  NUEVO:-21.9, TOTAL:-7.7 },
-    crec_orden:{ CONOCIDO:5.4,  CONTACTABLE:3.3,  NUEVO:-22.5, TOTAL:-4.4 },
-    crec_fact: { CONOCIDO:16.5, CONTACTABLE:40.1, NUEVO:-7.6,  TOTAL:11.4 },
-    crec_venta_total:{ CONOCIDO:13.3, CONTACTABLE:3.8, NUEVO:-5.1, TOTAL:6.5 },
-    aprobacion:{ CONOCIDO:8696, CONTACTABLE:2188, NUEVO:4167, TOTAL:15051 },
-    completacion:{ CONOCIDO:8702, CONTACTABLE:2198, NUEVO:4184, TOTAL:15084 },
-    confirmacion_citas:{ CONOCIDO:8564, CONTACTABLE:2144, NUEVO:4087, TOTAL:14795 },
-    venta_mismo_mes_m: { CONOCIDO:16213,CONTACTABLE:4487, NUEVO:8068, TOTAL:28768 },
-    devoluciones_m:    { CONOCIDO:-52,  CONTACTABLE:0,    NUEVO:-1076,TOTAL:-1128 },
-    venta_total_m:     { CONOCIDO:19078,CONTACTABLE:7283, NUEVO:8036, TOTAL:34396 },
-    ticket_m:  { CONOCIDO:2.21, CONTACTABLE:2.49, NUEVO:2.41, TOTAL:2.30 }
+    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · CIERRE SEPTIEMBRE (Fecha=30/09/2026) · API directa · cierre de mes 1 oct 2026
+    // SEPTIEMBRE — mes completo (30 días)
+    visor:     { CONOCIDO:10914, CONTACTABLE:5423, NUEVO:6803, TOTAL:23140 },
+    cotiz:     { CONOCIDO:20239, CONTACTABLE:7899, NUEVO:12182, TOTAL:40320 },
+    orden:     { CONOCIDO:12141, CONTACTABLE:3860, NUEVO:6142, TOTAL:22143 },
+    facturado: { CONOCIDO:7880, CONTACTABLE:1910, NUEVO:3613, TOTAL:13403 },
+    conv:      { CONOCIDO:60.0, CONTACTABLE:48.9, NUEVO:50.4, TOTAL:54.9 },
+    conv_ord:  { CONOCIDO:74.2, CONTACTABLE:57.9, NUEVO:70.8, TOTAL:70.4 },
+    crec_visor:{ CONOCIDO:-11.3,CONTACTABLE:-5.7, NUEVO:-38.9, TOTAL:-20.7 },
+    crec_cotiz:{ CONOCIDO:-2.2, CONTACTABLE:3.7,  NUEVO:-22.1, TOTAL:-8.2 },
+    crec_orden:{ CONOCIDO:4.9,  CONTACTABLE:2.1,  NUEVO:-22.2, TOTAL:-4.8 },
+    crec_fact: { CONOCIDO:14.5, CONTACTABLE:36.6, NUEVO:-8.3,  TOTAL:9.7 },
+    crec_venta_total:{ CONOCIDO:12.5, CONTACTABLE:3.1, NUEVO:-5.7, TOTAL:5.6 },
+    aprobacion:{ CONOCIDO:9003, CONTACTABLE:2224, NUEVO:4329, TOTAL:15556 },
+    completacion:{ CONOCIDO:9009, CONTACTABLE:2236, NUEVO:4346, TOTAL:15591 },
+    confirmacion_citas:{ CONOCIDO:8965, CONTACTABLE:2199, NUEVO:4280, TOTAL:15444 },
+    venta_mismo_mes_m: { CONOCIDO:17763, CONTACTABLE:4784, NUEVO:8972, TOTAL:31519 },
+    devoluciones_m:    { CONOCIDO:-52, CONTACTABLE:0, NUEVO:-1171, TOTAL:-1223 },
+    venta_total_m:     { CONOCIDO:20614, CONTACTABLE:7553, NUEVO:8932, TOTAL:37099 },
+    ticket_m:  { CONOCIDO:2.25, CONTACTABLE:2.50, NUEVO:2.48, TOTAL:2.35 }
   },
   8: {
     // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · CIERRE AGOSTO (Fecha=31/08/2026) · actualizado 22 sep 2026
@@ -1847,11 +1930,17 @@ let FUNNEL_DATA_AVAILABLE = true;
 const VENTAS_ALL_MONTHS = {
   // Solo junio = datos REALES desde Tableau MCP
   1: null, 2: null, 3: null, 4: null, 5: null,
+  10: {
+    // FUENTE: Tableau Tablero de Ventas NonBank · octubre 2026 al 1 (mes en curso, sin filtro) · API directa 2 oct 2026
+    colombia: { op_venta:1429196198, crec_op:-3.4, presupuesto:49603693361, venta:1383528510, cumpl:2.8, crec_venta:71.1, cumpl_proy:80.6 },
+    contado:  { op_venta:333928598, crec_op:55.7, presupuesto:10923634921, venta:403142734, cumpl:3.7, crec_venta:97.7, cumpl_proy:86.2, participacion:29.1 },
+    credito:  { op_venta:1095336033, crec_op:-13.4, presupuesto:38682632916, venta:980399590, cumpl:2.5, crec_venta:62.1, cumpl_proy:79.0, participacion:70.9 }
+  },
   9: {
-    // FUENTE: Tableau Tablero de Ventas NonBank · SEPTIEMBRE al 29 · API directa 2026-09-30 (get-view-image)
-    colombia: { op_venta:42123365685, crec_op:-3.5, presupuesto:36140900735, venta:34412225037, cumpl:95.2, crec_venta:6.5, cumpl_proy:98.8 },
-    contado:  { op_venta:11636592744, crec_op:5.5,  presupuesto:11044491246, venta:10936795522, cumpl:99.0, crec_venta:9.6,  cumpl_proy:102.3, participacion:31.8 },
-    credito:  { op_venta:30489648102, crec_op:-6.6, presupuesto:25098628076, venta:23477563714, cumpl:93.5, crec_venta:5.1,  cumpl_proy:97.3, participacion:68.2 }
+    // FUENTE: Tableau Tablero de Ventas NonBank · CIERRE SEPTIEMBRE (filtro MY(Fecha)=202609) · API directa 1 oct 2026
+    colombia: { op_venta:43352914486, crec_op:-4.5, presupuesto:36140900735, venta:37124106987, cumpl:102.7, crec_venta:5.7, cumpl_proy:102.7 },
+    contado:  { op_venta:11978336422, crec_op:4.8,  presupuesto:11044491246, venta:11844976256, cumpl:107.2, crec_venta:10.3, cumpl_proy:107.2, participacion:31.9 },
+    credito:  { op_venta:31377534926, crec_op:-7.6, presupuesto:25098628076, venta:25281431670, cumpl:100.7, crec_venta:3.7, cumpl_proy:100.7, participacion:68.1 }
   },
   8: {
     // FUENTE: Tableau Tablero de Ventas NonBank · CIERRE AGOSTO (filtro MY(Fecha)=202608) · actualizado 22 sep 2026
@@ -1907,9 +1996,10 @@ const TRAFICO_PRESENCIAL = {
     { mes:'jun', val:113647 },
     { mes:'jul', val:121597 },
     { mes:'ago', val:120105 },
-    { mes:'sep', val:100240 }
+    { mes:'sep', val:104020 },
+    { mes:'oct', val:3933 }
   ],
-  total: 1079992
+  total: 1087705
 };
 
 // ============ VENTAS NONBANK (junio 2026) ============
@@ -2027,16 +2117,27 @@ const ESTRATOS_BY_MONTH = {
     { name:'Estrato 0',    clientes:26,   pct_con:50, pct_nv:50, venta:49870000,   crec_cli:-7.1, crec_vta:-10.6 },
     { name:'Sin clasif.',  clientes:0,    pct_con:null,pct_nv:null,venta:1220000,   crec_cli:-100, crec_vta:-96.1 }
   ],
+  10: [
+    // FUENTE: Tableau Cliente 360 v1 · octubre 2026 al 1 (leída 2 oct 2026) · get-view-image
+    // OCTUBRE parcial · Total facturados 448 (incl. NULL 4 / $0,26M no listado) · venta total $1.385,63M
+    { name:'Estrato 3', clientes:166, pct_con:48, pct_nv:52, venta:534200000, crec_cli:26.7, crec_con:-2.4, crec_nv:75.5, crec_vta:100.8 },
+    { name:'Estrato 2', clientes:108, pct_con:52, pct_nv:48, venta:330680000, crec_cli:31.7, crec_con:24.4, crec_nv:40.5, crec_vta:75.5 },
+    { name:'Estrato 4', clientes:53, pct_con:55, pct_nv:45, venta:156630000, crec_cli:26.2, crec_con:3.6, crec_nv:71.4, crec_vta:60.1 },
+    { name:'Estrato 5', clientes:48, pct_con:65, pct_nv:35, venta:144910000, crec_cli:33.3, crec_con:29.2, crec_nv:41.7, crec_vta:61.5 },
+    { name:'Estrato 1', clientes:43, pct_con:40, pct_nv:60, venta:107860000, crec_cli:16.2, crec_con:-15.0, crec_nv:52.9, crec_vta:-12.3 },
+    { name:'Estrato 6', clientes:23, pct_con:78, pct_nv:22, venta:108350000, crec_cli:64.3, crec_con:80.0, crec_nv:25.0, crec_vta:276.3 },
+    { name:'Estrato 0', clientes:3, pct_con:33, pct_nv:67, venta:2750000, crec_cli:0.0, crec_con:0.0, crec_nv:0.0, crec_vta:-82.5 }
+  ],
   9: [
-    // FUENTE: Tableau Cliente 360 v1 · corte septiembre 2026 al 24 · Actualización 25 sep · get-view-image
-    // SEPTIEMBRE parcial · Total facturados 9.930 (suma clientes y venta validada vs total, incl. NULL 4 / $48,27M)
-    { name:'Estrato 3',   clientes:4193, pct_con:57, pct_nv:43, venta:11699130000, crec_cli:3.5,  crec_con:6.6,  crec_nv:-0.3,  crec_vta:11.4 },
-    { name:'Estrato 2',   clientes:2052, pct_con:55, pct_nv:45, venta:5496350000,  crec_cli:-8.8, crec_con:-5.5, crec_nv:-12.5, crec_vta:-5.8 },
-    { name:'Estrato 4',   clientes:1430, pct_con:57, pct_nv:43, venta:3891780000,  crec_cli:10.4, crec_con:10.2, crec_nv:10.7,  crec_vta:17.8 },
-    { name:'Estrato 1',   clientes:893,  pct_con:53, pct_nv:47, venta:2537270000,  crec_cli:-9.8, crec_con:0.0,  crec_nv:-18.8, crec_vta:-6.8 },
-    { name:'Estrato 5',   clientes:843,  pct_con:67, pct_nv:33, venta:2448500000,  crec_cli:3.6,  crec_con:1.1,  crec_nv:9.0,   crec_vta:12.5 },
-    { name:'Estrato 6',   clientes:451,  pct_con:65, pct_nv:35, venta:1298580000,  crec_cli:6.1,  crec_con:4.2,  crec_nv:9.9,   crec_vta:5.3 },
-    { name:'Estrato 0',   clientes:64,   pct_con:50, pct_nv:50, venta:200700000,   crec_cli:-27.3,crec_con:-17.9,crec_nv:-34.7, crec_vta:-28.4 }
+    // FUENTE: Tableau Cliente 360 v1 · FOTO CIERRE SEPTIEMBRE (leída 1 oct 2026, view aún en septiembre) · get-view-image
+    // SEPTIEMBRE completo · Total facturados 12.735 (incl. NULL 7 / $46,79M no listado) · venta total $37.171,58M
+    { name:'Estrato 3', clientes:5380, pct_con:56, pct_nv:44, venta:15671460000, crec_cli:2.3, crec_con:5.1, crec_nv:-1.0, crec_vta:8.9 },
+    { name:'Estrato 2', clientes:2669, pct_con:55, pct_nv:45, venta:7445930000, crec_cli:-7.3, crec_con:-2.7, crec_nv:-12.4, crec_vta:-3.4 },
+    { name:'Estrato 4', clientes:1823, pct_con:57, pct_nv:43, venta:5199180000, crec_cli:9.6, crec_con:11.1, crec_nv:7.6, crec_vta:16.1 },
+    { name:'Estrato 1', clientes:1148, pct_con:53, pct_nv:47, venta:3549660000, crec_cli:-8.5, crec_con:5.2, crec_nv:-20.3, crec_vta:0.0 },
+    { name:'Estrato 5', clientes:1054, pct_con:65, pct_nv:35, venta:3144020000, crec_cli:2.2, crec_con:-1.9, crec_nv:10.8, crec_vta:10.5 },
+    { name:'Estrato 6', clientes:574, pct_con:66, pct_nv:34, venta:1823370000, crec_cli:6.1, crec_con:5.0, crec_nv:8.2, crec_vta:8.0 },
+    { name:'Estrato 0', clientes:80, pct_con:52, pct_nv:48, venta:291160000, crec_cli:-27.9, crec_con:-16.0, crec_nv:-37.7, crec_vta:-19.3 }
   ],
   8: [
     // FUENTE: Tableau Cliente 360 v1 · corte agosto 2026 al 9 · última foto pre-cierre
@@ -2071,16 +2172,25 @@ const EDADES_BY_MONTH = {
     { name:'16-24 años',  clientes:178, pct_con:38, pct_nv:62, venta:436650000,  crec_cli:11.9,  crec_vta:23.9, ticket:2453089, frec:0.94 },
     { name:'Sin clasif.', clientes:780, pct_con:23, pct_nv:77, venta:1597110000, crec_cli:1.7,   crec_vta:-0.6, ticket:2047582, frec:0.89 }
   ],
+  10: [
+    // FUENTE: Tableau Cliente 360 v1 · octubre 2026 al 1 (leída 2 oct 2026) · get-view-image
+    // OCTUBRE parcial · Total facturados 448 (suma clientes validada vs total)
+    { name:'35-44 años', clientes:111, pct_con:56, pct_nv:44, venta:370760000, crec_cli:65.7, crec_con:26.5, crec_nv:172.2, crec_vta:206.8, ticket:3340191, frec:0.96 },
+    { name:'Sin clasif.', clientes:99, pct_con:21, pct_nv:79, venta:263980000, crec_cli:86.8, crec_con:-4.5, crec_nv:151.6, crec_vta:175.4, ticket:2666496, frec:0.96 },
+    { name:'55+ años', clientes:90, pct_con:64, pct_nv:36, venta:328890000, crec_cli:66.7, crec_con:52.6, crec_nv:100.0, crec_vta:151.4, ticket:3654344, frec:0.99 },
+    { name:'25-34 años', clientes:65, pct_con:52, pct_nv:48, venta:204050000, crec_cli:-13.3, crec_con:-26.1, crec_nv:6.9, crec_vta:10.9, ticket:3139194, frec:1.00 },
+    { name:'45-54 años', clientes:64, pct_con:78, pct_nv:22, venta:174810000, crec_cli:-4.5, crec_con:13.6, crec_nv:-39.1, crec_vta:-20.7, ticket:2731389, frec:0.98 },
+    { name:'16-24 años', clientes:19, pct_con:37, pct_nv:63, venta:43140000, crec_cli:-34.5, crec_con:-36.4, crec_nv:-33.3, crec_vta:-24.9, ticket:2270361, frec:1.00 }
+  ],
   9: [
-    // FUENTE: Tableau Cliente 360 v1 · corte septiembre 2026 al 24 · Actualización 25 sep · get-view-image
-    // SEPTIEMBRE parcial · Total facturados 9.930 (suma clientes y venta validada vs total)
-    // frec: se conserva la del corte anterior (columna poco legible en la imagen; varía ±0,01)
-    { name:'Sin clasif.', clientes:2198, pct_con:17, pct_nv:83, venta:4927700000, crec_cli:21.4, crec_con:-14.8,crec_nv:33.2,  crec_vta:16.8,  ticket:2241902, frec:0.84 },
-    { name:'35-44 años',  clientes:2101, pct_con:70, pct_nv:30, venta:6455270000, crec_cli:-3.8, crec_con:-0.7, crec_nv:-10.3, crec_vta:5.7,   ticket:3072475, frec:0.83 },
-    { name:'55+ años',    clientes:2031, pct_con:79, pct_nv:21, venta:5378330000, crec_cli:4.6,  crec_con:8.6,  crec_nv:-7.2,  crec_vta:5.5,   ticket:2648119, frec:0.83 },
-    { name:'45-54 años',  clientes:1589, pct_con:78, pct_nv:22, venta:4871400000, crec_cli:8.4,  crec_con:17.3, crec_nv:-14.8, crec_vta:16.6,  ticket:3065702, frec:0.82 },
-    { name:'25-34 años',  clientes:1519, pct_con:56, pct_nv:44, venta:4691230000, crec_cli:-16.7,crec_con:-7.3, crec_nv:-26.0, crec_vta:-6.6,  ticket:3088367, frec:0.85 },
-    { name:'16-24 años',  clientes:492,  pct_con:40, pct_nv:60, venta:1296640000, crec_cli:-27.9,crec_con:-4.8, crec_nv:-40.1, crec_vta:-18.2, ticket:2635447, frec:0.88 }
+    // FUENTE: Tableau Cliente 360 v1 · FOTO CIERRE SEPTIEMBRE (leída 1 oct 2026) · get-view-image
+    // SEPTIEMBRE completo · Total facturados 12.735 (suma clientes validada vs total)
+    { name:'Sin clasif.', clientes:2787, pct_con:17, pct_nv:83, venta:6489190000, crec_cli:17.5, crec_con:-12.5, crec_nv:26.7, crec_vta:11.7, ticket:2328377, frec:0.82 },
+    { name:'35-44 años', clientes:2700, pct_con:69, pct_nv:31, venta:8783190000, crec_cli:-3.8, crec_con:-0.8, crec_nv:-9.9, crec_vta:5.5, ticket:3253033, frec:0.82 },
+    { name:'55+ años', clientes:2604, pct_con:77, pct_nv:23, venta:7405000000, crec_cli:7.0, crec_con:10.7, crec_nv:-3.6, crec_vta:10.2, ticket:2843702, frec:0.82 },
+    { name:'45-54 años', clientes:2051, pct_con:76, pct_nv:24, venta:6601040000, crec_cli:6.9, crec_con:13.7, crec_nv:-10.4, crec_vta:17.9, ticket:3218448, frec:0.81 },
+    { name:'25-34 años', clientes:1987, pct_con:55, pct_nv:45, venta:6274610000, crec_cli:-15.1, crec_con:-5.6, crec_nv:-24.5, crec_vta:-5.5, ticket:3157833, frec:0.84 },
+    { name:'16-24 años', clientes:606, pct_con:38, pct_nv:62, venta:1618550000, crec_cli:-30.3, crec_con:1.7, crec_nv:-41.7, crec_vta:-21.6, ticket:2670881, frec:0.87 }
   ],
   8: [
     // FUENTE: Tableau Cliente 360 v1 · corte agosto 2026 al 9 · última foto pre-cierre
@@ -2116,22 +2226,39 @@ const LINEAS_BY_MONTH = {
     { name:'CLOSET',            CONOCIDO:{cli:null,vta:79121997},   CONTACTABLE:{cli:null,vta:39402543},  NUEVO:{cli:null,vta:13973507}  },
     { name:'ACCESORIOS',        CONOCIDO:{cli:370, vta:0},          CONTACTABLE:{cli:97,  vta:0},         NUEVO:{cli:107, vta:0}         }
   ],
+  10: [
+    // FUENTE: Tableau Cliente 360 v1 · sección Líneas · octubre 2026 al 1 (leída 2 oct 2026) · vía get-view-image
+    // OCTUBRE parcial · Total facturados 448 · split Conocido/Nuevo = clientes y venta × % Conocidos
+    { name:'COLCHONES', clientes:125, venta:256550000, crec_con:22.6, crec_nv:50.0, crec_vta:54.3, pct_con:52, pct_nv:48, CONOCIDO:{cli:65, vta:133406000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:60, vta:123144000} },
+    { name:'SALAS', clientes:121, venta:333150000, crec_con:38.6, crec_nv:100.0, crec_vta:105.7, pct_con:50, pct_nv:50, CONOCIDO:{cli:60, vta:166575000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:61, vta:166575000} },
+    { name:'DOBLE', clientes:118, venta:285620000, crec_con:24.4, crec_nv:129.6, crec_vta:110.2, pct_con:47, pct_nv:53, CONOCIDO:{cli:55, vta:134241400}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:63, vta:151378600} },
+    { name:'COMPLEMENTO DORM', clientes:107, venta:19400000, crec_con:8.9, crec_nv:123.1, crec_vta:46.9, pct_con:46, pct_nv:54, CONOCIDO:{cli:49, vta:8924000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:58, vta:10476000} },
+    { name:'COMEDORES', clientes:58, venta:205080000, crec_con:2.9, crec_nv:35.3, crec_vta:41.9, pct_con:60, pct_nv:40, CONOCIDO:{cli:35, vta:123048000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:23, vta:82032000} },
+    { name:'DESCANSO', clientes:52, venta:135240000, crec_con:36.8, crec_nv:73.3, crec_vta:81.7, pct_con:50, pct_nv:50, CONOCIDO:{cli:26, vta:67620000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:26, vta:67620000} },
+    { name:'SERVICIO A CLIENTE', clientes:45, venta:2100000, crec_con:15.8, crec_nv:109.1, crec_vta:127.2, pct_con:49, pct_nv:51, CONOCIDO:{cli:22, vta:1029000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:23, vta:1071000} },
+    { name:'ENTRETENIMIENTO', clientes:39, venta:45320000, crec_con:-4.5, crec_nv:28.6, crec_vta:27.7, pct_con:54, pct_nv:46, CONOCIDO:{cli:21, vta:24472800}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:18, vta:20847200} },
+    { name:'COMPLEMENTOS', clientes:36, venta:39960000, crec_con:150.0, crec_nv:120.0, crec_vta:252.3, pct_con:69, pct_nv:31, CONOCIDO:{cli:25, vta:27572400}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:11, vta:12387600} },
+    { name:'LENCERIA COLCHON', clientes:32, venta:5030000, crec_con:13.3, crec_nv:87.5, crec_vta:73.0, pct_con:53, pct_nv:47, CONOCIDO:{cli:17, vta:2665900}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:15, vta:2364100} },
+    { name:'ACCESORIOS', clientes:26, venta:4300000, crec_con:6.7, crec_nv:100.0, crec_vta:46.8, pct_con:62, pct_nv:38, CONOCIDO:{cli:16, vta:2666000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:10, vta:1634000} },
+    { name:'CLOSET', clientes:15, venta:18900000, crec_con:100.0, crec_nv:28.6, crec_vta:68.6, pct_con:40, pct_nv:60, CONOCIDO:{cli:6, vta:7560000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:9, vta:11340000} },
+    { name:'JUVENIL', clientes:10, venta:16020000, crec_con:-33.3, crec_nv:-20.0, crec_vta:-26.9, pct_con:60, pct_nv:40, CONOCIDO:{cli:6, vta:9612000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:4, vta:6408000} }
+  ],
   9: [
-    // FUENTE: Tableau Cliente 360 v1 · sección Líneas · corte sept 2026 al 24 · Actualización 25 sep · vía get-view-image
-    // SEPTIEMBRE parcial · 24 días · Total facturados 9.930 (clientes/venta cruzados con view Facturación)
-    { name:'COLCHONES',             clientes:2870, venta:5510770000, crec_con:-3.4, crec_nv:-22.1, crec_vta:-11.7, pct_con:55, pct_nv:45, CONOCIDO:{cli:1578, vta:3030923500}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1292, vta:2479846500} },
-    { name:'DOBLE',                 clientes:2409, venta:5306180000, crec_con:11.5, crec_nv:5.2, crec_vta:16.7, pct_con:53, pct_nv:47, CONOCIDO:{cli:1277, vta:2812275400}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1132, vta:2493904600} },
-    { name:'SALAS',                 clientes:2369, venta:5872710000, crec_con:2.4, crec_nv:-3.5, crec_vta:-0.4, pct_con:58, pct_nv:42, CONOCIDO:{cli:1374, vta:3406171800}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:995, vta:2466538200} },
-    { name:'COMPLEMENTO DORM',      clientes:2179, venta:403760000, crec_con:6.4, crec_nv:-8.0, crec_vta:-3.3, pct_con:53, pct_nv:47, CONOCIDO:{cli:1155, vta:213992800}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1024, vta:189767200} },
-    { name:'ACCESORIOS',            clientes:1506, venta:249800000, crec_con:32.4, crec_nv:45.2, crec_vta:35.7, pct_con:66, pct_nv:34, CONOCIDO:{cli:994, vta:164868000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:512, vta:84932000} },
-    { name:'COMEDORES',             clientes:1263, venta:4391680000, crec_con:-9.7, crec_nv:-21.1, crec_vta:6.2, pct_con:57, pct_nv:43, CONOCIDO:{cli:720, vta:2503257600}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:543, vta:1888422400} },
-    { name:'DESCANSO',              clientes:1031, venta:2284470000, crec_con:35.8, crec_nv:20.3, crec_vta:44.2, pct_con:60, pct_nv:40, CONOCIDO:{cli:619, vta:1370682000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:412, vta:913788000} },
-    { name:'SERVICIO A CLIENTE',    clientes:804, venta:33750000, crec_con:-1.8, crec_nv:14.2, crec_vta:11.6, pct_con:53, pct_nv:47, CONOCIDO:{cli:426, vta:17887500}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:378, vta:15862500} },
-    { name:'COMPLEMENTOS',          clientes:740, venta:688930000, crec_con:59.8, crec_nv:74.5, crec_vta:104.4, pct_con:64, pct_nv:36, CONOCIDO:{cli:474, vta:440915200}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:266, vta:248014800} },
-    { name:'LENCERIA COLCHON',      clientes:740, venta:116750000, crec_con:-13.0, crec_nv:-12.3, crec_vta:0.6, pct_con:53, pct_nv:47, CONOCIDO:{cli:392, vta:61877500}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:348, vta:54872500} },
-    { name:'ENTRETENIMIENTO',       clientes:701, venta:809530000, crec_con:-10.4, crec_nv:-15.2, crec_vta:-3.7, pct_con:59, pct_nv:41, CONOCIDO:{cli:414, vta:477622700}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:287, vta:331907300} },
-    { name:'JUVENIL',               clientes:437, venta:755810000, crec_con:-1.1, crec_nv:-1.1, crec_vta:5.1, pct_con:60, pct_nv:40, CONOCIDO:{cli:262, vta:453486000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:175, vta:302324000} },
-    { name:'CLOSET',                clientes:420, venta:565430000, crec_con:13.2, crec_nv:-11.8, crec_vta:11.0, pct_con:57, pct_nv:43, CONOCIDO:{cli:239, vta:322295100}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:181, vta:243134900} }
+    // FUENTE: Tableau Cliente 360 v1 · sección Líneas · FOTO CIERRE SEPTIEMBRE (leída 1 oct 2026) · vía get-view-image
+    // SEPTIEMBRE completo · Total facturados 12.735
+    { name:'COLCHONES', clientes:3771, venta:7424290000, crec_con:-0.6, crec_nv:-19.7, crec_vta:-9.0, pct_con:54, pct_nv:46, CONOCIDO:{cli:2036, vta:4009116600}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1735, vta:3415173400} },
+    { name:'DOBLE', clientes:3133, venta:7045780000, crec_con:12.4, crec_nv:4.3, crec_vta:17.6, pct_con:53, pct_nv:47, CONOCIDO:{cli:1660, vta:3734263400}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1473, vta:3311516600} },
+    { name:'SALAS', clientes:3111, venta:8053620000, crec_con:3.0, crec_nv:-3.3, crec_vta:1.8, pct_con:57, pct_nv:43, CONOCIDO:{cli:1773, vta:4590563400}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1338, vta:3463056600} },
+    { name:'COMPLEMENTO DORM', clientes:2856, venta:534180000, crec_con:6.6, crec_nv:-5.3, crec_vta:-1.8, pct_con:52, pct_nv:48, CONOCIDO:{cli:1485, vta:277773600}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:1371, vta:256406400} },
+    { name:'ACCESORIOS', clientes:2014, venta:305420000, crec_con:32.6, crec_nv:43.2, crec_vta:23.3, pct_con:65, pct_nv:35, CONOCIDO:{cli:1309, vta:198523000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:705, vta:106897000} },
+    { name:'COMEDORES', clientes:1718, venta:6077110000, crec_con:-10.8, crec_nv:-19.2, crec_vta:4.6, pct_con:56, pct_nv:44, CONOCIDO:{cli:962, vta:3403181600}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:756, vta:2673928400} },
+    { name:'DESCANSO', clientes:1320, venta:2987590000, crec_con:25.6, crec_nv:20.1, crec_vta:39.2, pct_con:58, pct_nv:42, CONOCIDO:{cli:765, vta:1732802200}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:555, vta:1254787800} },
+    { name:'SERVICIO A CLIENTE', clientes:1056, venta:46150000, crec_con:-0.4, crec_nv:14.5, crec_vta:7.6, pct_con:52, pct_nv:48, CONOCIDO:{cli:549, vta:23998000}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:507, vta:22152000} },
+    { name:'LENCERIA COLCHON', clientes:1006, venta:157470000, crec_con:-9.7, crec_nv:-8.0, crec_vta:4.5, pct_con:52, pct_nv:48, CONOCIDO:{cli:523, vta:81884400}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:483, vta:75585600} },
+    { name:'COMPLEMENTOS', clientes:977, venta:928230000, crec_con:51.7, crec_nv:64.4, crec_vta:83.8, pct_con:64, pct_nv:36, CONOCIDO:{cli:625, vta:594067200}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:352, vta:334162800} },
+    { name:'ENTRETENIMIENTO', clientes:894, venta:1022820000, crec_con:-16.7, crec_nv:-16.3, crec_vta:-13.2, pct_con:56, pct_nv:44, CONOCIDO:{cli:500, vta:572779200}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:394, vta:450040800} },
+    { name:'JUVENIL', clientes:554, venta:972550000, crec_con:-3.0, crec_nv:-4.2, crec_vta:4.0, pct_con:59, pct_nv:41, CONOCIDO:{cli:326, vta:573804500}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:228, vta:398745500} },
+    { name:'CLOSET', clientes:538, venta:737290000, crec_con:7.0, crec_nv:-11.1, crec_vta:9.8, pct_con:57, pct_nv:43, CONOCIDO:{cli:306, vta:420255300}, CONTACTABLE:{cli:0,vta:0}, NUEVO:{cli:232, vta:317034700} }
   ],
   8: [
     // FUENTE: Tableau Cliente 360 v1 · view Facturación · corte agosto 2026 al 9 · última foto pre-cierre
@@ -2215,39 +2342,73 @@ const AGENCIAS_BY_MONTH = {
     { name:"METROPOLITANO", CONOCIDO:44, CONTACTABLE:0, NUEVO:2 },
     { name:"PLAZA DEL SOL", CONOCIDO:33, CONTACTABLE:0, NUEVO:1 }
   ],
+  10: [
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte 01/10/2026 (Fecha=2026-10-01) · 2 oct 2026 · API directa
+    // OCTUBRE parcial al día 1 · top 30 por visor total (33 agencias con dato)
+    { name:'TIENDA VIRTUAL', CONOCIDO:36, CONTACTABLE:29, NUEVO:28 },
+    { name:'PRINCIPAL', CONOCIDO:39, CONTACTABLE:25, NUEVO:27 },
+    { name:'CUATRO VIENTOS', CONOCIDO:22, CONTACTABLE:13, NUEVO:16 },
+    { name:'FLORIDA CC', CONOCIDO:11, CONTACTABLE:27, NUEVO:12 },
+    { name:'MAYORCA CC', CONOCIDO:20, CONTACTABLE:14, NUEVO:11 },
+    { name:'NORTE', CONOCIDO:26, CONTACTABLE:13, NUEVO:5 },
+    { name:'MOLINOS CC', CONOCIDO:22, CONTACTABLE:15, NUEVO:6 },
+    { name:'SANTA MARTA', CONOCIDO:21, CONTACTABLE:10, NUEVO:12 },
+    { name:'SAN FELIPE', CONOCIDO:24, CONTACTABLE:9, NUEVO:5 },
+    { name:'CACIQUE', CONOCIDO:18, CONTACTABLE:6, NUEVO:10 },
+    { name:'JAMAR FABRICATO', CONOCIDO:9, CONTACTABLE:11, NUEVO:7 },
+    { name:'MONTERIA', CONOCIDO:9, CONTACTABLE:8, NUEVO:10 },
+    { name:'ALMACEN VALLEDUPAR', CONOCIDO:12, CONTACTABLE:7, NUEVO:5 },
+    { name:'TRINITARIAS', CONOCIDO:12, CONTACTABLE:4, NUEVO:7 },
+    { name:'SUBA', CONOCIDO:12, CONTACTABLE:5, NUEVO:2 },
+    { name:'SINCELEJO', CONOCIDO:11, CONTACTABLE:3, NUEVO:4 },
+    { name:'JAMAR CRA 30', CONOCIDO:2, CONTACTABLE:6, NUEVO:9 },
+    { name:'JAMAR EL EDEN', CONOCIDO:3, CONTACTABLE:7, NUEVO:7 },
+    { name:'LA PLAZUELA', CONOCIDO:10, CONTACTABLE:3, NUEVO:3 },
+    { name:'RIOHACHA', CONOCIDO:8, CONTACTABLE:6, NUEVO:2 },
+    { name:'LAS AMERICAS CC', CONOCIDO:2, CONTACTABLE:6, NUEVO:7 },
+    { name:'HIPERJAMAR', CONOCIDO:9, CONTACTABLE:2, NUEVO:2 },
+    { name:'JAMAR NORTE BOGOTA', CONOCIDO:5, CONTACTABLE:4, NUEVO:3 },
+    { name:'VALLEDUPAR', CONOCIDO:7, CONTACTABLE:2, NUEVO:0 },
+    { name:'BOSA', CONOCIDO:6, CONTACTABLE:1, NUEVO:0 },
+    { name:'ENSUENO CC', CONOCIDO:2, CONTACTABLE:1, NUEVO:2 },
+    { name:'BUCARAMANGA CR 27', CONOCIDO:3, CONTACTABLE:0, NUEVO:0 },
+    { name:'JAMAR PREMIUN PLAZA', CONOCIDO:3, CONTACTABLE:0, NUEVO:0 },
+    { name:'LA CENTRAL', CONOCIDO:2, CONTACTABLE:0, NUEVO:0 },
+    { name:'SINCELEJO CONCESIONES', CONOCIDO:2, CONTACTABLE:0, NUEVO:0 }
+  ],
   9: [
-    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte Fecha 29/09/2026 · Actualización 30 sep · API directa
-    // SEPTIEMBRE parcial al día 29 · top 30 por visor total
-    { name:'TIENDA VIRTUAL',       CONOCIDO:961, CONTACTABLE:576, NUEVO:767 },
-    { name:'PRINCIPAL',            CONOCIDO:1055,CONTACTABLE:544, NUEVO:613 },
-    { name:'FLORIDA CC',           CONOCIDO:541, CONTACTABLE:508, NUEVO:647 },
-    { name:'CUATRO VIENTOS',       CONOCIDO:777, CONTACTABLE:316, NUEVO:410 },
-    { name:'NORTE',                CONOCIDO:784, CONTACTABLE:205, NUEVO:222 },
-    { name:'MOLINOS CC',           CONOCIDO:588, CONTACTABLE:233, NUEVO:332 },
-    { name:'MAYORCA CC',           CONOCIDO:502, CONTACTABLE:271, NUEVO:352 },
-    { name:'SAN FELIPE',           CONOCIDO:680, CONTACTABLE:187, NUEVO:184 },
-    { name:'CACIQUE',              CONOCIDO:405, CONTACTABLE:247, NUEVO:312 },
-    { name:'SANTA MARTA',          CONOCIDO:438, CONTACTABLE:211, NUEVO:215 },
-    { name:'LAS AMERICAS CC',      CONOCIDO:270, CONTACTABLE:239, NUEVO:230 },
-    { name:'ALMACEN VALLEDUPAR',   CONOCIDO:293, CONTACTABLE:177, NUEVO:251 },
-    { name:'JAMAR FABRICATO',      CONOCIDO:230, CONTACTABLE:154, NUEVO:263 },
-    { name:'SUBA',                 CONOCIDO:304, CONTACTABLE:215, NUEVO: 91 },
-    { name:'RIOHACHA',             CONOCIDO:297, CONTACTABLE:141, NUEVO:159 },
-    { name:'MONTERIA',             CONOCIDO:279, CONTACTABLE:122, NUEVO:175 },
-    { name:'SINCELEJO',            CONOCIDO:284, CONTACTABLE:126, NUEVO:139 },
-    { name:'JAMAR NORTE BOGOTA',   CONOCIDO:148, CONTACTABLE:118, NUEVO:249 },
-    { name:'LA PLAZUELA',          CONOCIDO:302, CONTACTABLE:104, NUEVO:108 },
-    { name:'JAMAR EL EDEN',        CONOCIDO:155, CONTACTABLE:115, NUEVO:242 },
-    { name:'JAMAR CRA 30',         CONOCIDO:121, CONTACTABLE:111, NUEVO:229 },
-    { name:'TRINITARIAS',          CONOCIDO:232, CONTACTABLE: 60, NUEVO:124 },
-    { name:'HIPERJAMAR',           CONOCIDO:227, CONTACTABLE: 81, NUEVO: 93 },
-    { name:'VALLEDUPAR',           CONOCIDO:199, CONTACTABLE: 34, NUEVO: 29 },
-    { name:'BOSA',                 CONOCIDO:140, CONTACTABLE: 78, NUEVO: 41 },
-    { name:'BUCARAMANGA CENTRO',   CONOCIDO: 62, CONTACTABLE: 34, NUEVO: 19 },
-    { name:'ENSUENO CC',           CONOCIDO: 49, CONTACTABLE: 28, NUEVO: 12 },
-    { name:'JAMAR PREMIUN PLAZA',  CONOCIDO: 32, CONTACTABLE:  9, NUEVO:  7 },
-    { name:'METROPOLITANO',        CONOCIDO: 41, CONTACTABLE:  1, NUEVO:  1 },
-    { name:'BUCARAMANGA CR 27',    CONOCIDO: 34, CONTACTABLE:  3, NUEVO:  3 }
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · CIERRE SEPTIEMBRE (Fecha=30/09/2026) · 1 oct 2026 · API directa
+    // SEPTIEMBRE mes completo · top 30 por visor total
+    { name:'TIENDA VIRTUAL', CONOCIDO:994, CONTACTABLE:588, NUEVO:800 },
+    { name:'PRINCIPAL', CONOCIDO:1079, CONTACTABLE:558, NUEVO:637 },
+    { name:'FLORIDA CC', CONOCIDO:549, CONTACTABLE:522, NUEVO:677 },
+    { name:'CUATRO VIENTOS', CONOCIDO:808, CONTACTABLE:323, NUEVO:420 },
+    { name:'NORTE', CONOCIDO:819, CONTACTABLE:212, NUEVO:229 },
+    { name:'MOLINOS CC', CONOCIDO:607, CONTACTABLE:237, NUEVO:349 },
+    { name:'MAYORCA CC', CONOCIDO:527, CONTACTABLE:279, NUEVO:365 },
+    { name:'SAN FELIPE', CONOCIDO:716, CONTACTABLE:190, NUEVO:189 },
+    { name:'CACIQUE', CONOCIDO:417, CONTACTABLE:252, NUEVO:327 },
+    { name:'SANTA MARTA', CONOCIDO:461, CONTACTABLE:217, NUEVO:229 },
+    { name:'LAS AMERICAS CC', CONOCIDO:276, CONTACTABLE:244, NUEVO:238 },
+    { name:'ALMACEN VALLEDUPAR', CONOCIDO:306, CONTACTABLE:182, NUEVO:261 },
+    { name:'JAMAR FABRICATO', CONOCIDO:233, CONTACTABLE:157, NUEVO:272 },
+    { name:'SUBA', CONOCIDO:313, CONTACTABLE:223, NUEVO:98 },
+    { name:'RIOHACHA', CONOCIDO:313, CONTACTABLE:144, NUEVO:170 },
+    { name:'MONTERIA', CONOCIDO:287, CONTACTABLE:127, NUEVO:183 },
+    { name:'SINCELEJO', CONOCIDO:298, CONTACTABLE:127, NUEVO:146 },
+    { name:'LA PLAZUELA', CONOCIDO:321, CONTACTABLE:106, NUEVO:113 },
+    { name:'JAMAR EL EDEN', CONOCIDO:162, CONTACTABLE:122, NUEVO:248 },
+    { name:'JAMAR NORTE BOGOTA', CONOCIDO:151, CONTACTABLE:122, NUEVO:255 },
+    { name:'JAMAR CRA 30', CONOCIDO:125, CONTACTABLE:117, NUEVO:235 },
+    { name:'TRINITARIAS', CONOCIDO:236, CONTACTABLE:63, NUEVO:127 },
+    { name:'HIPERJAMAR', CONOCIDO:231, CONTACTABLE:84, NUEVO:100 },
+    { name:'VALLEDUPAR', CONOCIDO:205, CONTACTABLE:35, NUEVO:30 },
+    { name:'BOSA', CONOCIDO:147, CONTACTABLE:78, NUEVO:44 },
+    { name:'BUCARAMANGA CENTRO', CONOCIDO:62, CONTACTABLE:35, NUEVO:19 },
+    { name:'ENSUENO CC', CONOCIDO:50, CONTACTABLE:29, NUEVO:14 },
+    { name:'JAMAR PREMIUN PLAZA', CONOCIDO:34, CONTACTABLE:9, NUEVO:8 },
+    { name:'METROPOLITANO', CONOCIDO:43, CONTACTABLE:1, NUEVO:1 },
+    { name:'BUCARAMANGA CR 27', CONOCIDO:35, CONTACTABLE:3, NUEVO:3 }
   ],
   8: [
     // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · CIERRE AGOSTO (Fecha=31/08/2026) · top 30 por visor · actualizado 22 sep 2026
@@ -2792,8 +2953,8 @@ function updateSectionLabels() {
 
   // Actualiza los sub-labels de las update-box de VENTAS y CONVERSIÓN
   // Si es el mes en curso (sep=9), mostrar "parcial al día X"; si es histórico, "cierre completo"
-  const esActual = (CURRENT_MONTH === 9);
-  const sufijoActual = esActual ? ' parcial al día 29' : ' cierre completo';
+  const esActual = (CURRENT_MONTH === 10);
+  const sufijoActual = esActual ? ' parcial al día 1' : ' cierre completo';
   const periodoLbl = 'datos ' + mesFull + ' 2026' + sufijoActual;
   const vBox = document.getElementById('ventas-periodo-label');
   const cBox = document.getElementById('conv-periodo-label');
@@ -2983,28 +3144,28 @@ const RECAUDO_BY_MONTH = {
     ['CESAR', 1591548841, 1540534570, 96.9], ['CÓRDOBA', 1041981095, 975940791, 93.8], ['CUNDINAMARCA', 6090734328, 6359734737, 104.5],
     ['GUAJIRA', 1133196398, 1108927100, 98.0], ['MAGDALENA', 2062889718, 1983454791, 96.3], ['SANTANDER', 1642892909, 1611255716, 98.2],
     ['OTROS', 1131255894, 1113682630, 98.6]]),
-  // SEPTIEMBRE · mes en curso (corte diario · se reemplaza cada día)
-  9: _recMes('30/09/2026', [36408169458, 34056409343, 32329504610, 94.9, 1726904733, 4078664848, 129811521, 88.8], [
-    ['ADELANTADO', 7986487067, 7062659714, 5467088200, 77.4, 1595571514, 2519398867, 49111556, 68.5],
-    ['ACTIVA', 25641290967, 24458053198, 24549322067, 100.4, 0, 1091968900, 66870968, 95.7],
-    ['DEFINICIÓN', 928711455, 829426171, 773590992, 93.3, 55835179, 155120463, 5611132, 83.3],
-    ['PREDEMANDA', 401477130, 347525816, 378560436, 108.9, 0, 22916694, 3049071, 94.3],
-    ['PREJURÍDICO', 723387225, 678847982, 641794134, 94.5, 37053848, 81593091, 2517146, 88.7],
-    ['JURÍDICA', 375367993, 350235189, 279025573, 79.7, 71209616, 96342420, 1420387, 74.3],
-    ['OTROS', 351447622, 329661272, 240123208, 72.8, 89538064, 111324414, 1231261, 68.3]], [
-    ['0', 21234078551, 20273232482, 20154968722, 99.4, 118263760, 1079109829, 54302447, 94.9],
-    ['1', 3521665673, 3347417545, 3434749252, 102.6, 0, 86916421, 9847675, 97.5],
-    ['2', 885546743, 837403171, 959604093, 114.6, 0, 0, 2720846, 108.4],
-    ['3', 497314100, 465711821, 418460707, 89.9, 47251114, 78853393, 1786010, 84.1],
-    ['4', 226073124, 213136160, 223333427, 104.8, 0, 2739697, 731136, 98.8],
-    ['6', 178306501, 159244378, 164260867, 103.2, 0, 14045634, 1077300, 92.1],
-    ['7', 155971501, 139297135, 122354503, 87.8, 16942632, 33616998, 942356, 78.4],
-    ['8', 251789735, 224871778, 194755259, 86.6, 30116519, 57034476, 1521275, 77.3],
-    ['9', 342643718, 306012880, 292220363, 95.5, 13792517, 50423355, 2070201, 85.3]], [
-    ['ANTIOQUIA', 7855326648, 7626914413, 103.9], ['ATLÁNTICO', 8335212453, 6954632492, 89.1], ['BOLÍVAR', 5309322906, 4404475056, 88.6],
-    ['CESAR', 1620853966, 1476240195, 97.3], ['CÓRDOBA', 1070903299, 923693458, 92.1], ['CUNDINAMARCA', 6167958993, 5656883070, 98.1],
-    ['GUAJIRA', 1159892507, 1043264806, 96.2], ['MAGDALENA', 2090345399, 1740761949, 89.1], ['SANTANDER', 1662572140, 1491041161, 96.0],
-    ['OTROS', 1135781146, 1011598010, 95.1]])
+  // SEPTIEMBRE · mes en curso (corte diario · se reemplaza cada día) · CIERRE 30/09/2026 leído 1 oct 2026
+  9: _recMes('30/09/2026', [36408169458, 36353236206, 35045807329, 96.4, 1307428877, 1362362129, 2426638384, 96.3], [
+    ['ADELANTADO', 7986487067, 7931617579, 6418622241, 80.9, 1512995338, 1567864826, 918069422, 80.4],
+    ['ACTIVA', 25641290967, 25641238129, 25848736938, 100.8, 0, 0, 1250055899, 100.8],
+    ['DEFINICIÓN', 928711455, 928707021, 980144958, 105.5, 0, 0, 104891982, 105.5],
+    ['PREDEMANDA', 401477130, 401474721, 475687384, 118.5, 0, 0, 56997976, 118.5],
+    ['PREJURÍDICO', 723387225, 723385236, 685788632, 94.8, 37596604, 37598593, 47054400, 94.8],
+    ['JURÍDICA', 375367993, 375366871, 344564674, 91.8, 30802197, 30803319, 26552069, 91.8],
+    ['OTROS', 351447622, 351446649, 292262502, 83.2, 59184147, 59185120, 23016637, 83.2]], [
+    ['0', 21234078551, 21234035645, 21193468453, 99.8, 40567192, 40610098, 1015105610, 99.8],
+    ['1', 3521665673, 3521657892, 3620521224, 102.8, 0, 0, 184088022, 102.8],
+    ['2', 885546743, 885544593, 1034747261, 116.8, 0, 0, 50862267, 116.8],
+    ['3', 497314100, 497312689, 439508415, 88.4, 57804274, 57805685, 33386878, 88.4],
+    ['4', 226073124, 226072547, 246280217, 108.9, 0, 0, 13667522, 108.9],
+    ['6', 178306501, 178305649, 202183698, 113.4, 0, 0, 20138572, 113.4],
+    ['7', 155971501, 155970757, 158573952, 101.7, 0, 0, 17615977, 101.7],
+    ['8', 251789735, 251788533, 246747250, 98.0, 5041283, 5042485, 28438030, 98.0],
+    ['9', 342643718, 342642082, 372640058, 108.8, 0, 0, 38699403, 108.8]], [
+    ['ANTIOQUIA', 7855326648, 8366125477, 106.7], ['ATLÁNTICO', 8335212453, 7524203464, 90.4], ['BOLÍVAR', 5309322906, 4758364634, 89.7],
+    ['CESAR', 1620853966, 1599844360, 98.8], ['CÓRDOBA', 1070903299, 992627336, 92.8], ['CUNDINAMARCA', 6167958993, 6043150881, 98.1],
+    ['GUAJIRA', 1159892507, 1115226296, 96.3], ['MAGDALENA', 2090345399, 1893712532, 90.8], ['SANTANDER', 1662572140, 1654391666, 99.7],
+    ['OTROS', 1135781146, 1098160683, 96.8]])
 };
 // Recaudo mes completo 2025 ($ millones) · Tableau Recaudo › HISTÓRICOS COLOMBIA (viewId 4a335fb7-da89-4060-a38d-4d187fb4860b) · referencia YoY
 const RECAUDO_2025_M = { 1:29094, 2:28554, 3:31738, 4:28288, 5:30823, 6:28877, 7:31276, 8:29263, 9:28761, 10:31472, 11:30196, 12:34937 };
@@ -3477,7 +3638,7 @@ document.querySelectorAll('#mes-selector .mes-chip').forEach(chip => {
     rebuildVentasFromMonth();
     rebuildCliente360FromMonth();
     const dc = document.querySelectorAll('.header-chip')[1];
-    if (dc) dc.innerHTML = '📅 ' + MES_LABEL_FULL[CURRENT_MONTH].toUpperCase() + ' 2026' + (CURRENT_MONTH === 9 ? ' · al 29 sep' : '');
+    if (dc) dc.innerHTML = '📅 ' + MES_LABEL_FULL[CURRENT_MONTH].toUpperCase() + ' 2026' + (CURRENT_MONTH === 10 ? ' · al 1 oct' : '');
     renderAll();
   });
 });
