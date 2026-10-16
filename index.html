@@ -1061,7 +1061,7 @@
     <!-- ============ INSIGHTS · al final ============ -->
     <div class="section-header" style="margin-top:14px;">💡 INSIGHTS · ANÁLISIS ESTRATÉGICO</div>
     <details class="insights-panel" open>
-      <summary id="insights-summary">📊 Resumen ejecutivo · <span id="insights-mes-label">Octubre 2026 al 14</span> · Colombia</summary>
+      <summary id="insights-summary">📊 Resumen ejecutivo · <span id="insights-mes-label">Octubre 2026 al 15</span> · Colombia</summary>
       <div class="insights-grid" id="insights-grid">
         <!-- Contenido inyectado por buildInsights() -->
       </div>
@@ -1100,7 +1100,7 @@ let CURRENT_PREV_MONTH = 9;
 // REGLA: DIA_HOY = último día del CSV manual que Andrea sube (para Tráfico Email/SMS)
 // Se actualiza cada vez que Andrea sube un nuevo CSV
 const MES_HOY_NUM = 10;   // octubre
-const DIA_HOY = 14;   // último día con datos (Tableau + CSV manual)
+const DIA_HOY = 15;   // último día con datos (Tableau + CSV manual)
 const DIAS_MES_ACTUAL = 31;  // octubre tiene 31 días
 // Última fecha en que se actualizó la data de MEDIOS (dashboard Visibilidad Relacional)
 const MEDIOS_ULTIMA_ACTUALIZACION = '5 oct 2026 · MEDIOS al 29 sep';
@@ -1488,25 +1488,25 @@ const CNP_ALL_MONTHS = {
     }
   },
   10: {
-    // FUENTE: Tableau Tracking Leads · corte 14/10/2026 (Fecha=2026-10-14) · Avance mes 45,2% · bloque Bases De Datos · 15 oct 2026
+    // FUENTE: Tableau Tracking Leads · corte 15/10/2026 (Fecha=2026-10-15) · Avance mes 48,4% · bloque Bases De Datos · 16 oct 2026
     // OTROS = "relacional otros medios" · crecimiento fact OTROS sin dato en Tableau (0)
     global: {
-      meta_leads: 15397, leads_real: 4138, pct_cump_leads: 26.9, pct_cump_a_fecha: 59.5,
-      meta_corte_leads: 6953, eficiencia: 3.3,
-      meta_fact: 2509, fact_real: 871, pct_cump_fact: 34.7, pct_cump_fact_a_fecha: 76.8,
-      meta_corte_fact: 1133, crec_fact: -6.8
+      meta_leads: 15397, leads_real: 4793, pct_cump_leads: 31.1, pct_cump_a_fecha: 64.3,
+      meta_corte_leads: 7450, eficiencia: 3.7,
+      meta_fact: 2509, fact_real: 954, pct_cump_fact: 38.0, pct_cump_fact_a_fecha: 78.6,
+      meta_corte_fact: 1214, crec_fact: -13.8
     },
     CONOCIDO: {
-      meta_leads:8118, leads_real:1715, pct_cump_leads:21.1, meta_corte_leads:3666, eficiencia:3.7,
-      meta_fact:1559, fact_real:364, pct_cump_fact:23.3, pct_cump_fact_a_fecha:51.7, crec_fact:-36.3
+      meta_leads:8118, leads_real:2035, pct_cump_leads:25.1, meta_corte_leads:3928, eficiencia:4.0,
+      meta_fact:1559, fact_real:411, pct_cump_fact:26.4, pct_cump_fact_a_fecha:54.5, crec_fact:-37.4
     },
     CONTACTABLE: {
-      meta_leads:6738, leads_real:1565, pct_cump_leads:23.2, meta_corte_leads:3043, eficiencia:3.2,
-      meta_fact:817, fact_real:384, pct_cump_fact:47.1, pct_cump_fact_a_fecha:104.2, crec_fact:5.9
+      meta_leads:6738, leads_real:1872, pct_cump_leads:27.8, meta_corte_leads:3260, eficiencia:3.6,
+      meta_fact:817, fact_real:410, pct_cump_fact:50.2, pct_cump_fact_a_fecha:103.7, crec_fact:-8.9
     },
     OTROS: {
-      meta_leads:541, leads_real:240, pct_cump_leads:44.4, meta_corte_leads:244, eficiencia:2.5,
-      meta_fact:134, fact_real:46, pct_cump_fact:34.5, pct_cump_fact_a_fecha:76.4, crec_fact:0
+      meta_leads:541, leads_real:268, pct_cump_leads:49.5, meta_corte_leads:262, eficiencia:3.4,
+      meta_fact:134, fact_real:48, pct_cump_fact:35.7, pct_cump_fact_a_fecha:73.9, crec_fact:0
     }
   },
   9: {
@@ -1582,22 +1582,22 @@ const CNP_ALL_MONTHS = {
 // ============ FUNNEL por Tipo Venta · CONTADO ============
 const FUNNEL_CONTADO_ALL_MONTHS = {
   10: {
-    // FUENTE: Tableau · view Facturación (octubre en curso, leído 15 oct 2026) · TOTAL venta oferta 4,600.43 M y Nro Facturas 3,307
-    // CONTADO/Total = 26.6% (NonBank 15 oct) · etapas cotiz/orden/aprob/venta mismo mes/devol = Funnel 14/10 × participación; facturado/venta_total = view Facturación por tipo cliente
+    // FUENTE: Tableau · view Facturación (octubre en curso, leído 16 oct 2026) · TOTAL venta oferta 5,100.84 M y Nro Facturas 3,555
+    // CONTADO/Total = 26.1% (NonBank 16 oct) · etapas cotiz/orden/aprob/venta mismo mes/devol = Funnel 15/10 × participación; facturado/venta_total = view Facturación por tipo cliente
     visor:     null,
-    cotiz:     { CONOCIDO:3348, CONTACTABLE:2520, NUEVO:644, TOTAL:6511 },
-    orden:     { CONOCIDO:2044, CONTACTABLE:1234, NUEVO:330, TOTAL:3608 },
-    facturado: { CONOCIDO:1830, CONTACTABLE:1057, NUEVO:420, TOTAL:3307 },
-    conv:      { CONOCIDO:61.1, CONTACTABLE:49.0, NUEVO:51.2, TOTAL:55.4 },
-    conv_ord:  { CONOCIDO:89.5, CONTACTABLE:85.7, NUEVO:127.3, TOTAL:91.7 },
+    cotiz:     { CONOCIDO:3479, CONTACTABLE:2650, NUEVO:633, TOTAL:6763 },
+    orden:     { CONOCIDO:2118, CONTACTABLE:1298, NUEVO:324, TOTAL:3740 },
+    facturado: { CONOCIDO:1961, CONTACTABLE:1160, NUEVO:434, TOTAL:3555 },
+    conv:      { CONOCIDO:60.9, CONTACTABLE:49.0, NUEVO:51.2, TOTAL:55.3 },
+    conv_ord:  { CONOCIDO:92.6, CONTACTABLE:89.4, NUEVO:134.0, TOTAL:95.1 },
     crec_visor:null,
-    crec_cotiz:{ CONOCIDO:-7.3, CONTACTABLE:92.6, NUEVO:-69.4, TOTAL:-7.3 },
-    crec_orden:{ CONOCIDO:-6.7, CONTACTABLE:84.5, NUEVO:-72.1, TOTAL:-10.8 },
-    crec_fact:{ CONOCIDO:4.8, CONTACTABLE:148.0, NUEVO:-45.9, TOTAL:6.6 },
-    aprobacion:{ CONOCIDO:1568, CONTACTABLE:816, NUEVO:251, TOTAL:2635 },
-    venta_mismo_mes_m: { CONOCIDO:1881, CONTACTABLE:706, NUEVO:473, TOTAL:3060 },
-    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-103 },
-    venta_total_m:     { CONOCIDO:2230, CONTACTABLE:1625, NUEVO:746, TOTAL:4600 },
+    crec_cotiz:{ CONOCIDO:-6.8, CONTACTABLE:94.4, NUEVO:-71.4, TOTAL:-7.5 },
+    crec_orden:{ CONOCIDO:-6.6, CONTACTABLE:86.9, NUEVO:-73.7, TOTAL:-10.8 },
+    crec_fact:{ CONOCIDO:5.1, CONTACTABLE:147.9, NUEVO:-51.6, TOTAL:5.2 },
+    aprobacion:{ CONOCIDO:1632, CONTACTABLE:858, NUEVO:246, TOTAL:2736 },
+    venta_mismo_mes_m: { CONOCIDO:2174, CONTACTABLE:870, NUEVO:495, TOTAL:3538 },
+    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-107 },
+    venta_total_m:     { CONOCIDO:2467, CONTACTABLE:1850, NUEVO:783, TOTAL:5101 },
     ticket_m:  { CONOCIDO:0.0, CONTACTABLE:0.0, NUEVO:0.0, TOTAL:0.0 }
   },
   9: {
@@ -1662,22 +1662,22 @@ const FUNNEL_CONTADO_ALL_MONTHS = {
 // ============ FUNNEL por Tipo Venta · CRÉDITO ============
 const FUNNEL_CREDITO_ALL_MONTHS = {
   10: {
-    // FUENTE: Tableau · view Facturación (octubre en curso, leído 15 oct 2026) · TOTAL venta oferta 12,700.05 M y Nro Facturas 3,984
-    // CRÉDITO/Total = 73.4% (NonBank 15 oct) · etapas cotiz/orden/aprob/venta mismo mes/devol = Funnel 14/10 × participación; facturado/venta_total = view Facturación por tipo cliente
+    // FUENTE: Tableau · view Facturación (octubre en curso, leído 16 oct 2026) · TOTAL venta oferta 14,448.96 M y Nro Facturas 4,457
+    // CRÉDITO/Total = 73.9% (NonBank 16 oct) · etapas cotiz/orden/aprob/venta mismo mes/devol = Funnel 15/10 × participación; facturado/venta_total = view Facturación por tipo cliente
     visor:     null,
-    cotiz:     { CONOCIDO:9237, CONTACTABLE:6952, NUEVO:1778, TOTAL:17968 },
-    orden:     { CONOCIDO:5642, CONTACTABLE:3405, NUEVO:910, TOTAL:9957 },
-    facturado: { CONOCIDO:2519, CONTACTABLE:1153, NUEVO:312, TOTAL:3984 },
-    conv:      { CONOCIDO:61.1, CONTACTABLE:49.0, NUEVO:51.2, TOTAL:55.4 },
-    conv_ord:  { CONOCIDO:44.6, CONTACTABLE:33.9, NUEVO:34.3, TOTAL:40.0 },
+    cotiz:     { CONOCIDO:9852, CONTACTABLE:7504, NUEVO:1792, TOTAL:19147 },
+    orden:     { CONOCIDO:5997, CONTACTABLE:3675, NUEVO:917, TOTAL:10589 },
+    facturado: { CONOCIDO:2818, CONTACTABLE:1307, NUEVO:332, TOTAL:4457 },
+    conv:      { CONOCIDO:60.9, CONTACTABLE:49.0, NUEVO:51.2, TOTAL:55.3 },
+    conv_ord:  { CONOCIDO:47.0, CONTACTABLE:35.6, NUEVO:36.2, TOTAL:42.1 },
     crec_visor:null,
-    crec_cotiz:{ CONOCIDO:-7.3, CONTACTABLE:92.6, NUEVO:-69.4, TOTAL:-7.3 },
-    crec_orden:{ CONOCIDO:-6.7, CONTACTABLE:84.5, NUEVO:-72.1, TOTAL:-10.8 },
-    crec_fact:{ CONOCIDO:4.8, CONTACTABLE:148.0, NUEVO:-45.9, TOTAL:6.6 },
-    aprobacion:{ CONOCIDO:4326, CONTACTABLE:2252, NUEVO:692, TOTAL:7270 },
-    venta_mismo_mes_m: { CONOCIDO:5191, CONTACTABLE:1948, NUEVO:1305, TOTAL:8444 },
-    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-284 },
-    venta_total_m:     { CONOCIDO:7959, CONTACTABLE:3708, NUEVO:1032, TOTAL:12700 },
+    crec_cotiz:{ CONOCIDO:-6.8, CONTACTABLE:94.4, NUEVO:-71.4, TOTAL:-7.5 },
+    crec_orden:{ CONOCIDO:-6.6, CONTACTABLE:86.9, NUEVO:-73.7, TOTAL:-10.8 },
+    crec_fact:{ CONOCIDO:5.1, CONTACTABLE:147.9, NUEVO:-51.6, TOTAL:5.2 },
+    aprobacion:{ CONOCIDO:4620, CONTACTABLE:2431, NUEVO:696, TOTAL:7747 },
+    venta_mismo_mes_m: { CONOCIDO:6154, CONTACTABLE:2463, NUEVO:1401, TOTAL:10019 },
+    devoluciones_m:    { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-304 },
+    venta_total_m:     { CONOCIDO:9056, CONTACTABLE:4284, NUEVO:1109, TOTAL:14449 },
     ticket_m:  { CONOCIDO:0.0, CONTACTABLE:0.0, NUEVO:0.0, TOTAL:0.0 }
   },
   9: {
@@ -1760,26 +1760,26 @@ const FUNNEL_ALL_MONTHS = {
   // Otros meses = pendientes hasta que TI active export histórico
   1: null, 2: null, 3: null, 4: null, 5: null,
   10: {
-    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte 14/10/2026 (Fecha=2026-10-14) · API directa 15 oct 2026
-    // OCTUBRE parcial al día 14 · devoluciones -387M en celda combinada CONOCIDO+CONTACTABLE (solo TOTAL)
-    visor: { CONOCIDO:7349, CONTACTABLE:7005, NUEVO:1407, TOTAL:15761 },
-    cotiz: { CONOCIDO:12585, CONTACTABLE:9472, NUEVO:2422, TOTAL:24479 },
-    orden: { CONOCIDO:7686, CONTACTABLE:4639, NUEVO:1240, TOTAL:13565 },
-    facturado: { CONOCIDO:3404, CONTACTABLE:1359, NUEVO:739, TOTAL:5502 },
-    conv: { CONOCIDO:61.1, CONTACTABLE:49.0, NUEVO:51.2, TOTAL:55.4 },
-    conv_ord: { CONOCIDO:76.8, CONTACTABLE:66.3, NUEVO:76.1, TOTAL:73.1 },
-    crec_visor: { CONOCIDO:-11.7, CONTACTABLE:77.8, NUEVO:-75.8, TOTAL:-12.8 },
-    crec_cotiz: { CONOCIDO:-7.3, CONTACTABLE:92.6, NUEVO:-69.4, TOTAL:-7.3 },
-    crec_orden: { CONOCIDO:-6.7, CONTACTABLE:84.5, NUEVO:-72.1, TOTAL:-10.8 },
-    crec_fact: { CONOCIDO:4.8, CONTACTABLE:148.0, NUEVO:-45.9, TOTAL:6.6 },
-    crec_venta_total: { CONOCIDO:4.3, CONTACTABLE:20.5, NUEVO:-36.1, TOTAL:1.9 },
-    aprobacion: { CONOCIDO:5894, CONTACTABLE:3068, NUEVO:943, TOTAL:9905 },
-    completacion: { CONOCIDO:5901, CONTACTABLE:3074, NUEVO:944, TOTAL:9919 },
-    confirmacion_citas: { CONOCIDO:5694, CONTACTABLE:2886, NUEVO:920, TOTAL:9500 },
-    venta_mismo_mes_m: { CONOCIDO:7072, CONTACTABLE:2654, NUEVO:1778, TOTAL:11504 },
-    devoluciones_m: { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-387 },
-    venta_total_m: { CONOCIDO:10180, CONTACTABLE:5326, NUEVO:1777, TOTAL:17283 },
-    ticket_m:  { CONOCIDO:2.08, CONTACTABLE:1.95, NUEVO:2.41, TOTAL:2.09 }
+    // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · corte 15/10/2026 (Fecha=2026-10-15) · API directa 16 oct 2026
+    // OCTUBRE parcial al día 15 · devoluciones -411M en celda combinada CONOCIDO+CONTACTABLE (solo TOTAL)
+    visor: { CONOCIDO:7791, CONTACTABLE:7493, NUEVO:1411, TOTAL:16695 },
+    cotiz: { CONOCIDO:13331, CONTACTABLE:10154, NUEVO:2425, TOTAL:25910 },
+    orden: { CONOCIDO:8115, CONTACTABLE:4973, NUEVO:1241, TOTAL:14329 },
+    facturado: { CONOCIDO:3806, CONTACTABLE:1589, NUEVO:773, TOTAL:6168 },
+    conv: { CONOCIDO:60.9, CONTACTABLE:49.0, NUEVO:51.2, TOTAL:55.3 },
+    conv_ord: { CONOCIDO:77.1, CONTACTABLE:66.3, NUEVO:76.0, TOTAL:73.3 },
+    crec_visor: { CONOCIDO:-11.5, CONTACTABLE:78.3, NUEVO:-77.7, TOTAL:-13.6 },
+    crec_cotiz: { CONOCIDO:-6.8, CONTACTABLE:94.4, NUEVO:-71.4, TOTAL:-7.5 },
+    crec_orden: { CONOCIDO:-6.6, CONTACTABLE:86.9, NUEVO:-73.7, TOTAL:-10.8 },
+    crec_fact: { CONOCIDO:5.1, CONTACTABLE:147.9, NUEVO:-51.6, TOTAL:5.2 },
+    crec_venta_total: { CONOCIDO:6.5, CONTACTABLE:27.9, NUEVO:-43.1, TOTAL:3.2 },
+    aprobacion: { CONOCIDO:6252, CONTACTABLE:3289, NUEVO:942, TOTAL:10483 },
+    completacion: { CONOCIDO:6259, CONTACTABLE:3295, NUEVO:943, TOTAL:10497 },
+    confirmacion_citas: { CONOCIDO:6055, CONTACTABLE:3107, NUEVO:923, TOTAL:10085 },
+    venta_mismo_mes_m: { CONOCIDO:8328, CONTACTABLE:3333, NUEVO:1896, TOTAL:13557 },
+    devoluciones_m: { CONOCIDO:0, CONTACTABLE:0, NUEVO:0, TOTAL:-411 },
+    venta_total_m: { CONOCIDO:11512, CONTACTABLE:6126, NUEVO:1891, TOTAL:19529 },
+    ticket_m:  { CONOCIDO:2.19, CONTACTABLE:2.10, NUEVO:2.45, TOTAL:2.20 }
   },
   9: {
     // FUENTE: Tableau · Funnel Cliente Nuevo-Conocido · CIERRE SEPTIEMBRE (Fecha=30/09/2026) · API directa · cierre de mes 1 oct 2026
@@ -1931,10 +1931,10 @@ const VENTAS_ALL_MONTHS = {
   // Solo junio = datos REALES desde Tableau MCP
   1: null, 2: null, 3: null, 4: null, 5: null,
   10: {
-    // FUENTE: Tableau Tablero de Ventas NonBank · octubre 2026 en curso (sin filtro) · API directa 15 oct 2026
-    colombia: { op_venta:31923248463, crec_op:-1.6, presupuesto:49569296211, venta:17289213405, cumpl:34.9, crec_venta:1.9, cumpl_proy:105.3 },
-    contado:  { op_venta:5918534422, crec_op:4.7, presupuesto:11057550880, venta:4597964319, cumpl:41.6, crec_venta:5.6, cumpl_proy:100.1, participacion:26.6 },
-    credito:  { op_venta:26006127066, crec_op:-3.0, presupuesto:38514318332, venta:12692044467, cumpl:33.0, crec_venta:0.6, cumpl_proy:106.7, participacion:73.4 }
+    // FUENTE: Tableau Tablero de Ventas NonBank · octubre 2026 en curso (sin filtro) · API directa 16 oct 2026
+    colombia: { op_venta:33508490721, crec_op:-2.0, presupuesto:49569296211, venta:19535050501, cumpl:39.4, crec_venta:3.3, cumpl_proy:104.3 },
+    contado:  { op_venta:6263584039, crec_op:4.6, presupuesto:11057550880, venta:5097824496, cumpl:46.1, crec_venta:7.1, cumpl_proy:100.5, participacion:26.1 },
+    credito:  { op_venta:27246380469, crec_op:-3.4, presupuesto:38514318332, venta:14438107383, cumpl:37.5, crec_venta:2.0, cumpl_proy:105.4, participacion:73.9 }
   },
   9: {
     // FUENTE: Tableau Tablero de Ventas NonBank · CIERRE SEPTIEMBRE (filtro MY(Fecha)=202609) · API directa 1 oct 2026
@@ -1997,9 +1997,9 @@ const TRAFICO_PRESENCIAL = {
     { mes:'jul', val:121597 },
     { mes:'ago', val:120105 },
     { mes:'sep', val:104020 },
-    { mes:'oct', val:64170 }
+    { mes:'oct', val:67391 }
   ],
-  total: 1147942
+  total: 1151163
 };
 
 // ============ VENTAS NONBANK (junio 2026) ============
@@ -2343,37 +2343,37 @@ const AGENCIAS_BY_MONTH = {
     { name:"PLAZA DEL SOL", CONOCIDO:33, CONTACTABLE:0, NUEVO:1 }
   ],
   10: [
-    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte 14/10/2026 (Fecha=2026-10-14) · 15 oct 2026 · API directa
-    // OCTUBRE parcial al día 14 · top 30 por visor total (51 agencias con dato · total 15.761 = Funnel)
-    { name:'TIENDA VIRTUAL', CONOCIDO:652, CONTACTABLE:867, NUEVO:154 },
-    { name:'PRINCIPAL', CONOCIDO:840, CONTACTABLE:681, NUEVO:149 },
-    { name:'FLORIDA CC', CONOCIDO:326, CONTACTABLE:699, NUEVO:145 },
-    { name:'CUATRO VIENTOS', CONOCIDO:465, CONTACTABLE:383, NUEVO:86 },
-    { name:'NORTE', CONOCIDO:618, CONTACTABLE:264, NUEVO:49 },
-    { name:'MAYORCA CC', CONOCIDO:396, CONTACTABLE:367, NUEVO:94 },
-    { name:'MOLINOS CC', CONOCIDO:356, CONTACTABLE:353, NUEVO:64 },
-    { name:'CACIQUE', CONOCIDO:307, CONTACTABLE:349, NUEVO:75 },
-    { name:'SANTA MARTA', CONOCIDO:325, CONTACTABLE:277, NUEVO:53 },
-    { name:'SAN FELIPE', CONOCIDO:421, CONTACTABLE:192, NUEVO:35 },
-    { name:'ALMACEN VALLEDUPAR', CONOCIDO:218, CONTACTABLE:260, NUEVO:44 },
-    { name:'SUBA', CONOCIDO:255, CONTACTABLE:231, NUEVO:22 },
-    { name:'JAMAR FABRICATO', CONOCIDO:150, CONTACTABLE:234, NUEVO:64 },
-    { name:'LAS AMERICAS CC', CONOCIDO:158, CONTACTABLE:214, NUEVO:48 },
-    { name:'RIOHACHA', CONOCIDO:201, CONTACTABLE:191, NUEVO:22 },
-    { name:'MONTERIA', CONOCIDO:176, CONTACTABLE:176, NUEVO:41 },
-    { name:'JAMAR CRA 30', CONOCIDO:65, CONTACTABLE:242, NUEVO:68 },
-    { name:'SINCELEJO', CONOCIDO:189, CONTACTABLE:152, NUEVO:28 },
-    { name:'JAMAR NORTE BOGOTA', CONOCIDO:103, CONTACTABLE:222, NUEVO:35 },
-    { name:'JAMAR EL EDEN', CONOCIDO:114, CONTACTABLE:153, NUEVO:48 },
-    { name:'LA PLAZUELA', CONOCIDO:177, CONTACTABLE:123, NUEVO:15 },
-    { name:'TRINITARIAS', CONOCIDO:174, CONTACTABLE:113, NUEVO:25 },
-    { name:'HIPERJAMAR', CONOCIDO:173, CONTACTABLE:77, NUEVO:19 },
-    { name:'VALLEDUPAR', CONOCIDO:146, CONTACTABLE:38, NUEVO:8 },
-    { name:'BOSA', CONOCIDO:111, CONTACTABLE:61, NUEVO:3 },
-    { name:'BUCARAMANGA CENTRO', CONOCIDO:52, CONTACTABLE:21, NUEVO:2 },
-    { name:'ENSUENO CC', CONOCIDO:30, CONTACTABLE:25, NUEVO:4 },
-    { name:'JAMAR PREMIUN PLAZA', CONOCIDO:25, CONTACTABLE:9, NUEVO:0 },
-    { name:'METROPOLITANO', CONOCIDO:29, CONTACTABLE:2, NUEVO:0 },
+    // FUENTE: Tableau Funnel_Nuevo_Conocido · view TRÁFICO · corte 15/10/2026 (Fecha=2026-10-15) · 16 oct 2026 · API directa
+    // OCTUBRE parcial al día 15 · top 30 por visor total (51 agencias con dato · total 16.695 = Funnel)
+    { name:'PRINCIPAL', CONOCIDO:896, CONTACTABLE:727, NUEVO:150 },
+    { name:'TIENDA VIRTUAL', CONOCIDO:688, CONTACTABLE:921, NUEVO:154 },
+    { name:'FLORIDA CC', CONOCIDO:348, CONTACTABLE:742, NUEVO:145 },
+    { name:'NORTE', CONOCIDO:660, CONTACTABLE:285, NUEVO:49 },
+    { name:'CUATRO VIENTOS', CONOCIDO:486, CONTACTABLE:418, NUEVO:86 },
+    { name:'MAYORCA CC', CONOCIDO:417, CONTACTABLE:387, NUEVO:94 },
+    { name:'MOLINOS CC', CONOCIDO:379, CONTACTABLE:383, NUEVO:64 },
+    { name:'CACIQUE', CONOCIDO:325, CONTACTABLE:376, NUEVO:76 },
+    { name:'SANTA MARTA', CONOCIDO:350, CONTACTABLE:295, NUEVO:53 },
+    { name:'SAN FELIPE', CONOCIDO:439, CONTACTABLE:211, NUEVO:35 },
+    { name:'ALMACEN VALLEDUPAR', CONOCIDO:234, CONTACTABLE:283, NUEVO:44 },
+    { name:'SUBA', CONOCIDO:265, CONTACTABLE:242, NUEVO:22 },
+    { name:'JAMAR FABRICATO', CONOCIDO:161, CONTACTABLE:244, NUEVO:64 },
+    { name:'RIOHACHA', CONOCIDO:216, CONTACTABLE:208, NUEVO:22 },
+    { name:'LAS AMERICAS CC', CONOCIDO:162, CONTACTABLE:227, NUEVO:48 },
+    { name:'MONTERIA', CONOCIDO:190, CONTACTABLE:191, NUEVO:41 },
+    { name:'JAMAR CRA 30', CONOCIDO:69, CONTACTABLE:260, NUEVO:69 },
+    { name:'SINCELEJO', CONOCIDO:202, CONTACTABLE:163, NUEVO:28 },
+    { name:'JAMAR NORTE BOGOTA', CONOCIDO:109, CONTACTABLE:232, NUEVO:36 },
+    { name:'LA PLAZUELA', CONOCIDO:191, CONTACTABLE:133, NUEVO:15 },
+    { name:'TRINITARIAS', CONOCIDO:182, CONTACTABLE:124, NUEVO:25 },
+    { name:'JAMAR EL EDEN', CONOCIDO:117, CONTACTABLE:161, NUEVO:48 },
+    { name:'HIPERJAMAR', CONOCIDO:183, CONTACTABLE:83, NUEVO:19 },
+    { name:'VALLEDUPAR', CONOCIDO:155, CONTACTABLE:42, NUEVO:8 },
+    { name:'BOSA', CONOCIDO:119, CONTACTABLE:63, NUEVO:3 },
+    { name:'BUCARAMANGA CENTRO', CONOCIDO:56, CONTACTABLE:24, NUEVO:2 },
+    { name:'ENSUENO CC', CONOCIDO:33, CONTACTABLE:25, NUEVO:4 },
+    { name:'JAMAR PREMIUN PLAZA', CONOCIDO:26, CONTACTABLE:10, NUEVO:0 },
+    { name:'METROPOLITANO', CONOCIDO:32, CONTACTABLE:2, NUEVO:0 },
     { name:'LA CENTRAL', CONOCIDO:25, CONTACTABLE:1, NUEVO:1 }
   ],
   9: [
@@ -2954,7 +2954,7 @@ function updateSectionLabels() {
   // Actualiza los sub-labels de las update-box de VENTAS y CONVERSIÓN
   // Si es el mes en curso (sep=9), mostrar "parcial al día X"; si es histórico, "cierre completo"
   const esActual = (CURRENT_MONTH === 10);
-  const sufijoActual = esActual ? ' parcial al día 14' : ' cierre completo';
+  const sufijoActual = esActual ? ' parcial al día 15' : ' cierre completo';
   const periodoLbl = 'datos ' + mesFull + ' 2026' + sufijoActual;
   const vBox = document.getElementById('ventas-periodo-label');
   const cBox = document.getElementById('conv-periodo-label');
@@ -3166,28 +3166,28 @@ const RECAUDO_BY_MONTH = {
     ['CESAR', 1620853966, 1599844360, 98.8], ['CÓRDOBA', 1070903299, 992627336, 92.8], ['CUNDINAMARCA', 6167958993, 6043150881, 98.1],
     ['GUAJIRA', 1159892507, 1115226296, 96.3], ['MAGDALENA', 2090345399, 1893712532, 90.8], ['SANTANDER', 1662572140, 1654391666, 99.7],
     ['OTROS', 1135781146, 1098160683, 96.8]]),
-  // OCTUBRE · mes en curso (corte diario · se reemplaza cada día) · corte 14/10/2026 (filtro Fecha=2026-10-14) leído 15 oct 2026
-  10: _recMes('14/10/2026', [37873566187, 22022036688, 21019301914, 95.4, 1002734774, 16854264273, 815589722, 97.3], [
-    ['ADELANTADO', 6131759692, 2088003842, 2014985538, 96.5, 73018304, 4116774154, 87752400, 98.7],
-    ['ACTIVA', 27706639779, 18495587969, 18034907677, 97.5, 460680292, 9671732102, 629935331, 98.3],
-    ['DEFINICIÓN', 1061620793, 329092079, 271826064, 82.6, 57266015, 789794729, 25750662, 94.6],
-    ['PREDEMANDA', 495837195, 172971023, 162774941, 94.1, 10196082, 333062254, 11309382, 97.9],
-    ['PREJURÍDICO', 668510264, 347421217, 284623903, 81.9, 62797314, 383886361, 19100550, 90.6],
-    ['JURÍDICA', 397536605, 94191765, 151156765, 160.5, 0, 246379840, 7936022, 114.3],
-    ['OTROS', 1411661860, 494768793, 99027026, 20.0, 395741767, 1312634834, 33805376, 72.0]], [
-    ['0', 22511962686, 15566008036, 14920187458, 95.9, 645820578, 7591775228, 498189911, 97.1],
-    ['1', 4105225307, 2359800997, 2523025859, 106.9, 0, 1582199448, 102111633, 104.0],
-    ['2', 1089451786, 569778936, 591694360, 103.8, 0, 497757426, 29633787, 102.0],
-    ['3', 376161980, 199322067, 196824654, 98.7, 2497413, 179337326, 11723330, 99.3],
-    ['4', 292348284, 148099150, 87799249, 59.3, 60299901, 204549035, 7377220, 79.4],
-    ['6', 193007652, 59830439, 68921122, 115.2, 0, 124086530, 4681593, 104.7],
-    ['7', 188816274, 58531419, 53981320, 92.2, 4550099, 134834954, 4579917, 97.6],
-    ['8', 259572437, 80464856, 56212548, 69.9, 24252308, 203359889, 6296188, 90.7],
-    ['9', 420224430, 130265365, 92711074, 71.2, 37554291, 327513356, 10192963, 91.1]], [
-    ['ANTIOQUIA', 7931478409, 4879124457, 104.4], ['ATLÁNTICO', 8928345572, 4570971061, 89.2], ['BOLÍVAR', 5587552083, 2971298375, 91.1],
-    ['CESAR', 1712390690, 846071167, 84.3], ['CÓRDOBA', 1112894634, 620819710, 95.2], ['CUNDINAMARCA', 6286153225, 3549731423, 97.4],
-    ['GUAJIRA', 1212805645, 697061404, 99.5], ['MAGDALENA', 2170280334, 1227712696, 97.2], ['SANTANDER', 1753624486, 1008701111, 100.2],
-    ['OTROS', 1178041110, 647810510, 94.1]])
+  // OCTUBRE · mes en curso (corte diario · se reemplaza cada día) · corte 15/10/2026 (filtro PAIS=COLOMBIA, Fecha=2026-10-15) leído 16 oct 2026
+  10: _recMes('15/10/2026', [37873566187, 23114389727, 22175456430, 95.9, 938933297, 15698109757, 1085366346, 97.5], [
+    ['ADELANTADO', 6131759692, 2231702909, 2149563489, 96.3, 82139420, 3982196203, 136743151, 98.5],
+    ['ACTIVA', 27706639779, 19302129534, 18886546322, 97.8, 415583212, 8820093457, 806514939, 98.5],
+    ['DEFINICIÓN', 1061620793, 367337009, 328555489, 89.4, 38781520, 733065304, 38243841, 96.3],
+    ['PREDEMANDA', 495837195, 193968677, 201601817, 103.9, 0, 294235378, 20997176, 101.5],
+    ['PREJURÍDICO', 668510264, 375025173, 307377014, 82.0, 67648159, 361133250, 27603148, 89.9],
+    ['JURÍDICA', 397536605, 102120581, 178544043, 174.8, 0, 218992562, 7928480, 119.2],
+    ['OTROS', 1411661860, 542105846, 123268256, 22.7, 418837590, 1288393604, 47335611, 70.3]], [
+    ['0', 22511962686, 16169304828, 15556630193, 96.2, 612674635, 6955332493, 603275735, 97.3],
+    ['1', 4105225307, 2519996206, 2685826648, 106.6, 0, 1419398659, 160190893, 104.0],
+    ['2', 1089451786, 612828500, 644089481, 105.1, 0, 445362305, 43048312, 102.9],
+    ['3', 376161980, 214086844, 210030262, 98.1, 4056582, 166131718, 14764281, 98.9],
+    ['4', 292348284, 160938329, 97346752, 60.5, 63591577, 195001532, 12838867, 78.2],
+    ['6', 193007652, 66783539, 76166742, 114.1, 0, 116840910, 6952902, 104.9],
+    ['7', 188816274, 65333568, 62484846, 95.6, 2848722, 126331428, 6801955, 98.5],
+    ['8', 259572437, 89815952, 71008477, 79.1, 18807475, 188563960, 9350830, 92.8],
+    ['9', 420224430, 145403949, 118895424, 81.8, 26508525, 301329006, 15138153, 93.7]], [
+    ['ANTIOQUIA', 7931478409, 5149706767, 105.1], ['ATLÁNTICO', 8928345572, 4837930790, 89.8], ['BOLÍVAR', 5587552083, 3137811585, 91.6],
+    ['CESAR', 1712390690, 904641970, 85.9], ['CÓRDOBA', 1112894634, 642209064, 93.9], ['CUNDINAMARCA', 6286153225, 3737256123, 97.7],
+    ['GUAJIRA', 1212805645, 742916643, 101.0], ['MAGDALENA', 2170280334, 1294107944, 97.6], ['SANTANDER', 1753624486, 1047562708, 99.1],
+    ['OTROS', 1178041110, 681312836, 94.2]])
 };
 // Recaudo mes completo 2025 ($ millones) · Tableau Recaudo › HISTÓRICOS COLOMBIA (viewId 4a335fb7-da89-4060-a38d-4d187fb4860b) · referencia YoY
 const RECAUDO_2025_M = { 1:29094, 2:28554, 3:31738, 4:28288, 5:30823, 6:28877, 7:31276, 8:29263, 9:28761, 10:31472, 11:30196, 12:34937 };
@@ -3660,7 +3660,7 @@ document.querySelectorAll('#mes-selector .mes-chip').forEach(chip => {
     rebuildVentasFromMonth();
     rebuildCliente360FromMonth();
     const dc = document.querySelectorAll('.header-chip')[1];
-    if (dc) dc.innerHTML = '📅 ' + MES_LABEL_FULL[CURRENT_MONTH].toUpperCase() + ' 2026' + (CURRENT_MONTH === 10 ? ' · al 14 oct' : '');
+    if (dc) dc.innerHTML = '📅 ' + MES_LABEL_FULL[CURRENT_MONTH].toUpperCase() + ' 2026' + (CURRENT_MONTH === 10 ? ' · al 15 oct' : '');
     renderAll();
   });
 });
